@@ -52,14 +52,11 @@
    .cent{
     text-align: center !important;
    } 
-   h4.cen {
-   margin-left: 235px !important;
-    /* margin-right: 110px; */
+   .panel-title {
+    
+    text-align: center;
 }
-h4.mar {
-   margin-left: 450px !important;
-    /* margin-right: 110px; */
-}
+
   }
   </style>
   <!-- /.Navbar  Static Side -->
@@ -102,6 +99,8 @@ h4.mar {
 				<tr>
 					<th>S . No</th>
 					<th>List of Customers</th>
+          <th>Type</th>
+          <th>Amount in USD</th>
 					<th>Amount in PKR</th>
 					
           
@@ -117,6 +116,8 @@ foreach ($amounts as $a) {
 			 <tr>
   <td><span class="footable-toggle"></span><?php echo $con ?></td>
   <td><span class="footable-toggle"></span><a href="<?php echo base_url('admin/client_detail_case/'.$a['id']) ?>"><?php echo $a['client_name'] ?></a><span class="e" style="display: none;"><?php echo $a['client_name'] ?></span></td>
+  <td></td>
+  <td></td>
   <td class="fieldCell1"><?php echo $a['amount'] ?></td>
   
 
@@ -168,7 +169,7 @@ sum1 += isNaN(value) ? 0 : parseInt(value);
 }
 
 
-document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td> <strong>Total</strong></td> </td>  <td><strong>  ' + sum1 + '</strong> </td> ';</script>
+document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td> <strong>Total</strong></td> </td> <td><strong>  </strong> </td> <td><strong>  </strong> </td> <td><strong>  ' + sum1 + '</strong> </td> ';</script>
 
 
 
