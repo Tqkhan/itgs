@@ -367,7 +367,7 @@ $.toggleShowPassword({
                 </span>
                                                   Check<span class="footable-sort-indicator"></span></th>
                                                     <th class="footable-sortable">Product Name<span class="footable-sort-indicator"></span></th>
-                                                    <th class="footable-sortable">Price ($)<span class="footable-sort-indicator"></span></th>
+                                                    
                                                     <th class="footable-sortable">TAT (Days)<span class="footable-sort-indicator"></span></th>
                                                 </tr>
                                             </thead>
@@ -381,7 +381,7 @@ $.toggleShowPassword({
                     <label for="scopecheck<?php echo $scopecount?>"></label>
                 </span></td>
                                   <td><span class="footable-toggle"></span><?php echo $scope['scope_name'] ?> </td>
-                                  <td><input type="text" class="price_name"></td>
+                               
                                   <td><input type="text" class="avg_name"></td>
 
                                                 </tr>

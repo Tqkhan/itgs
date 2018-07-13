@@ -25,7 +25,7 @@
 
                                                 <div class="dropdown">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-     <span class="glyphicon glyphicon-th-list"></span> Dropdown
+     <span class="glyphicon glyphicon-th-list"></span> Download
    
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">

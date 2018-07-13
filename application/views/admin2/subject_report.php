@@ -48,7 +48,7 @@
 <?php 
 $scopecount=1;
 foreach ($jobs as $case): 
-
+$detail_url = base_url('admin_assets/img/view.png');
 $activity_price=$this->db->get_where('assign_client_services',['client_id'=>$case['client_id']])->row_array();
 
 

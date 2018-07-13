@@ -43,16 +43,9 @@
    .panel-heading{
     height: 70px;
    }
-   .cent{
-    text-align: center !important;
-   } 
-   h4.cen {
-   margin-left: 235px !important;
-    /* margin-right: 110px; */
-}
-h4.mar {
-   margin-left: 450px !important;
-    /* margin-right: 110px; */
+.panel-title {
+    
+    text-align: center;
 }
   }
   </style>
@@ -86,8 +79,8 @@ h4.mar {
                     <h4 class="mar" style="margin-bottom: -25px;">Courier for monthly payment</h4><br>
                     
                   </div>
-									
-								</div>
+                  
+                </div>
 								<div class="panel-body">
 
 									<div class="table-responsive">
