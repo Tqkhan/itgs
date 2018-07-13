@@ -190,7 +190,7 @@
                         <span class="sr-only">Toggle navigation</span>
                         <i class="material-icons">apps</i>
                     </button>
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="#">
                         <img style="width: 244px; padding-left: 3px;" class="main-logo" src="<?php echo base_url() ?>admin_assets//img/logo.png" alt="">
                         <span></span>
                     </a>
