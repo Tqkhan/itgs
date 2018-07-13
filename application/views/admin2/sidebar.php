@@ -807,7 +807,7 @@
                         <?php if ($_SESSION['role']== "Internal Auditor") {?>
                         <li><a href="<?php echo base_url() ?>admin/job_dashboard" class="fa fa-icon"><i class="fa fa-file-text-o"></i> Internal Fund Request</a></li>
                         <?php } else{ ?>
-                        <li><a href="<?php echo base_url() ?>admin/job_dashboard" class="fa fa-icon"><i class="fa fa-file-text-o"></i> My Jobs</a></li>
+                        <li><a href="<?php echo base_url() ?>admin/job_dashboard" class="fa fa-icon"><i class="fa fa-file-text-o"></i> Internal Fund Request</a></li>
                         <?php } ?>
                         <?php if ($_SESSION['role']== "TM" ) {?>
                         <li><a href="<?php echo base_url() ?>admin/fund_request" class="fa fa-icon"><i class="fa fa-file-text-o"></i> Fund Request</a></li>
@@ -815,13 +815,13 @@
                         <li><a href="<?php echo base_url('admin/interview_calender') ?>" class="fa fa-icon"><i class="fa fa-pencil"></i> Inteview Calendar</a></li>
                         <?php } ?>
 <?php if ($_SESSION['role']== "Manager Finance") {?>
-<li><a href="<?php echo base_url() ?>admin/case_fund_request" class="fa fa-icon"><i class="fa fa-file-text-o"></i>Case Fund Request</a></li>
+<li><a href="<?php echo base_url() ?>admin/case_fund_request" class="fa fa-icon"><i class="fa fa-file-text-o"></i> External Fund Request</a></li>
 
 <?php } ?>
 <?php if ($_SESSION['role']== "Internal Auditor") {?>
 <li><a href="<?php echo base_url() ?>admin/case_fund_request" class="fa fa-icon"><i class="fa fa-file-text-o"></i>External Fund Request</a></li>
 <?php } ?>
-                        <li><a href="#" class="fa fa-icon"><i class="fa fa-calculator" style="color: red"></i> Meeting Manager</a></li>
+                        <li><a href="#" class="fa fa-icon"><i class="fa fa-calculator" style="color: red"></i>Meeting Manager</a></li>
 
 
                         <li><a href="#" class="fa fa-icon"><i class="fa fa-comments"></i>General Feedback</a></li>
@@ -884,7 +884,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="material-ripple"><i class="material-icons">home</i>  Case Vendor Invoice<span class="fa arrow"></span></a>
+                            <a href="#" class="material-ripple"><i class="material-icons">home</i>  Vendor Analysis<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url('admin/case_vendor_invoice') ?>">Case Vendor Invoice</a></li>
                                 <li><a href="<?php echo base_url('admin/vendor_payment_invoice') ?>">Vendor Payment Invoice</a></li>
