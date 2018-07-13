@@ -1,0 +1,41 @@
+[13-Oct-2017 11:35:13 Asia/Karachi] PHP Fatal error:  Cannot use [] for reading in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1985
+[13-Oct-2017 11:35:31 Asia/Karachi] PHP Fatal error:  Cannot use [] for reading in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1985
+[13-Oct-2017 11:37:55 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1986
+[13-Oct-2017 11:37:57 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1986
+[13-Oct-2017 12:34:37 Asia/Karachi] PHP Parse error:  syntax error, unexpected '<', expecting function (T_FUNCTION) in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1980
+[13-Oct-2017 12:34:42 Asia/Karachi] PHP Parse error:  syntax error, unexpected '<', expecting function (T_FUNCTION) in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1980
+[16-Oct-2017 15:28:09 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:11 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:16 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:22 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:26 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:28 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:40 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:48 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:52 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 15:28:55 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::admin_dashboard() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 88
+[16-Oct-2017 18:17:26 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::view_report() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1319
+[16-Oct-2017 18:17:29 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::view_report() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1319
+[16-Oct-2017 18:17:30 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::view_report() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1319
+[16-Oct-2017 18:17:31 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::view_report() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1319
+[16-Oct-2017 18:17:33 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::view_report() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1319
+[16-Oct-2017 18:17:38 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::view_report() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1319
+[16-Oct-2017 18:17:41 Asia/Karachi] PHP Fatal error:  Cannot redeclare Admin::view_report() in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 1319
+[17-Oct-2017 18:24:22 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 2054
+[17-Oct-2017 18:24:28 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 2054
+[17-Oct-2017 18:24:32 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 2054
+[17-Oct-2017 18:24:34 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 2054
+[17-Oct-2017 18:24:36 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 2054
+[17-Oct-2017 18:24:53 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 2054
+[17-Oct-2017 18:25:07 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 2047
+[17-Oct-2017 18:25:11 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 2047
+[18-Oct-2017 14:59:58 Asia/Karachi] PHP Parse error:  syntax error, unexpected '' (T_ENCAPSED_AND_WHITESPACE), expecting identifier (T_STRING) or variable (T_VARIABLE) or number (T_NUM_STRING) in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 169
+[18-Oct-2017 15:00:06 Asia/Karachi] PHP Parse error:  syntax error, unexpected '' (T_ENCAPSED_AND_WHITESPACE), expecting identifier (T_STRING) or variable (T_VARIABLE) or number (T_NUM_STRING) in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 169
+[18-Oct-2017 15:00:10 Asia/Karachi] PHP Parse error:  syntax error, unexpected '' (T_ENCAPSED_AND_WHITESPACE), expecting identifier (T_STRING) or variable (T_VARIABLE) or number (T_NUM_STRING) in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 169
+[18-Oct-2017 15:09:54 Asia/Karachi] PHP Parse error:  syntax error, unexpected '' (T_ENCAPSED_AND_WHITESPACE), expecting identifier (T_STRING) or variable (T_VARIABLE) or number (T_NUM_STRING) in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 177
+[18-Oct-2017 15:09:59 Asia/Karachi] PHP Parse error:  syntax error, unexpected '' (T_ENCAPSED_AND_WHITESPACE), expecting identifier (T_STRING) or variable (T_VARIABLE) or number (T_NUM_STRING) in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 177
+[18-Oct-2017 15:22:39 Asia/Karachi] PHP Parse error:  syntax error, unexpected '' (T_ENCAPSED_AND_WHITESPACE), expecting identifier (T_STRING) or variable (T_VARIABLE) or number (T_NUM_STRING) in /home/itgsverify/public_html/new-system/application/controllers/Admin.php on line 170
+[23-Nov-2017 17:26:17 Asia/Karachi] PHP Parse error:  syntax error, unexpected '$data' (T_VARIABLE) in /home/itgsverify/public_html/application/controllers/Admin.php on line 429
+[07-Dec-2017 12:56:33 Asia/Karachi] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/itgsvera/public_html/application/controllers/Admin.php on line 3091
+[07-Dec-2017 12:56:37 Asia/Karachi] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/itgsvera/public_html/application/controllers/Admin.php on line 3091
+[07-Dec-2017 13:27:07 Asia/Karachi] PHP Fatal error:  Call to undefined function sum() in /home/itgsvera/public_html/application/controllers/Admin.php on line 3082

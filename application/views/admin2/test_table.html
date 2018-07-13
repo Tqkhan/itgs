@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://www.jqueryscript.net/demo/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel/src/jquery.table2excel.js"></script>
+    <title></title>
+</head>
+<body>
+<table id="Population-list-1" class="table table-striped table-bordered" data-name="cool-table" tableexport-key="Population-list-1"><caption class="btn-toolbar bottom tableexport-caption"><button tableexport-id="c203fc6-xlsx" class="btn btn-default xlsx">Export to xlsx</button><button tableexport-id="759d678-xls" class="btn btn-default xls">Export to xls</button><button tableexport-id="87e8a31-csv" class="btn btn-default csv">Export to csv</button><button tableexport-id="78cbc47-txt" class="btn btn-default txt">Export to txt</button></caption>
+                                <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Country</th>
+                                    <th>Population</th>
+                                    <th>% of world population</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>中华人民共和国 (People's Republic of China)</td>
+                                    <td>1,370,570,000</td>
+                                    <td>18.9%</td>
+                                    <td>June 24, 2015</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>India</td>
+                                    <td>1,273,140,000</td>
+                                    <td>17.6%</td>
+                                    <td>June 24, 2015</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>United States "USA"</td>
+                                    <td>321,268,000</td>
+                                    <td>4.43%</td>
+                                    <td>June 24, 2015</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Indonesia</td>
+                                    <td>255,461,700</td>
+                                    <td>3.52%</td>
+                                    <td>July 1, 2015</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Brazil</td>
+                                    <td>204,503,000</td>
+                                    <td>2.82%</td>
+                                    <td>June 24, 2015</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Pakistan</td>
+                                    <td>190,156,000</td>
+                                    <td>2.62%</td>
+                                    <td>June 24, 2015</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Nigeria</td>
+                                    <td>183,523,000</td>
+                                    <td>2.53%</td>
+                                    <td>July 1, 2015</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>Bangladesh</td>
+                                    <td>126,880,000</td>
+                                    <td>2.19%</td>
+                                    <td>June 24, 2015</td>
+                                </tr>
+                                </tbody><tbody>
+                            </tbody></table>
+                            <script type="text/javascript">
+                                $("table").tableExport({
+    bootstrap: false
+});
+                                /* Defaults */
+$("table").tableExport({
+    headings: true,                    // (Boolean), display table headings (th/td elements) in the <thead>
+    footers: true,                     // (Boolean), display table footers (th/td elements) in the <tfoot>
+    formats: ["xls", "csv", "txt"],    // (String[]), filetypes for the export
+    fileName: "id",                    // (id, String), filename for the downloaded file
+    bootstrap: true,                   // (Boolean), style buttons using bootstrap
+    position: "bottom"                 // (top, bottom), position of the caption element relative to table
+    ignoreRows: null,                  // (Number, Number[]), row indices to exclude from the exported file(s)
+    ignoreCols: null,                  // (Number, Number[]), column indices to exclude from the exported file(s)
+    ignoreCSS: ".tableexport-ignore",  // (selector, selector[]), selector(s) to exclude from the exported file(s)
+    emptyCSS: ".tableexport-empty",    // (selector, selector[]), selector(s) to replace cells with an empty string in the exported file(s)
+    trimWhitespace: false              // (Boolean), remove all leading/trailing newlines, spaces, and tabs from cell text in the exported file(s)
+});
+                                /* default class, content, and separator for each export type */
+/* Run plugin and save it to a variable */
+var tables = $("table").tableExport();
+/* Excel Open XML spreadsheet (.xlsx) */
+$.fn.tableExport.xlsx = {
+    defaultClass: "xlsx",
+    buttonContent: "Export to xlsx",
+    mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    fileExtension: ".xlsx"
+};
+
+/* Excel Binary spreadsheet (.xls) */
+$.fn.tableExport.xls = {
+    defaultClass: "xls",
+    buttonContent: "Export to xls",
+    separator: "\t",
+    mimeType: "application/vnd.ms-excel",
+    fileExtension: ".xls"
+};
+
+/* Comma Separated Values (.csv) */
+$.fn.tableExport.csv = {
+    defaultClass: "csv",
+    buttonContent: "Export to csv",
+    separator: ",",
+    mimeType: "application/csv",
+    fileExtension: ".csv"
+};
+
+/* Plain Text (.txt) */
+$.fn.tableExport.txt = {
+    defaultClass: "txt",
+    buttonContent: "Export to txt",
+    separator: "  ",
+    mimeType: "text/plain",
+    fileExtension: ".txt"
+};
+                                /* default charset encoding (UTF-8) */
+$.fn.tableExport.charset = "charset=utf-8";
+
+/* default filename if "id" attribute is set and undefined */
+$.fn.tableExport.defaultFileName = "myDownload";
+
+/* default class to style buttons when not using bootstrap  */
+$.fn.tableExport.defaultButton = "button-default";
+
+/* bootstrap classes used to style and position the export buttons */
+$.fn.tableExport.bootstrap = ["btn", "btn-default", "btn-toolbar"];
+
+/* row delimeter used in all filetypes */
+$.fn.tableExport.rowDel = "\r\n";
+                            </script>
+</body>
+</html>
