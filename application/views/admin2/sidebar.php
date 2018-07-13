@@ -748,6 +748,11 @@
 
 
 <?php endif ?>
+<?php if ($_SESSION['role']== "PM"): ?>
+abc
+<?php endif ?>
+
+
 <?php if ($_SESSION['role']== "Admin"): ?>
 
 <ul class="nav" id="side-menu">

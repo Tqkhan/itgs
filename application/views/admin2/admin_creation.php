@@ -149,6 +149,7 @@ $.toggleShowPassword({
                                                 <option>Pelase Select</option>
                                                 <option value="TL" <?php if ($employee['role'] == 'TL') echo 'selected'; ?>>TL</option>
                                                 <option value="CM" <?php if ($employee['role'] == 'CM') echo 'selected'; ?>>CM</option>
+                                                <option value="PM" <?php if ($employee['role'] == 'PM') echo 'selected'; ?>>PM</option>
                                                 <option value="TM" <?php if ($employee['role'] == 'TM') echo 'selected'; ?>>TM</option>
                                                 <option value="Manager" <?php if ($employee['role'] == 'Manager') echo 'selected'; ?>>Manager</option>
                                                 <option value="IT Executive" <?php if ($employee['role'] == 'IT Executive') echo 'selected'; ?>>IT Executive</option>
