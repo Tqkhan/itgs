@@ -21,12 +21,6 @@ class Admin extends CI_Controller
 		$this->load->view('admin/login');
 	}
 
-	// public function is_login($value='')
-	// {
-	// 	if (!$this->session->userdata('login_id')) {
-	// 		redirect(base_url().'admin/');
-	// 	}
-	// }
 
   public function is_login($value='')
   {
@@ -131,9 +125,8 @@ class Admin extends CI_Controller
     $data['jobs']=$this->db->query('SELECT case_request.client_reference,case_request.reference_code,subject_case.subject_name,assign_activity_to_user.*,scope_of_work.scope_name,scope_of_work.type,case_request.id,assign_activity_to_user.id as asid, count(fund_request_activity.id) as total_fund from assign_activity_to_user inner JOIN case_request on(case_request.id=assign_activity_to_user.case_id) inner JOIN subject_case on (subject_case.id=assign_activity_to_user.subject_id) inner join scope_of_work on (scope_of_work.id=assign_activity_to_user.activity_id) left join fund_request_activity on fund_request_activity.activity_id = assign_activity_to_user.activity_id and fund_request_activity.case_id = assign_activity_to_user.case_id where assign_activity_to_user.member_id='.$_SESSION['id'].' GROUP BY assign_activity_to_user.id order by assign_activity_to_user.id desc')->result_array();
 
 
-       // $data['jobs']=$this->db->query('SELECT case_request.client_reference,case_request.reference_code,subject_case.subject_name,assign_activity_to_user.*,scope_of_work.scope_name,case_request.id from assign_activity_to_user inner JOIN case_request on(case_request.id=assign_activity_to_user.case_id) inner JOIN subject_case on (subject_case.id=assign_activity_to_user.subject_id) inner join scope_of_work on (scope_of_work.id=assign_activity_to_user.activity_id) where assign_activity_to_user.member_id='.$_SESSION['id'])->result_array();
+      
   }
-  //echo '<pre>';print_r($data);die;
   $this->load->view('admin2/header', $data);
   $this->load->view('admin2/job_dashboard');
   $this->load->view('admin2/footer');
@@ -147,8 +140,6 @@ class Admin extends CI_Controller
   if($_SESSION['role']=="Manager Finance"){
   $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.reference_code,case_request.client_id,scope_of_work.scope_name, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes, SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) where fund_request_activity.case_id='.$case_id.' GROUP BY fund_request_activity.activity_id')->result_array();
   }
-//   echo "<pre>";
-//   die(print_r($data));
 
   $this->load->view('admin2/header', $data);
   $this->load->view('admin2/profit_loss_view');
@@ -173,8 +164,7 @@ class Admin extends CI_Controller
     for ($i=0; $i < sizeof($data['cvs']); $i++) { 
       $data['cvs'][$i]['interview'] = $this->admin_model->get_int_status($data['cvs'][$i]['id']);
     }
-    //$data['cvs'] = $this->admin_model->get_int_status();
-    //echo '<pre>';print_r($data);die;
+ 
     $data['employees'] = $this->admin_model->get_data('employee_itgs');
 		$this->load->view('admin2/header');
 		$this->load->view('admin2/view_emp', $data);
@@ -183,7 +173,6 @@ class Admin extends CI_Controller
 	}
    public function all_cv()
 	{
-    //print_r($_POST);die;
     if ($this->input->post('start_date') != null && $this->input->post('start_date') != '') {
       $old_date = $this->input->post('start_date');
       $old_date_timestamp = strtotime($old_date);
@@ -191,7 +180,6 @@ class Admin extends CI_Controller
       $old_date = $this->input->post('end_date');
       $old_date_timestamp = strtotime($old_date);
       $end_date = date('Y-m-d', $old_date_timestamp);
-      //print_r($start_date.' '.$end_date);die;
       $data['cvs'] = $this->admin_model->select_cv($start_date,$end_date);
     }
     else{
@@ -213,7 +201,6 @@ class Admin extends CI_Controller
     for ($i=0; $i < sizeof($data['cvs']); $i++) { 
       $data['cvs'][$i]['interview'] = $this->admin_model->get_int_status($data['cvs'][$i]['id']);
     }
-    //echo '<pre>';print_r($data);die;
 		$this->load->view('admin2/header');
 		$this->load->view('admin2/interview_step_1', $data);
 		$this->load->view('admin2/footer');
@@ -223,7 +210,6 @@ class Admin extends CI_Controller
 	{
     $data['cvs'] = $this->admin_model->get_interviews_byid();
     $data['employees'] = $this->admin_model->get_data('employee_itgs');
-    //print_r($data);die;
 		$this->load->view('admin2/header');
 		$this->load->view('admin2/interview_step_2', $data);
 		$this->load->view('admin2/footer');
@@ -235,7 +221,6 @@ class Admin extends CI_Controller
       $data['employee'] = $this->admin_model->get_employee_id($id);
     }
     $data['employees']=$this->admin_model->get_data('employee_itgs');
-    //print_r($data);die;
   $this->load->view('admin2/header');
   $this->load->view('admin2/admin_creation',$data);
   $this->load->view('admin2/footer');
@@ -243,7 +228,6 @@ class Admin extends CI_Controller
    }
    public function admin_dashboard()
    {
-       //$_SESSION['admin_id']=1;
     $this->is_login();
   $this->load->view('admin2/header');
   $this->load->view('admin2/admin_dashboard');
@@ -261,13 +245,8 @@ class Admin extends CI_Controller
 public function insert_modal_value()
  {
 
-    //  echo "<pre>";
-    //  print_r($_POST);
-    //  die();
-  /*$id=$_GET['id'];
-  echo $id;*/
+
 $case_id=$_POST['case_id'];
-//$data['day']=date("d");
    $data_modal = array(
     'case_id'=>$this->input->post('case_id_cancel'),
     'client_id'=>$this->input->post('client_id'),
@@ -288,17 +267,14 @@ $case_id=$_POST['case_id'];
     $message = $this->load->view('emails/case_cancel',$emails);
     $message = $message->output->final_output;
     $employee = $this->admin_model->get_employee_email($_SESSION['client_id']);
-    //$this->sendmail('verify@itgsgroup.com',$employee[0]['login_name'],'Visiting Cancel Case Request','Clieck Here To Detail <a href="'.base_url().'admin/form1/'.$case_id.'">View Request</a>');
+  
     $this->sendmail('verify@itgsgroup.com',$employee[0]['login_name'],'Visiting Cancel Case Request',$message);
       redirect(base_url().'admin/new_case_request?case_id='.$case_id);
 
-   // $employee = $this->admin_model->get_employee_email($_SESSION['client_id']);
-   //  $this->sendmail('verify@itgsgroup.com',$employee[0]['login_name'],'Visiting Cancel Case Request','Clieck Here To Detail <a href="'.base_url().'admin/form1/'.$case_id.'">View Request</a>');
    redirect(base_url().'admin/case_dashboard');
  }
  public function cancel_request()
  {
-//   $data['requests']=$this->db->get_where('modal_form1',['client_id'=>$_SESSION['client_id']])->result_array();
   $data['requests']=$this->db->query("select case_request.case_status,modal_form1.* from modal_form1 inner join case_request on (case_request.id=modal_form1.case_id) where modal_form1.client_id='".$_SESSION['client_id']."'")->result_array();
   $this->load->view('admin2/header',$data);
   $this->load->view('admin2/cancel_request');
@@ -337,7 +313,6 @@ $case_id=$_POST['case_id'];
  public function view_employee_modal()
    {
    	$data['employees']=$this->db->get('employee_itgs')->result_array();
-   //$data['employees']=$this->admin_model->select_where('employee_itgs',array('role' => 'vendor'));
    $this->load->view('admin2/header',$data);
   $this->load->view('admin2/view_employee_modal');
   $this->load->view('admin2/footer');
@@ -351,7 +326,6 @@ $case_id=$_POST['case_id'];
 
    public function view_vendor_modal()
    {
-    //$data['employees']=$this->db->get('employee_itgs')->result_array();
     $data['employees']=$this->admin_model->select_where('employee_itgs',array('role' => 'vendor'));
    $this->load->view('admin2/header',$data);
   $this->load->view('admin2/view_vendor_modal');
@@ -397,9 +371,7 @@ $case_id=$_POST['case_id'];
         $links[] = $file_links[$p]['file'];
       }
       $data['attachment']=implode(',', $links);
-     // if(move_uploaded_file($_FILES['attachment']['tmp_name'],"./uploads/report/".$_FILES['attachment']['name'])){
-     // $data['attachment']=$_FILES['attachment']['name'];
-     // }
+     
 
      if($this->db->insert('case_report',$data)){
       $notification = array(
@@ -419,11 +391,8 @@ $case_id=$_POST['case_id'];
       $message = $this->load->view('emails/case_report',$emails);
       $message = $message->output->final_output;
       $employee = $this->admin_model->get_client_email($_POST['case_id_report']);
-      //$this->sendmail($employee[0]['login_name'],$employee[0]['email'],'Visiting Case Submit Report','Clieck Here To Detail <a href="'.base_url().'admin/view_report_submission/'.$_POST['case_id_report'].'">View Request</a>');
       $this->sendmail($employee[0]['login_name'],$employee[0]['email'],'Visiting Case Submit Report',$message,$employee[0]['notification_email']);
 
-        // $employee = $this->admin_model->get_client_email($_POST['case_id_report']);
-        // $this->sendmail($employee[0]['login_name'],$employee[0]['email'],'Visiting Case Submit Report','Clieck Here To Detail <a href="'.base_url().'admin/view_report_submission/'.$_POST['case_id_report'].'">View Request</a>');
         $this->db->update('case_request',['case_status'=>5],['id'=>$_POST['case_id_report']]);
         $client = $this->admin_model->select_where('case_request', array('id'=>$_POST['case_id_report']));
         $u_id = $client[0]['client_id'];
@@ -441,10 +410,7 @@ $case_id=$_POST['case_id'];
         else{
           redirect('admin/screening_operation/');
         }
-         // echo "<script>
-         // alert('Report has been Submitted);
-         //     window.location.href='".base_url()."admin2/screening_operation/';
-         //  </script>";
+      
      }else{
         if ($_SESSION['role'] == 'vendor') {
           redirect('admin/job_dashboard/');
@@ -452,10 +418,7 @@ $case_id=$_POST['case_id'];
         else{
           redirect('admin/screening_operation/');
         }
-          // echo "<script>
-          // alert('Report has been Submitted);
-          //    window.location.href='".base_url()."admin2/screening_operation/';
-          // </script>";
+        
      }
 
  }
@@ -473,8 +436,6 @@ public function step2($case_id)
    $data['subjects']=$this->db->get_where("subject_case",['case_id'=>$case_id])->result_array();
    $data['services']=$this->db->query("select scope_of_work.scope_name,assign_client_services.* from scope_of_work inner join assign_client_services on(assign_client_services.scope_id=scope_of_work.id) where assign_client_services.client_id='".$_SESSION['client_id']."'")->result_array();
 
-//   print_r($data);
-//   die();
   $this->load->view('admin2/header',$data);
   $this->load->view('admin2/step2');
   $this->load->view('admin2/footer');
@@ -543,8 +504,7 @@ $data['services']=$this->db->query("select scope_of_work.scope_name,assign_clien
  {
   $where = $_SESSION['client_id'];
   $data['cases']=$this->admin_model->select_where('case_request',array('client_id'=>$where,'case_status'=>0));
-  // print_r($this->db->last_query());
-  // print_r($data);die;
+ 
   $this->load->view('admin2/header');
   $this->load->view('admin2/panding_case', $data);
   $this->load->view('admin2/footer');
@@ -553,10 +513,7 @@ $data['services']=$this->db->query("select scope_of_work.scope_name,assign_clien
 
  public function case_dashboard1($client_id)
  {
-    //  $where=array('client_id'=>$_GET['client_id']);
-   // $where = $_GET['client_id'];
-//   $data['cases']=$this->admin_model->get_case($where);
-  //  $data['cases']=$this->db->get('case_request')->result_array();
+  
 
   $data['cases'] = $this->db->query("SELECT client.*, case_request.* from case_request INNER JOIN client ON case_request.client_id = client.client_id where case_request.client_id='".$client_id."' and case_request.case_status!=0 order by case_request.id DESC")->result_array();
 
@@ -594,13 +551,10 @@ $data['services']=$this->db->query("select scope_of_work.scope_name,assign_clien
     else{
       $where = '';
     }
-    //print_r($where);die;
-    //$data['cases']=$this->db->query("SELECT client.*, case_request.* from case_request INNER JOIN client ON case_request.client_id = client.client_id left join case_team on case_team.case_id = case_request.id where (client.employee_id='".$_SESSION['id']."' OR case_team.team_lead_id='".$_SESSION['id']."') and case_request.case_status!=0 AND case_request.case_status = '".$status."' AND case_request.case_date >= '".$start_date."' AND case_request.case_date <= '".$end_date."' GROUP BY case_request.id ")->result_array();
+  
     $data['cases']=$this->db->query("SELECT client.*, case_request.*,count(client_chat.id) as chat from case_request INNER JOIN client ON case_request.client_id = client.client_id left join client_chat on client_chat.case_id = case_request.id and is_view = 0 and type = 'employee' left join case_team on case_team.case_id = case_request.id where (client.employee_id='".$_SESSION['id']."' OR case_team.team_lead_id='".$_SESSION['id']."') and case_request.case_status!=0 ".$where." GROUP BY case_request.id ")->result_array();
   }
-  //print_r($this->db->last_query());die;
   $data['members']=$this->db->query("SELECT * FROM `employee_itgs` WHERE `role` = 'vendor'")->result_array();
-  // $data['cases']=$this->db->get('case_request')->result_array();
   $this->load->view('admin2/header');
   $this->load->view('admin2/screening_operation', $data);
   $this->load->view('admin2/footer');
@@ -5621,7 +5575,7 @@ public function insert_vendor_creation()
   public function insert_aplicant()
 {
 
-//print_r($_POST);die;
+
  $data_modal = array(
     'case_id'=>$this->input->post('case_id'),
     'reference_number'=>$this->input->post('reference_number'),
@@ -5639,7 +5593,7 @@ public function insert_vendor_creation()
     'ntn' => $this->input->post('ntn'),
 
   );
- //print_r($data_modal);die;
+
    $this->db->insert("case_aplicant", $data_modal);
    redirect(base_url().'admin/screening_operation');
 }
@@ -5647,8 +5601,8 @@ public function insert_vendor_creation()
 public function edit_report_case($id)
  {
    $data['subjects']=$this->admin_model->case_rep($id);
-   /*$data['subjects']=$this->db->get_where("subject_case",['case_id'=>$id])->result_array();*/
-  /* print_r($data['details']);die;*/
+   
+
   $this->load->view('admin2/header');
   $this->load->view('admin2/edit_report_case',$data);
   $this->load->view('admin2/footer');
@@ -5688,9 +5642,9 @@ for ($i=0; $i < $count_subject; $i++) {
     'cnic'=>$cnic[$i],
     'ntn'=>$ntn[$i]
       );
-  /*print_r($data_case);die;*/
+
     $this->db->update('case_aplicant', $data_case,['assigned_subject_id'=>$subject_id,'case_id'=>$case_id]);
-   /* print_r($data_case);die;*/
+
 }
     redirect(base_url().'admin/screening_operation/');
 }
@@ -5709,9 +5663,10 @@ public function admin_login()
       'login'=>$_POST['login_name'],
       'pass'=>$_POST['password']
     );
-    //print_r($data);die;
+
     if($client=$this->db->get_where('login',$data)->row_array()){
-        //print_r($client);die;
+   
+
       $this->session->set_userdata($client);
            redirect(base_url().'admin/admin_dashboard');
     }else{
@@ -5724,8 +5679,7 @@ public function admin_login()
 
   public function insert_customized_report()
 {
-   //$evidence = $_FILES['contact_detail'];
-   //move_uploaded_file($evidence['tmp_name'], './uploads/attachment/'.$evidence['name']);
+
   $subject_attachement_ids = $this->input->post('attacment_custamize_id');
   $ids = explode(',', $subject_attachement_ids[0]);
   $file_links = $this->admin_model->get_image_link($ids);
@@ -5743,22 +5697,7 @@ public function admin_login()
     'contact_detail'=>implode(',', $links)
   );
   $this->admin_model->update_data("assign_activity_to_user",array('is_report' => '1','report_time'=>date('Y-m-d')),array('id'=>$this->input->post('s_id')));
-  // $config['upload_path'] = './uploads/attachment';
-  //     $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-  //     $config['max_size'] = '10000';
-  //     $config['max_width'] = '1024';
-  //     $config['max_height'] = '768';
-  //     if (!empty($_FILES)) {
-  //       $this->load->library('upload', $config);
-  //       if($this->upload->do_upload('contact_detail'))
-  //       {
-  //         $data_modal += array('contact_detail' => $this->upload->data('file_name') );
-  //       }
-  //       else
-  //       {
-  //         $error = array('error' => $this->upload->display_errors());
-  //       }
-  //     }
+
   $this->db->insert("customized_report", $data_modal);
   redirect(base_url().'admin/job_dashboard');
 }
@@ -5840,9 +5779,7 @@ public function activity_dummy()
     }           
   }
   $js = json_encode($id);
-  // $js = str_replace("[","",$js);
-  // $js = str_replace("]","",$js);
-  //print_r($id);
+
   echo $js;
 }
 
@@ -5863,9 +5800,7 @@ public function delete_act_file($id)
 public function insert_nadra()
  {
    $evidence = $_FILES['evidence'];
-  /* $id=$_POST['subject_id'];*/
-//$data['day']=date("d");
-//move_uploaded_file($evidence['tmp_name'], './uploads/attachment/'.$evidence['name']);
+
    $data_modal = array(
     'assign_activity_id'=>$this->input->post('subject_id'),
     'name'=>$this->input->post('name'),
@@ -5879,24 +5814,8 @@ public function insert_nadra()
     'date_of_birth' => $this->input->post('date_of_birth'),
     'place_of_birth' => $this->input->post('place_of_birth'),
     'country_stay' => $this->input->post('country_stay'),
-    //'evidence' => $evidence['name']
   );
-// $config['upload_path'] = './uploads/attachment';
-//     $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-//     $config['max_size'] = '10000';
-//     $config['max_width'] = '1024';
-//     $config['max_height'] = '768';
-//     if (!empty($_FILES)) {
-//       $this->load->library('upload', $config);
-//       if($this->upload->do_upload('evidence'))
-//       {
-//         $data_modal += array('evidence' => $this->upload->data('file_name') );
-//       }
-//       else
-//       {
-//         $error = array('error' => $this->upload->display_errors());
-//       }
-//     }
+
 
     $ids = explode(',', $_POST['file_id']);
   $file_links = $this->admin_model->get_image_link($ids);
@@ -5915,7 +5834,6 @@ public function insert_nadra()
 {
   $evidence = $_FILES['evidence'];
 
-  //move_uploaded_file($evidence['tmp_name'], './uploads/attachment/'.$evidence['name']);
      $data_modal = array(
     'assign_activity_id'=>$this->input->post('fbr_id'),
 
@@ -5928,24 +5846,8 @@ public function insert_nadra()
     'business_nature' => $this->input->post('business_nature'),
     'registered_for_income_tax' => $this->input->post('registered_for_income_tax'),
     'income_tax_office' => $this->input->post('income_tax_office'),
-    //'evidence' => $evidence['name']
-  );
-    //  $config['upload_path'] = './uploads/attachment';
-    // $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-    // $config['max_size'] = '10000';
-    // $config['max_width'] = '1024';
-    // $config['max_height'] = '768';
-    // if (!empty($_FILES)) {
-    //   $this->load->library('upload', $config);
-    //   if($this->upload->do_upload('evidence'))
-    //   {
-    //     $data_modal += array('evidence' => $this->upload->data('file_name') );
-    //   }
-    //   else
-    //   {
-    //     $error = array('error' => $this->upload->display_errors());
-    //   }
-    // }
+      );
+
     $ids = explode(',', $_POST['file_id']);
   $file_links = $this->admin_model->get_image_link($ids);
   $links = array();
@@ -5965,22 +5867,8 @@ function regulatory_checks()
     'name'=>$this->input->post('name'),
     'result'=>$this->input->post('result'),
   );
-  // $config['upload_path'] = './uploads/attachment';
-  //   $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-  //   $config['max_size'] = '10000';
-  //   $config['max_width'] = '1024';
-  //   $config['max_height'] = '768';
-  //   if (!empty($_FILES)) {
-  //     $this->load->library('upload', $config);
-  //     if($this->upload->do_upload('evidence'))
-  //     {
-  //       $data_modal += array('evidence' => $this->upload->data('file_name') );
-  //     }
-  //     else
-  //     {
-  //       $error = array('error' => $this->upload->display_errors());
-  //     }
-  //   }
+
+
   $ids = explode(',', $_POST['file_id']);
   $file_links = $this->admin_model->get_image_link($ids);
   $links = array();
@@ -6003,22 +5891,8 @@ public function litigation_check()
     'sources'=>$this->input->post('sources'),
     'note' => $this->input->post('note'),
   );
-    //  $config['upload_path'] = './uploads/attachment';
-    // $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-    // $config['max_size'] = '10000';
-    // $config['max_width'] = '1024';
-    // $config['max_height'] = '768';
-    // if (!empty($_FILES)) {
-    //   $this->load->library('upload', $config);
-    //   if($this->upload->do_upload('evidence'))
-    //   {
-    //     $data_modal += array('evidence' => $this->upload->data('file_name') );
-    //   }
-    //   else
-    //   {
-    //     $error = array('error' => $this->upload->display_errors());
-    //   }
-    // }
+    
+
      $ids = explode(',', $_POST['file_id']);
   $file_links = $this->admin_model->get_image_link($ids);
   $links = array();
@@ -6034,7 +5908,7 @@ public function litigation_check()
 public function education_verification()
 {
   $data_modal = $this->input->post();
-  //echo '<pre>';print_r($data_modal);die;
+
   unset($data_modal['key']);
   unset($data_modal['value1']);
   unset($data_modal['value2']);
@@ -6045,22 +5919,8 @@ public function education_verification()
   unset($data_modal['1_end_date']);
   unset($data_modal['2_start_date']);
   unset($data_modal['2_end_date']);
-  // $config['upload_path'] = './uploads/attachment';
-  // $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-  // $config['max_size'] = '10000';
-  // $config['max_width'] = '1024';
-  // $config['max_height'] = '768';
-  // if (!empty($_FILES)) {
-  //   $this->load->library('upload', $config);
-  //   if($this->upload->do_upload('evidence'))
-  //   {
-  //     $data_modal += array('evidence' => $this->upload->data('file_name') );
-  //   }
-  //   else
-  //   {
-  //     $error = array('error' => $this->upload->display_errors());
-  //   }
-  // }
+  
+
   $ids = explode(',', $_POST['file_id']);
   $file_links = $this->admin_model->get_image_link($ids);
   $links = array();
@@ -6109,22 +5969,8 @@ public function crimnal_background()
     $links[] = $file_links[$p]['file'];
   }
   $data['evidence']=implode(',', $links);
-    //  $config['upload_path'] = './uploads/attachment';
-    // $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-    // $config['max_size'] = '10000';
-    // $config['max_width'] = '1024';
-    // $config['max_height'] = '768';
-    // if (!empty($_FILES)) {
-    //   $this->load->library('upload', $config);
-    //   if($this->upload->do_upload('evidence'))
-    //   {
-    //     $data_modal += array('evidence' => $this->upload->data('file_name') );
-    //   }
-    //   else
-    //   {
-    //     $error = array('error' => $this->upload->display_errors());
-    //   }
-    // }
+   
+
     $this->admin_model->update_data("assign_activity_to_user",array('is_report' => '1','report_time'=>date('Y-m-d')),array('id'=>$this->input->post('assign_activity_id')));
      $this->admin_model->insert_data("crimnal_check", $data_modal);
    redirect(base_url().'admin/job_dashboard');
@@ -6144,22 +5990,7 @@ public function past_employment()
     $links[] = $file_links[$p]['file'];
   }
   $data['evidence']=implode(',', $links);
-  // $config['upload_path'] = './uploads/attachment';
-  // $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-  // $config['max_size'] = '10000';
-  // $config['max_width'] = '1024';
-  // $config['max_height'] = '768';
-  // if (!empty($_FILES)) {
-  //   $this->load->library('upload', $config);
-  //   if($this->upload->do_upload('evidence'))
-  //   {
-  //     $data_modal += array('evidence' => $this->upload->data('file_name') );
-  //   }
-  //   else
-  //   {
-  //     $error = array('error' => $this->upload->display_errors());
-  //   }
-  // }
+  
   $id = $this->admin_model->insert_data("past_employment", $data_modal);
   if ($id) {
     $this->admin_model->update_data("assign_activity_to_user",array('is_report' => '1','report_time'=>date('Y-m-d')),array('id'=>$this->input->post('assign_activity_id')));
@@ -6184,22 +6015,8 @@ public function insert_report_vendor()
   error_reporting('-1');
   $data = $this->input->post();
   unset($data['file_id']);
-  // $config['upload_path'] = './uploads/attachment';
-  // $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg';
-  // $config['max_size'] = '10000';
-  // $config['max_width'] = '1024';
-  // $config['max_height'] = '768';
-  // if (!empty($_FILES)) {
-  //   $this->load->library('upload', $config);
-  //   if($this->upload->do_upload('attachment'))
-  //   {
-  //     $data += array('file' => $this->upload->data('file_name') );
-  //   }
-  //   else
-  //   {
-  //     $error = array('error' => $this->upload->display_errors());
-  //   }
-  // }
+ 
+
   $ids = explode(',', $_POST['file_id']);
   $file_links = $this->admin_model->get_image_link($ids);
   $links = array();
@@ -6223,7 +6040,8 @@ public function insert_report_vendor()
           'url'=>'admin/view_report_case/'.$vendor['case_id']
         );
         $this->admin_model->insert_data("notifications",$notification);
-        //$this->sendmail('verify@itgsgroup.com',$user_detail['login'],'Vendor Report Submit','Clieck Here To See Report <a href="'.base_url().'admin/view_report_case/'.$vendor['case_id'].'">Report</a>');
+
+
       }
     }
     $cm = $this->admin_model->get_emp_by_case($vendor['case_id']);
@@ -6419,7 +6237,7 @@ public function issue_case_payment()
      $data['employee'] = $this->admin_model->select_where('employee_itgs', array('id'=>$id));
      $data['employee'] = $data['employee'][0];
       $data['employees']=$this->admin_model->get_data('employee_itgs');
-      //print_r($data);die;
+
    $this->load->view('admin2/header',$data);
   $this->load->view('admin2/edit_employee_request');
   $this->load->view('admin2/footer');
@@ -6435,15 +6253,13 @@ public function issue_case_payment()
 
    public function performance_evolution()
    {
-      //$setting = $this->admin_model->get_data('system_setting');
-      //if (strtotime(date('Y-'.$setting[0]['preformance_review_month'].'-01')) < strtotime(date('Y-m-d'))) {
-      //$month = date('m');
+
       $month = 12;
       if ($month == '3' || $month == '6' || $month == '12' || $month == '9') {
-        //$month = $setting[0]['preformance_review_month'];
+
         $start = date('Y-'.$month.'-01');
         $end = date('Y-'.$month.'-t');
-        //print_r($start .' to '.$end);die;
+
         if ($_SESSION['role'] == 'Hr') {
           $data['employees']=$this->admin_model->get_data('employee_itgs');
         }
@@ -6481,7 +6297,7 @@ public function issue_case_payment()
       else{
         $data['employees']=$this->admin_model->get_reviews();
       }
-      //$data['employees']=$this->admin_model->get_reviews();
+
       $this->load->view('admin2/header',$data);
       $this->load->view('admin2/complated_review');
       $this->load->view('admin2/footer');
@@ -6584,7 +6400,7 @@ public function issue_case_payment()
         if($range == 'daily'){
           $first = date('Y-m-d 00:00:01');
           $last = date('Y-m-d 23:59:59');
-          //print_r($first .' to '.$last);die;
+
         }
         elseif($range == 'monthly'){
           $first = date('Y-m-d 00:00:01', strtotime("-1 month"));
@@ -6690,16 +6506,15 @@ public function issue_case_payment()
       }
       $data['employees'] = $this->admin_model->select_where('employee_itgs',array('role !='=>'vendor'));
       $data['form_url'] = base_url('admin/case_analytics_team/');
-      // $this->db->select('*')
-      //          ->from('case_request')
-      //          ->where_in('id', $panding_array);
-      // $result = $this->db->get()->result_array();
-      //print_r($panding_array);die;
+
+
       if ($panding_array) {
         $result = $this->admin_model->get_cases_by_id($panding_array);
-        //print_r($this->db->last_query());die;
+
+
         for ($i=0; $i < sizeof($result); $i++) { 
-          //$result[$i]['subjects'] = $this->admin_model->select_where('subject_case',array('case_id'=>$result[$i]['id']));
+
+
           $result[$i]['subjects'] = $this->admin_model->get_subject_by_id($result[$i]['id']);
           for ($a=0; $a < sizeof($result[$i]['subjects']); $a++) { 
             $result[$i]['subjects'][$a]['activity'] = $this->admin_model->get_subject_activities($result[$i]['subjects'][$a]['id'],$result[$i]['id']);
@@ -6744,8 +6559,9 @@ public function issue_case_payment()
       else{
         $data['case'] = $this->admin_model->get_vendor_analytics($first,$last);
       }
-      //$data['case'] = $this->admin_model->get_vendor_analytics($first,$last,$id);
-      //print_r($data);die;
+
+
+
       $case = [];
       $ca = $data['case'];
       $all_status = array(
@@ -6818,7 +6634,8 @@ public function issue_case_payment()
       }
       $data['case'] = $case;
       $data['status'] = $all_status;
-      //$data['url'] = base_url('admin/activity_analytics_vendor/'.$id);
+
+
       if ($id != null) {
         $data['url'] = base_url('admin/activity_analytics_vendor/'.$id);
       }else{
@@ -6826,7 +6643,7 @@ public function issue_case_payment()
       }
       $data['employees'] = $this->admin_model->select_where('employee_itgs',array('role'=>'vendor'));
       $data['form_url'] = base_url('admin/activity_analytics_vendor/');
-      //print_r($data);die;
+
       $this->load->view('admin2/header',$data);
       $this->load->view('admin2/case_analytics');
       $this->load->view('admin2/footer');
@@ -6834,7 +6651,7 @@ public function issue_case_payment()
 
    public function activity_analytics_team($id = null,$range=null)
    {
-    //error_reporting('-1');
+
       $first = date('Y-m-01 00:00:01', strtotime("-3 month"));
       $last = date('Y-m-t 23:59:59');
       if ($range!=null) {
@@ -6865,9 +6682,7 @@ public function issue_case_payment()
       else{
         $data['case'] = $this->admin_model->get_team_analytics($first,$last);
       }
-      //$data['case'] = $this->admin_model->get_team_analytics($first,$last,$id);
-      //print_r($this->db->last_query());die;
-      //print_r($data);die;
+
       $case = [];
       $ca = $data['case'];
       $all_status = array(
@@ -6950,7 +6765,7 @@ public function issue_case_payment()
       }
       $data['case'] = $case;
       $data['status'] = $all_status;
-      //$data['url'] = base_url('admin/activity_analytics_team/'.$id);
+
       if ($id != null) {
         $data['url'] = base_url('admin/activity_analytics_team/'.$id);
       }else{
@@ -6975,48 +6790,6 @@ public function issue_case_payment()
 
   public function leaves_management()
   {
-    //error_reporting('-1');
-    // if (!empty($this->input->post('month'))) {
-    //   $month = $this->input->post('month');
-    //   $first = date('Y-'.$month.'-01 00:00:01');
-    //   $last = date('Y-'.$month.'-t 23:59:59');
-    // }
-    // else{
-    //   $first = date('Y-m-01 00:00:01', strtotime("-1 month"));
-    //   $last = date('Y-m-t 23:59:59', strtotime("-1 month"));
-    // }
-    // //$employees = $this->admin_model->get_data('employee_itgs');
-    // $employees = $this->admin_model->get_employee_with_leaves();
-    // $one = date('Y-01-01', strtotime($first));
-    // $two = date('Y-12-31', strtotime($first));
-    // $ids=[];
-    // for ($i=0; $i < sizeof($employees); $i++) { 
-    //   $start = date('Y-m-d', strtotime($first));   
-    //   $absent = $this->admin_model->select_where('leave_applications', array('employee_id'=>$employees[$i]['employee_id'],'start_date'=>$start,'absent'=>1));
-    //   if (!empty($absent)) {
-    //     $ids[] = $i;
-    //   }
-    //   $leaves = $this->admin_model->get_employee_current($first,$last,$employees[$i]['employee_id']);
-    //   $employees[$i]['leaves'] = $leaves;
-    //   $leaves = $this->admin_model->get_employee_leave($one,$two,$employees[$i]['employee_id']);
-    //   if (!empty($leaves)) {
-    //     $employees[$i]['old_leaves'] = $leaves[0]['days'];
-    //   }
-    //   else{
-    //     $employees[$i]['old_leaves'] = '0';
-    //   }
-    // }
-    // for ($i=0; $i < sizeof($ids); $i++) { 
-    //   unset($employees[$ids[$i]]);
-    // }
-    // //$data['employees'] = $this->admin_model->get_employee_leave();
-    // $data['employees'] = $employees;
-    // $data['first'] = $first;
-    // $data['last'] = $last;
-    // //print_r($data);die;
-    // $this->load->view('admin2/header',$data);
-    // $this->load->view('admin2/leaves_management');
-    // $this->load->view('admin2/footer');
     if (!empty($this->input->post('month'))) {
       $month = $this->input->post('month');
       $first = date('Y-'.$month.'-01 00:00:01');
