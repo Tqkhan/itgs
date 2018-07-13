@@ -2277,8 +2277,6 @@ window.location.href='".base_url()."admin/add_payment/'
 		$avg_tat=$_POST['avg_tat'];
 
 
-		// die();
-		// die(print_r($this->input->post('service_id[]')));
 		$country=explode("-",$_POST['country_id']);
 		$reference_code="ITGS-".$_POST['client_type']."-".$_POST['abbreviation']."-".$country[1]."-".date("Y");
 		$data_client = array(
@@ -2313,8 +2311,8 @@ window.location.href='".base_url()."admin/add_payment/'
 	    	   $array_scope=array(
 	    	   	'client_id'=>$client_id,
 	    	   	'scope_id'=>$scope[$i],
-				'price'=>$price[$i],
-				'avg_tat'=>$avg_tat[$i],
+			    	// 'price'=>$price[$i],
+			    	'avg_tat'=>$avg_tat[$i],
 	    	   );
 	    	    $this->db->insert('assign_client_services',$array_scope);
 	    	}
@@ -2329,8 +2327,7 @@ window.location.href='".base_url()."admin/add_payment/'
 		$parent_id=$_POST['parent_id'];
 
 
-		// die();
-		// die(print_r($this->input->post('service_id[]')));
+
 		$country=explode("-",$_POST['country_id']);
 		$reference_code="ITGS-".$_POST['client_type']."-".$_POST['abbreviation']."-".$country[1]."-".date("Y");
 		$data_client = array(
@@ -2432,11 +2429,11 @@ window.location.href='".base_url()."admin/add_payment/'
 	{
 		$data['client_details']=$this->db->query("select case_request.*,client.*,country.country_name,country.country_code from client inner join case_request on (case_request.client_id=client.client_id) INNER JOIN country ON (country.id=client.country_id) where case_request.id='".$case_id."'")->row_array();
    $data['subjects']=$this->db->get_where("subject_case",['case_id'=>$case_id])->result_array();
-   /*$data['members']=$this->db->query("SELECT * FROM `employee_itgs` WHERE `role` = 'TL' OR `role` = 'CM'")->result_array();
-   $data['members1']=$this->db->query("SELECT * FROM `employee_itgs` WHERE `role` = 'TL' OR `role` = 'CM' OR `role` = 'TM'")->result_array();*/
+   
+
    $data['members']=$this->db->query("SELECT * FROM `employee_itgs` WHERE `role` = 'TL'")->result_array();
    $data['members1']=$this->db->query("SELECT * FROM `employee_itgs` WHERE `role` = 'TM'")->result_array();
-   //print_r($data);die;
+
 		$this->load->view('admin2/header',$data);
 		$this->load->view('admin2/form2');
 		$this->load->view('admin2/footer');
@@ -2453,14 +2450,11 @@ window.location.href='".base_url()."admin/add_payment/'
 		public function insert_case()
 	{
 
-//print_r($_POST);
-//print_r($_FILES['activity_attachment']);
-//die;
+
+
     $all_files = $_FILES;
-//print_r($this->input->post());die;
-   // echo "<pre>";
-   // print_r($_FILES['activity_attachment']['name']);
-   // die();
+
+
   error_reporting(0);
     $count_subject=count($_POST['subject_name']);
     $subject_name = $_POST['subject_name'];
@@ -2485,56 +2479,23 @@ window.location.href='".base_url()."admin/add_payment/'
       );
     $this->db->insert('case_request', $data_case);
     $case_id= $this->db->insert_id();
-    // echo $case_id;
+
      $activity_id=$_POST['scope_id'];
              $due_date=$_POST['due_date'];
-             //print_r($due_date);echo '<br>';
+
           $activity_attachement = $_FILES['activity_attachement'];
-//print_r($activity_attachement);die;
+
              $count_activity=count($activity_id);
       
     for ($i=0; $i < $count_subject; $i++) {
 $ids = explode(',', $subject_attachement_ids[$i]);
 $file_links = $this->admin_model->get_image_link($ids);
-//print_r($file_links);die;
+
 $links = array();
 for ($p=0; $p < sizeof($file_links); $p++) { 
   $links[] = $file_links[$p]['file'];
 }
-/*$file = [];
-      $config['upload_path'] = './uploads/attachment';
-      $config['allowed_types'] = 'pdf|doc|docs|jpg';
-      $config['max_size'] = '10000';
-      $config['max_width'] = '1024';
-      $config['max_height'] = '768';
-      $this->load->library('upload', $config);
-      $this->upload->initialize($config);
-      $files = $all_files['subject_attachement'];
-      $cpt = count($all_files['subject_attachement']['name'][$i]);
-      //print_r($files);die;
-      for($p=0; $p<$cpt; $p++)
-      {
-        //print_r($files['name'][$i][$p]);die;
-        $_FILES['subject_attachement']['name']= $files['name'][$i][$p];
-          $_FILES['subject_attachement']['type']= $files['type'][$i][$p];
-          $_FILES['subject_attachement']['tmp_name']= $files['tmp_name'][$i][$p];
-          $_FILES['subject_attachement']['error']= $files['error'][$i][$p];
-          $_FILES['subject_attachement']['size']= $files['size'][$i][$p];    
 
-          //$this->upload->initialize($this->set_upload_options());
-          // $this->upload->do_upload('files[]');
-          if (!$this->upload->do_upload('subject_attachement'))
-          {  
-            $file[] = '';
-          }
-          else{
-            $file[] =$this->upload->data('file_name');
-          }           
-      }*/
-      //die;
-
-      //print_r(implode(',', $file));die;
-            //move_uploaded_file($subject_attachement['tmp_name'][$i], './uploads/attachment/'.$subject_attachement['name'][$i]);
       $data_subject=array(
         'case_id'=>$case_id,
         'subject_name'=>$subject_name[$i],
@@ -2552,10 +2513,8 @@ for ($p=0; $p < sizeof($file_links); $p++) {
    $due_dates=$due_date[$i];
    $act_file_id = $this->input->post('act_file_id');
    $act_file_id = $act_file_id[$i];
-   //print_r($act_file_id);die;
-   //echo $i;
-   //print_r($due_dates);echo '<br>';
-   // $file=$_POST['due_date'][$i];
+  
+
 
       $file_name=$_FILES['activity_attachment'][$i]['name'];
       $file_tmp=$_FILES['activity_attachment'][$i]['tmp_name'];
@@ -2563,54 +2522,21 @@ for ($p=0; $p < sizeof($file_links); $p++) {
 
 
 
-//print_r($scope_id);
       
     for($j=0;$j<count($scope_id);$j++){
-      //echo $scope_id[$j]; echo "<br>";
-      //echo $act_file_id[$scope_id[$j]];die;
-      //print_r($act_file_id);
+     
       $acts = $act_file_id[$scope_id[$j]][0];
-      //print_r($acts);die;
+     
       $ids = explode(',', $acts);
-      //print_r($ids);die;
+     
 $file_links = $this->admin_model->get_activity_image($ids);
-//print_r($file_links);die;
+
+
 $links = array();
 for ($p=0; $p < sizeof($file_links); $p++) { 
   $links[] = $file_links[$p]['file'];
 }
-//       $file = [];
-//       $config2['upload_path'] = './uploads/activity_attachment';
-//       $config2['allowed_types'] = 'pdf|doc|docs|jpg';
-//       $config2['max_size'] = '10000';
-//       $config2['max_width'] = '1024';
-//       $config2['max_height'] = '768';
-//       $this->load->library('upload', $config2);
-//       $this->upload->initialize($config2);
-//       $files = $all_files['activity_attachment'];
-//       $cpt = count($all_files['activity_attachment']['name'][$i][$scope_id[$j]]);
-//       //print_r($cpt);die;
-//       for($p=0; $p<$cpt; $p++)
-//       {
-//         //print_r($files['name'][$i][$scope_id[$j]][$p]);die;
-//         $_FILES['activity_attachment']['name']= $files['name'][$i][$scope_id[$j]][$p];
-//           $_FILES['activity_attachment']['type']= $files['type'][$i][$scope_id[$j]][$p];
-//           $_FILES['activity_attachment']['tmp_name']= $files['tmp_name'][$i][$scope_id[$j]][$p];
-//           $_FILES['activity_attachment']['error']= $files['error'][$i][$scope_id[$j]][$p];
-//           $_FILES['activity_attachment']['size']= $files['size'][$i][$scope_id[$j]][$p];    
-// //print_r($_FILES);die;
-//           //$this->upload->initialize($this->set_upload_options());
-//           // $this->upload->do_upload('files[]');
-//           if (!$this->upload->do_upload('activity_attachment'))
-//           {  
-//             //print_r($this->upload->display_errors());die;
-//           }
-//           else{
-//             //echo '1';
-//             $file[] = $this->upload->data('file_name');
-//           }           
-//       }
-//print_r(implode(',', $file));die;
+
     $data=array(
   'activity_id'=>$scope_id[$j],
     'subject_id'=>$subject_id,
@@ -2650,7 +2576,7 @@ for ($p=0; $p < sizeof($file_links); $p++) {
       'url'=>'admin/form1/'.$case_id
     );
     $this->admin_model->insert_data("notifications",$notification);
-    //$this->sendmail('verify@itgsgroup.com',$employee[0]['login_name'],'Visiting Case Request','Clieck Here To Detail <a href="'.base_url().'admin/form1/'.$case_id.'">View Request</a>');
+   
     $this->sendmail('verify@itgsgroup.com',$employee[0]['login_name'],'Visiting Case Request',$message);
     $employee = $this->admin_model->get_client_email($case_id);
     $this->sendmail('verify@itgsgroup.com',$employee[0]['email'],'Visiting Case Request',$message,$employee[0]['notification_email']);
@@ -2699,7 +2625,7 @@ public function update_case($status = null)
       if (!empty($subject_id)) {
         $key = array_search($subject_id, array_column($sub_current, 'id'));
         if (array_key_exists($key,$case)) {
-          //unset($sub_current[$key]);
+
           $sub_delete[] = $key;
         }
     		$data_subject=array(
@@ -2814,7 +2740,7 @@ public function update_case($status = null)
       'url'=>'admin/form1/'.$case_id
     );
     $this->admin_model->insert_data("notifications",$notification);
-    //$this->sendmail('verify@itgsgroup.com',$employee[0]['login_name'],'Visiting Case Request','Clieck Here To Detail <a href="'.base_url().'admin/form1/'.$case_id.'">View Request</a>');
+
     $this->sendmail('verify@itgsgroup.com',$employee[0]['login_name'],'Visiting Case Request',$message);
     $employee = $this->admin_model->get_client_email($case_id);
     $this->sendmail('verify@itgsgroup.com',$employee[0]['email'],'Visiting Case Request',$message,$employee[0]['notification_email']);
@@ -2831,7 +2757,7 @@ public function update_case($status = null)
 	{
 
 		$data=$_POST;
-    //print($_POST);die;
+
     $u_id = $data['employee_id'];
     $u_type = $data['employee_type'];
     unset($data['employee_id']);
