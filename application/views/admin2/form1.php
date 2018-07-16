@@ -291,11 +291,11 @@
                         else{
                           $type = 'Team';
                         }
-                        echo '<td>Panding at '.$type.'</td>';
+                        echo '<td>Pending at '.$type.'</td>';
                       }
                     }
                     else{
-                      echo '<td>Panding</td>';
+                      echo '<td>Pending</td>';
                     }
                   }
                 ?>
@@ -313,7 +313,7 @@
 
   </div>
 
-             <a class="btn btn-success pull-right update_assigned_price" id="<?php echo base_url() ?>admin/update_assigned_price?case_id=<?php echo $client_details['id'] ?>">Price Assigned</a>
+            
 
 <div class="clearfix"></div>
     <?php
@@ -337,6 +337,8 @@
       ?>
 
 </div>
+            <a class="btn btn-success pull-right update_assigned_price" id="<?php echo base_url() ?>admin/update_assigned_price?case_id=<?php echo $client_details['id'] ?>">Price Assigned</a>
+            <div class="clearfix"></div>
              </div>
             </form>
             <?php
