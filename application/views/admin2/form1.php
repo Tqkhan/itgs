@@ -343,7 +343,11 @@
 
            <?php }
            } ?>
-</div> <!-- /.main content -->
+</div>
+<button type="button" class="btn btn-labeled btn-info m-b-5">
+                                        <span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>Update
+                                    </button> <!-- /.main content -->
+                                    
 <div style="height:180px;"></div>
 </div><!-- /#wrapper -->
 </div>
