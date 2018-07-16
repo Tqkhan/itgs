@@ -1514,4 +1514,25 @@ class admin_model extends CI_Model
 	}
 
 	/* usama code end */
+
+
+	/* akash code here */
+
+ public function task_manager_form_insert($data)
+ {
+
+  $this->db->insert('task_manager',$data);
+  return $this->db->insert_id();
+ }
+
+ public function task_manager_notification($data2)
+ {
+
+  $this->db->insert('task_notification',$data2);
+  return $this->db->insert_id();
+ }
+
+
+
+ /* akash code here */
 }

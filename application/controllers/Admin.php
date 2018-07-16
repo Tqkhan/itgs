@@ -8608,4 +8608,380 @@ public function issue_case_payment()
 
   /* usama code end */
 
+
+
+  /*aakash code start*/
+  public function task_manager_form()
+  {
+    
+    $data['employees'] = $this->admin_model->all_rows('employee_itgs'); 
+    $data['departments'] = $this->admin_model->get_data('departments');
+
+    $this->load->view('admin2/header');
+    $this->load->view('admin2/task_manager_form',$data);
+    $this->load->view('admin2/footer');
+  }
+
+  public function task_manager_form_submit()
+  {
+      $config['upload_path']       = './uploads/task/';
+      $config['allowed_types']        = 'jpg|png|gif';
+      $config['encrypt_name'] = TRUE;
+
+      $this->load->library('upload', $config);
+
+      if ( ! $this->upload->do_upload('file_image'))
+      {
+        $error = array('upload_error' => $this->upload->display_errors());
+        echo "<pre>";
+        print_r($error);
+      }
+
+     else{
+
+        $file_info =  $this->upload->data();
+        $img_name = $file_info['file_name']; 
+        
+
+       $data = array(
+          'department' => $this->input->post('department'),
+          
+          'assign_date' => $this->input->post('assign_date'),
+          'due_date' => $this->input->post('due_date'),
+          'priority' => $this->input->post('priority'),
+          'subject' => $this->input->post('subject'),
+          'description' => $this->input->post('description'),
+          'file' =>  $img_name,
+          'user_id' => $_SESSION['id'],
+          
+        );
+
+        $task_id=$this->admin_model->task_manager_form_insert($data);
+                
+
+        $data2 = array(
+          'user_id' => $_SESSION['id'],
+          'status' => 'Nothing',
+          'date_name' => date('d-m-Y h:i:s a'),
+        );
+
+        $this->admin_model->task_manager_notification($data2);
+
+        $employees = $this->input->post('employes');  
+
+       // $ids=implode(",",$employees);
+
+       // die($ids);
+
+         foreach ($employees as $emp) {
+             $data3 = array(
+            'task_id' => $task_id,
+            'employee_id' => $emp,
+            'assigned_by' => $_SESSION['id']
+        );  
+
+        $this->admin_model->insert('task_employee' , $data3);
+
+         }
+
+        redirect(base_url().'admin/task_notification_view');
+     }  
+
+  }
+
+
+  public function get_task_notification()
+  {
+
+    $events = array();
+    $data['notification']= array();
+
+
+    if ($this->session->userdata('id')) {
+      $id = $this->session->userdata('id');
+    }
+
+   
+    $sql="SELECT task_manager.*,task_employee.employee_id ,  emp1.employee_name as assigned,
+        emp2.employee_name as assigned_by , departments.name as departments_id  FROM task_manager 
+        INNER JOIN task_employee ON (task_manager.id = task_employee.task_id) 
+        INNER JOIN employee_itgs emp1 ON (emp1.id  =  task_employee.employee_id)
+        INNER JOIN employee_itgs emp2 ON (emp2.id=task_employee.assigned_by) 
+        INNER JOIN departments  ON (task_manager.department = departments.id)
+        WHERE task_employee.employee_id=".$_SESSION['id']."";
+
+
+        $data['task_notifications'] = $this->db->query($sql)->result_array();
+    $this->load->view('admin2/get_task_notification',$data);
+  }
+
+
+  public function task_notification_count()
+  {
+    $events = array();
+    $data['notification']= array();
+  
+    if ($this->session->userdata('id')) {
+      $id = $this->session->userdata('id');
+    }
+   
+    $this->db->select('*')
+             ->from('task_employee')
+             ->where('employee_id', $id)
+              ->where('view', '0')
+             ->order_by('id', 'desc');
+
+    $data['not'] = $this->db->get()->result_array();
+    echo count($data['notification']) + count($data['not']);
+  }
+
+
+  public function task_notification_view()
+  {
+    
+  
+    $sql="SELECT tm.id as task_manager_id, tm.subject , tm.user_id ,  tm.description  , tm.priority , tm.due_date  ,  tsk_emp.id as tsk_emp_id ,tsk_emp.employee_id ,  
+    emp1.employee_name as assigned,emp2.employee_name as assigned_by ,   
+       departments.name as departments_id , tsk_emp.id as employes_id  , tsk_emp.status FROM task_manager tm
+          INNER JOIN task_employee tsk_emp ON (tm.id = tsk_emp.task_id) 
+          INNER JOIN employee_itgs emp1 ON (emp1.id  =  tsk_emp.employee_id)
+          INNER JOIN employee_itgs emp2 ON (emp2.id=tsk_emp.assigned_by) 
+          INNER JOIN departments  ON (tm.department = departments.id)
+          WHERE tsk_emp.employee_id=".$_SESSION['id']." OR tsk_emp.assigned_by=".$_SESSION['id'];
+
+    $data['task_notification_data'] = $this->db->query($sql)->result_array();
+
+
+    $this->load->view('admin2/header');
+    $this->load->view('admin2/task_notification_view' , $data);
+    $this->load->view('admin2/footer');
+  }
+
+  public function task_manager_form_edit($id)
+  {
+      // $data['task_form_data']=$this->admin_model->get_row("task_manager",$where);
+     $sql="SELECT task_manager.*,task_employee.employee_id ,  emp1.employee_name as assigned,
+        emp2.employee_name as assigned_by , departments.name as departments_id  ,  task_employee.id as employes_ids  FROM task_manager 
+        INNER JOIN task_employee ON (task_manager.id = task_employee.task_id) 
+        INNER JOIN employee_itgs emp1 ON (emp1.id  =  task_employee.employee_id)
+        INNER JOIN employee_itgs emp2 ON (emp2.id=task_employee.assigned_by) 
+        INNER JOIN departments  ON (task_manager.department = departments.id)
+
+      WHERE task_manager.user_id = '".$_SESSION['id']."'  AND task_employee.task_id  = '".$id."'";
+
+
+      if($sql)
+      {
+        $data['task_form_data'] = $this->db->query($sql)->row_array();
+        $data['employees'] = $this->admin_model->all_rows('employee_itgs');
+        $data['departments'] = $this->admin_model->get_data('departments');
+        $this->load->view('admin2/header');
+        $this->load->view('admin2/task_manager_form_edit',$data);
+        $this->load->view('admin2/footer');
+      } 
+  }
+
+  public function task_manager_edit_update($id)
+  {
+
+      $employee_id_var = $this->input->post('task_employee_id');
+  
+
+      $sql="SELECT tm.id as task_manager_id,tsk_emp.id as tsk_emp_id ,tsk_emp.employee_id , emp1.employee_name as assigned, tm.file  ,  emp2.employee_name as assigned_by , departments.name as departments_id , tsk_emp.id as employes_id FROM task_manager tm INNER JOIN task_employee tsk_emp ON (tm.id = tsk_emp.task_id) INNER JOIN employee_itgs emp1 ON (emp1.id = tsk_emp.employee_id) INNER JOIN employee_itgs emp2 ON (emp2.id=tsk_emp.assigned_by) INNER JOIN departments ON (tm.department = departments.id)
+
+      WHERE tm.user_id = '".$_SESSION['id']."'  AND tsk_emp.task_id  = '".$id."'";
+
+
+      $row_data['task_form_data'] = $this->db->query($sql)->row_array();
+
+
+      $config['upload_path']   = './uploads/task/';
+      $config['allowed_types'] = 'jpg|png|gif';
+      $config['encrypt_name'] = TRUE;
+      
+      $this->load->library('upload', $config);
+
+     if ( ! $this->upload->do_upload('file_image'))
+      {
+       
+      $data = array(
+          'department' => $this->input->post('department'),
+          'assign_date' => $this->input->post('assign_date'),
+          'due_date' => $this->input->post('due_date'),
+          'priority' => $this->input->post('priority'),
+          'subject' => $this->input->post('subject'),
+          'description' => $this->input->post('description'),
+          'user_id' => $_SESSION['id'],
+      );
+
+      } 
+     else{
+
+
+        $img_name2 = $row_data['task_form_data']['file'];
+      // print_r($img_name2);
+
+        $file_info =  $this->upload->data();
+        
+        $img_name = $file_info['file_name'];
+
+        
+        if($file_info){
+
+          unlink('./uploads/task/' . $img_name2);
+        }
+
+        $data = array(
+          'department' => $this->input->post('department'),
+          'assign_date' => $this->input->post('assign_date'),
+          'due_date' => $this->input->post('due_date'),
+          'priority' => $this->input->post('priority'),
+          'subject' => $this->input->post('subject'),
+          'description' => $this->input->post('description'),
+          'file' =>  $img_name,
+          'user_id' => $_SESSION['id'],
+          
+        );
+      }  
+        
+        $where = $this->db->where('id', $id);
+    
+           $this->admin_model->update( 'task_manager',  $data ,  $where );
+       
+    $employees = $this->input->post('employes');  
+
+
+         foreach ($employees as $emp) {
+
+             $data3 = array(
+            'task_id' => $id,
+            'employee_id' => $emp,
+            'assigned_by' => $_SESSION['id']
+        );  
+
+
+
+        $where = $this->db->where('task_id', $id);
+    
+        $this->admin_model->update( 'task_employee',  $data3 ,  $where );
+
+      }
+     
+        redirect(base_url().'admin/task_notification_view');
+  }
+
+
+  public function task_notification_destroy($id)
+  {
+
+      $where = $this->db->where('id' , $id);
+     
+      $data2['task_form_data'] = $this->admin_model->get_row('task_manager' , $where );
+
+      $img_name2 = $data2['task_form_data']['file'];
+
+      unlink('./uploads/task/' . $img_name2);
+
+      $affected =  $this->admin_model->delete_data('task_manager',array('id'=>$id));
+
+
+      
+
+       $this->admin_model->delete_data('task_employee',array('task_id'=>$id));
+       
+       redirect('admin/task_notification_view');
+
+  }
+
+
+  public function view_notification_task($id)
+  {
+    $this->admin_model->update('task_employee',array('view'=>'1'),array('task_id'=>$id , 'employee_id' => $_SESSION['id'] ));
+  }  
+
+
+  public function activity_hold_task($id)
+  {
+     $this->admin_model->update('task_manager',array('hold_status'=>1, 'hold_date'=>date('Y-m-d')),array('id'=>$id));
+       redirect('admin/task_notification_view');
+  }
+
+  public function activity_unhold_task($id)
+  {
+     $this->admin_model->update('task_manager',array('hold_status'=>0, 'unhold_date'=>date('Y-m-d')),array('id'=>$id));
+     redirect('admin/task_notification_view');
+  }
+
+
+  public function response_of_task_form()
+  {
+
+   $this->load->library('upload');
+
+    $userFile = array(
+      'upload_path' => './uploads/task/',
+      'allowed_types' => 'jpg|jpeg|gif|png',
+      'encrypt_name' => TRUE 
+    );
+
+    $this->upload->initialize($userFile);
+    
+       $id =  $this->input->post('task_manager_id'); 
+
+       $session_id = $this->input->post('session_id');
+
+
+    if ($this->upload->do_upload('file')) {
+      $file = $this->upload->data();
+      $options = array(
+        'task_id' =>  $id , 
+        'employee_id' => $session_id,
+        'employee_file' => $file['file_name'] 
+      );
+
+      $this->admin_model->insert( 'task_employee_file' ,  $options);
+    }
+
+       $data = array(
+          'status' => $this->input->post('task_status_response'),
+        );
+
+       $condition = array(   
+          'task_id' => $id , 
+           'employee_id' => $session_id 
+          );
+
+        $where = $this->db->where(
+          $condition
+        );
+
+       $this->admin_model->update( 'task_employee',  $data ,  $where );
+       redirect('admin/task_notification_view');
+  }
+
+
+
+     public function change_user_by_department(){
+      $departmentID=$_GET['departmentID'];
+      
+      $sql ="
+        SELECT employee_itgs.* , departments.id , employee_itgs.id FROM departments INNER JOIN employee_detail ON employee_detail.employee_department = departments.id INNER JOIN employee_itgs ON employee_itgs.id = employee_detail.id 
+          WHERE departments.id = '".$departmentID."'  AND employee_detail.employee_department  = '".$departmentID."'";
+
+        $users = $this->db->query($sql)->result_array();
+       foreach ($users as $user) {
+        ?>
+        
+        <option value="<?php echo $user['id']?>"><?php echo  $user['employee_name']?></option>
+        <?php
+      }
+    }
+
+  
+
+
+
+
+  /*aakash code end*/
+
 }
