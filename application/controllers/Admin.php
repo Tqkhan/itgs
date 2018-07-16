@@ -8591,6 +8591,20 @@ public function issue_case_payment()
       echo json_encode($array_json);
     }
 
+    public function update_assigned_price()
+    {
+      $query="Update case_request set price_assigned=1 where id='".$_POST['case_id']."'";
+      // die($query);
+      $this->db->query($query);
+      if($this->db->affected_rows()>0){
+        $array_json=['success'=>1];
+      }else{
+        $array_json=['success'=>0];
+      }
+      echo json_encode($array_json);
+    }
+    
+
   /* usama code end */
 
 }

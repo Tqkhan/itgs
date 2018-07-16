@@ -240,22 +240,31 @@
                     echo "No Attachment";
                     } ?></td>
                 <td><?php if ($_SESSION['role']== "PM"): ?>
-                
-                  <div class="form-group col-lg-6">
-                                           
-                             
-
-
-                    <input type="text" name="qty" value="1" style="width:100px;" class="form-control">
-                    <input type="hidden" name="rowid" value="8acc74cff2a38595e7fb0fb009233b1f">
+               
+                   <div class="change_updated_price_<?php echo $activity['id'] ?>">
+                 <?php if ($activity['activity_price']==0){ ?>
+                  
+                   <div class="form-group col-lg-6">
+                                          
+                        <input type="text" name="price_<?php echo $activity['id']; ?>" value="0" style="width:100px;" class="form-control">
                     <span class="input-group-btn">
-
-                    <button style="margin-top: -34px; margin-left: 99px;" type="submit" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Update"><i class="fa fa-refresh" ></i></button>
+                    <button style="margin-top: -34px; margin-left: 99px;" type="button" id="btn_update_price" class="btn btn-primary" onclick="update_activity_price(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>)"><i class="fa fa-refresh" ></i></button>
                     
 
                   </span>  
+                      
+                    
                                         </div>
+                 <?php }
+                 else{
+                  echo $activity['activity_price'];
+                 } ?>
+                  <button onclick="edit_show_form(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>,<?php echo $activity['activity_price'] ?>)">Edit</button>
+
+                  </div>                  
                   <?php endif ?>
+
+
                 </td>
                 <td><?php echo $activity['due_date'] ?></td>
                 <?php 
@@ -297,10 +306,16 @@
             </tbody>
           </table>
         </div>
+
       </div>
+
     </div>
+
   </div>
 
+             <a class="btn btn-success pull-right update_assigned_price" id="<?php echo base_url() ?>admin/update_assigned_price?case_id=<?php echo $client_details['id'] ?>">Price Assigned</a>
+
+<div class="clearfix"></div>
     <?php
               $j++;
              endforeach ?>
@@ -370,3 +385,63 @@
 
 
 
+<script type="text/javascript">
+
+
+  function update_activity_price(case_id,subject_id,activity_id) {
+    var price=$('[name=price_'+activity_id+']').val();
+    var html=price+' <button onclick="edit_show_form('+case_id+','+subject_id+','+activity_id+','+price+')">Edit</button>';
+
+    $.ajax({
+      url:"<?php echo base_url() ?>admin/update_activity_price",
+      type:"post",
+      data:{case_id:case_id,subject_id:subject_id,activity_id:activity_id,price:price},
+      success:function(resp){
+         var response=JSON.parse(resp);
+         if (response.success==1) {
+             $('.change_updated_price_'+activity_id).html(html);
+         }
+      } 
+    });
+  }
+
+
+    function edit_show_form(case_id,subject_id,activity_id,price) {
+          var html=' <div class="form-group col-lg-6">'+
+           '<input type="text" name="price_'+activity_id+'"'+ 
+           'value="'+price+'" style="width:100px;" class="form-control">'+
+           '<span class="input-group-btn">'+
+           '<button style="margin-top: -34px; margin-left: 99px;"'+'type="button" id="btn_update_price" class="btn '+ 
+           'btn-primary"'+ 
+           'onclick="update_activity_price('+case_id+','+subject_id+','+activity_id+')">'+
+           '<i class="fa fa-refresh" ></i></button>'+
+            '</span></div>';
+           $('.change_updated_price_'+activity_id).html(html);
+    }
+
+    $('.edit_activity_price').click(function() {
+      alert();
+    });
+
+
+  $('.update_assigned_price').click(function() {
+    var string=$(this).attr('id');
+    var string2=string.split('?');
+    var string3=string2[1].split('=');
+    var case_id=string3[1];
+    var url=string2[0];
+
+    $.ajax({
+      url:url,
+      type:"post",
+      data:{case_id:case_id},
+      success:function(resp){
+         var response=JSON.parse(resp);
+         if (response.success==1) {
+          window.location.href='<?php echo base_url() ?>admin/screening_operation';
+         }
+      }
+    });
+
+  });
+</script>
