@@ -142,6 +142,13 @@
 			<h3 >Welcome to ITGS</h3>
 			<!--<p >Login in. To see it in action.</p>-->
 			<form class="m-t search-form" role="form" id="search-form" method="post" accept-charset="UTF-8" action="<?php echo base_url() ?>admin/" style="padding: 10px; margin-top: -1px !important;">
+				
+				<div class="form-group">
+					<input type="text" class="form-control" name="login_name" placeholder="Username" required="">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" name="password" placeholder="Password" required="">
+				</div>
 				<div class="form-group">
 					<select id="selectsearch" class="form-control" name="selectsearch">
 					<option value="">Select Role</option>
@@ -149,12 +156,6 @@
 					<option value="employee">Employee</option>
 					<option value="client">Client</option>
 					</select>
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" name="login_name" placeholder="Username" required="">
-				</div>
-				<div class="form-group">
-					<input type="password" class="form-control" name="password" placeholder="Password" required="">
 				</div>
 				<button type="submit" class="btn btn-primary block full-width m-b" id="login_button" disabled="">Login</button>
 
