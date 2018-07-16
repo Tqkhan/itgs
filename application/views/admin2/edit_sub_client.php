@@ -382,7 +382,6 @@ $.toggleShowPassword({
 		<tr>
 		<th class="footable-sortable">Check<span class="footable-sort-indicator"></span></th>
 				<th class="footable-sortable">Product Name<span class="footable-sort-indicator"></span></th>
-				<th class="footable-sortable">Price ($)<span class="footable-sort-indicator"></span></th>
 				<th class="footable-sortable">TAT (Days)<span class="footable-sort-indicator"></span></th>
 		</tr>
 </thead>
@@ -408,7 +407,6 @@ $key = array_search($scope['id'], array_column($assign_client_services, 'scope_i
 <label for="scopecheck<?php echo $scopecount?>"></label>
 </span></td>
 <td><span class="footable-toggle"></span><?php echo $scope['scope_name'] ?> </td>
-<td><input type="text" name="price[]" value="<?php echo $price ?>"></td>
 <td><input type="text" name="avg_tat[]" value="<?php echo $tat ?>"></td>
 
 							</tr>
