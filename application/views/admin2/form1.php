@@ -202,6 +202,9 @@
                   <th>Serial #</th>
                   <th>Name</th>
                   <th>Attachment</th>
+                  <th><?php if ($_SESSION['role']== "PM"): ?>
+                  Price
+                  <?php endif ?></th>
                   <th>Due Date</th>
                   <?php 
                     if ($_SESSION['client_id']) {
@@ -236,6 +239,10 @@
                 else if ($activity['activity_attachement']==""){
                     echo "No Attachment";
                     } ?></td>
+                <td><?php if ($_SESSION['role']== "PM"): ?>
+                  <input type="" name="" value="" placeholder="" size="5">
+                  <?php endif ?>
+                </td>
                 <td><?php echo $activity['due_date'] ?></td>
                 <?php 
                   if ($_SESSION['client_id']) {
