@@ -246,7 +246,7 @@
                   
                    <div class="form-group col-lg-6">
                                           
-                        <input type="text" name="price_<?php echo $activity['id']; ?>" value="0" style="width:100px;" class="form-control">
+                        <input type="number" name="price_<?php echo $activity['id']; ?>" value="0" style="width:100px;" class="form-control">
                     <span class="input-group-btn">
                     <button style="margin-top: -34px; margin-left: 99px;" type="button" id="btn_update_price" class="btn btn-primary" onclick="update_activity_price(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>)"><i class="fa fa-refresh" ></i></button>
                     
@@ -259,7 +259,7 @@
                  else{
                   echo $activity['activity_price'];
                  } ?>
-                  <button onclick="edit_show_form(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>,<?php echo $activity['activity_price'] ?>)">Edit</button>
+                  <a   onclick="edit_show_form(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>,<?php echo $activity['activity_price'] ?>)">Edit</a>
 
                   </div>                  
                   <?php endif ?>
@@ -390,7 +390,7 @@
 
   function update_activity_price(case_id,subject_id,activity_id) {
     var price=$('[name=price_'+activity_id+']').val();
-    var html=price+' <button onclick="edit_show_form('+case_id+','+subject_id+','+activity_id+','+price+')">Edit</button>';
+    var html=price+' <a onclick="edit_show_form('+case_id+','+subject_id+','+activity_id+','+price+')">Edit</a>';
 
     $.ajax({
       url:"<?php echo base_url() ?>admin/update_activity_price",
@@ -408,7 +408,7 @@
 
     function edit_show_form(case_id,subject_id,activity_id,price) {
           var html=' <div class="form-group col-lg-6">'+
-           '<input type="text" name="price_'+activity_id+'"'+ 
+           '<input type="number" name="price_'+activity_id+'"'+ 
            'value="'+price+'" style="width:100px;" class="form-control">'+
            '<span class="input-group-btn">'+
            '<button style="margin-top: -34px; margin-left: 99px;"'+'type="button" id="btn_update_price" class="btn '+ 
