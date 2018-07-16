@@ -32,7 +32,7 @@
 
                                     <?php
 if($records['status']=="pending"){
-$text="Panding";
+$text="Pending";
 $class="label-warning";
 }else if($records['status']=="process"){
 $class="label-info";

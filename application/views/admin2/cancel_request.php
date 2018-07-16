@@ -62,7 +62,7 @@ foreach ($requests as $request): ?>
 	}else if($request['case_status']==6){
 	 echo "Case Rejected";
 	}else{
-	echo "Cancellation Panding";
+	echo "Cancellation Pending";
 	} ?></td>
 	<td><span class="footable-toggle"></span><?php echo $request['suggestion'] ?></td>
 

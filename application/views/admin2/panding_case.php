@@ -6,11 +6,11 @@
 							<i class="pe-7s-display2"></i>
 						</div>
 						<div class="header-title">
-							<h1>Panding Case</h1>
+							<h1>Pending Case</h1>
 
 							<ol class="breadcrumb">
 								<li><a href="<?php echo base_url() ?>admin/client_index"><i class="pe-7s-home"></i> Home</a></li>
-								<li class="active">Panding Case</li>
+								<li class="active">Pending Case</li>
 							</ol>
 						</div>
 					</div>
@@ -21,7 +21,7 @@
 								<div class="panel-heading">
 									<div class="panel-title">
 										<h4>
-                      Panding Case
+                      Pending Case
                     </h4>
 									</div>
 								</div>

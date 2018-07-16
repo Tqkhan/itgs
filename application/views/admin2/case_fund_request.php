@@ -89,7 +89,7 @@
                                                  <?php 
                                                     if ($_SESSION['role'] == 'Manager Finance') {
                                                       if ($f['is_approve'] == 1) {
-                                                        $status = 'Panding';
+                                                        $status = 'Pending';
                                                       }
                                                       elseif ($f['is_issue'] == 1) {
                                                         $status = 'Approve';

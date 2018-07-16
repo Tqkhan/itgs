@@ -70,7 +70,7 @@ foreach ($jobs as $case): ?>
   
   <?php 
   if($case['is_approved']==0){
-      echo "Panding";
+      echo "Pending";
   }else if($case['is_approved']==1){
       echo "Approved";
   }else if($case['is_approved']==2){

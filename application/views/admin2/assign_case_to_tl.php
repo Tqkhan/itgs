@@ -65,7 +65,7 @@ foreach ($cases as $case): ?>
 	<td><span class="footable-toggle"></span>
 
 	<?php if($case['case_status']==1){
-	echo "Panding";
+	echo "Pending";
 	}else if($case['case_status']==2){
 	echo "In Progress";
 	}else if($case['case_status']==3){

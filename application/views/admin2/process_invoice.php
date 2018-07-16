@@ -59,7 +59,7 @@
 												<td><?php if($key['is_paid']==1){
 													echo "Received";
 													}else{
-														echo "Panding";
+														echo "Pending";
 														} ?> </td>
 												<td>
 

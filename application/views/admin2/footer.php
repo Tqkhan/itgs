@@ -393,7 +393,7 @@ new Morris.Line({
                                 backgroundColor: "rgba(0,0,0,.15)"
                             },
                             {
-                                label: "Panding",
+                                label: "Pending",
                                 data: <?= json_encode($response_pending); ?>,
                                 borderColor: "rgba(0,0,0,0.09)",
                                 borderWidth: "0",
@@ -421,7 +421,7 @@ new Morris.Line({
                         labels: <?= json_encode($months); ?>,
                         datasets: [
                             {
-                                label: "Panding",
+                                label: "Pending",
                                 borderColor: "rgba(0,0,0,.09)",
                                 borderWidth: "1",
                                 backgroundColor: "rgba(0,0,0,.07)",
@@ -479,7 +479,7 @@ new Morris.Line({
 
                             }],
                         labels: [
-                            "Panding",
+                            "Pending",
                             "Process",
                             "Completed"
                         ]
