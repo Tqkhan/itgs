@@ -541,7 +541,7 @@
                         <li><a href="<?php echo base_url() ?>admin/client_index" class="fa fa-icon"><i class="fa fa-home"></i> &nbsp;Home</a></li>
                         <li><a href="<?php echo base_url() ?>admin/new_case_request" class="fa fa-icon"><i class="fa fa-file-text-o"></i> &nbsp;Create Case</a></li>
                         <li><a href="<?php echo base_url() ?>admin/case_dashboard" class="material-ripple"><i class="material-icons">dashboard</i> Case Dashboard</a></li>
-                        <li><a href="<?php echo base_url() ?>admin/panding_case" class="material-ripple"><i class="material-icons">dashboard</i> Pending Case</a></li>
+                        <li><a href="<?php echo base_url() ?>admin/panding_case" class="material-ripple"><i class="material-icons">dashboard</i> Panding Case</a></li>
                         <li><a href="#" class="fa fa-icon"><i class="fa fa-calculator" style="color: red"></i> Price Calculator</a></li>
                         <li><a href="<?php echo base_url() ?>admin/case_analytics/<?php echo $_SESSION['client_id'] ?>" class="fa fa-icon"><i class="fa fa-newspaper-o" style="color: #212eaf;"></i>Case Analysis</a></li>
                         <li><a href="<?php echo base_url() ?>admin/client_detail_case/<?php echo $_SESSION['client_id'] ?>" class="fa fa-icon"><i class="fa fa-newspaper-o" style="color: #212eaf;"></i>Invoice</a></li>

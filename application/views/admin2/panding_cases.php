@@ -10,12 +10,12 @@
                 <i class="pe-7s-box1"></i>
             </div>
             <div class="header-title">
-                <h1>Pending Cases & task</h1>
+                <h1>Panding Cases & task</h1>
                 <small> </small>
                 <ol class="breadcrumb">
                     <li><a href="<?php echo base_url() ?>admin/client_index"><i class="pe-7s-home"></i> Home</a></li>
 
-                    <li class="active">Pending Cases & task</li>
+                    <li class="active">Panding Cases & task</li>
                 </ol>
             </div>
         </div>
@@ -27,7 +27,7 @@
                     <div class="panel panel-bd">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                <h4>Pending Cases</h4>
+                                <h4>Panding Cases</h4>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -72,7 +72,7 @@
                     <div class="panel panel-bd">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                <h4>Pending task</h4>
+                                <h4>Panding task</h4>
                             </div>
                         </div>
                         <div class="panel-body">

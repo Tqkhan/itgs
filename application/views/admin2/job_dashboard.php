@@ -85,7 +85,7 @@ $con++;
 	
 	<?php 
 	if($case['is_approved']==0){
-	    echo "Pending";
+	    echo "Panding";
 	}else if($case['is_approved']==1){
 	    echo "Approved";
 	}else if($case['is_approved']==2){
@@ -175,7 +175,7 @@ foreach ($jobs as $case): ?>
 	
 	<?php 
 	if($case['is_issue']==0){
-	    echo "Pending";
+	    echo "Panding";
 	}else if($case['is_issue']==1){
 	    echo "Approved";
 	}else if($case['is_issue']==2){
@@ -323,7 +323,7 @@ $con++;
 	if ($_SESSION['role'] == 'vendor') {
 ?>
 <?php if ($case['is_report'] == 0) { ?>
-<td>Pending</td>
+<td>Panding</td>
 <?php  } else { ?>
 <td>Completed</td>
 <?php } ?>

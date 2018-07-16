@@ -63,7 +63,7 @@ foreach ($requests as $request): ?>
 	}else if($request['case_status']==6){
 	 echo "Case Rejected";
 	}else{
-	echo "Cancellation Pending";
+	echo "Cancellation Panding";
 	} ?></td>
 	
 	<td><span class="footable-toggle"></span><a href="<?php echo base_url() ?>admin/form1/<?php echo $request['case_id'] ?>" class="fa fa-eye"></a></td>

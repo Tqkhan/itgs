@@ -223,7 +223,7 @@
                <td><?php echo $total; ?></td>
                <td><?php 
 	if($subject['is_approved']==0){
-	    echo "Pending";
+	    echo "Panding";
 	}else if($subject['is_approved']==1){
 	    echo "Approved";
 	}else if($subject['is_approved']==2){

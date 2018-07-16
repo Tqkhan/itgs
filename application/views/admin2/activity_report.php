@@ -70,7 +70,7 @@ $activity_price=$this->db->get_where('assign_client_services',['client_id'=>$cas
 	
 	<?php 
 	if($case['is_approved']==0){
-	    echo "Pending";
+	    echo "Panding";
 	}else if($case['is_approved']==1){
 	    echo "Approved";
 	}else if($case['is_approved']==2){

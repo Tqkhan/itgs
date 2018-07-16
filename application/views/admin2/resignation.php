@@ -53,7 +53,7 @@
                                                     <td><?php echo $r['department'] ?></td>
                                                     <td><?php echo $r['designation'] ?></td>
                                                     <td><?php echo $r['requested_date'] ?></td>
-                                                    <td><?php if($r['status'] == 0){echo 'Pending';}else{echo 'Completed';} ?></td>
+                                                    <td><?php if($r['status'] == 0){echo 'Panding';}else{echo 'Completed';} ?></td>
                                                     <td><?php echo $r['remarks'] ?></td>
                                                     <td>
                                                         <?php if($r['status'] == 0){?>
