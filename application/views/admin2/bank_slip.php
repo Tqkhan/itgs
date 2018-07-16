@@ -40,19 +40,30 @@
     display: block !important;
         margin-top: -4px !important;
    }
-   .panel-heading{
-    height: 120px;
+    .panel-heading{
+    height: 80px;
    }
    .cent{
     text-align: center !important;
    } 
-   h4.cen {
-   margin-left: 235px !important;
-    /* margin-right: 110px; */
+.panel-title {
+    
+    text-align: center;
 }
-h4.mar {
-   margin-left: 450px !important;
-    /* margin-right: 110px; */
+table{
+    font-size:1vw;
+    
+}
+.section{
+  width: 900px;
+    resize: both;
+    overflow: auto;
+    margin-left: -5px;
+
+}
+.panel-bd, .panel-danger, .panel-info, .panel-inverse, .panel-primary, .panel-success, .panel-warning {
+    border: none ;
+}
 }
   }
   </style>
@@ -84,7 +95,6 @@ h4.mar {
                   <div class="panel-title">
                     <h4 class="print_time_show cen" style="display: none;">INGENIOUSTRIBE GLOBAL SOLUTIONS (PRIVATE) LIMITED</h4>
                     <h4 class="mar" style="margin-bottom: -25px;">BANK PAYMENT VOUCHER</h4><br>
-                    <h5 class="print_time_show cent" style="margin-bottom: -25px;">CPV # 01</h5><br>
                     <h5 class="print_time_show cent" style="margin-bottom: -25px;">Date : <?php echo date('d M Y', strtotime($detail['date'])) ?></h5>
                   </div>
 								</div>
@@ -152,7 +162,11 @@ h4.mar {
 
 <script>
 function myFunction() {
+        $(".section").removeClass("table-responsive");
     window.print();
+    
+        $(".section").addClass("table-responsive");
+
 }
 </script>
 <script language="javascript" type="text/javascript">

@@ -41,21 +41,34 @@
         margin-top: -4px !important;
    }
    .panel-heading{
-    height: 120px;
+    height: 80px;
    }
    .cent{
     text-align: center !important;
    } 
-   h4.cen {
-   margin-left: 235px !important;
-    /* margin-right: 110px; */
+.panel-title {
+    
+    text-align: center;
 }
-h4.mar {
-   margin-left: 450px !important;
-    /* margin-right: 110px; */
+table{
+    font-size:1vw;
+    
 }
-  }
-  </style>
+.section{
+  width: 900px;
+    resize: both;
+    overflow: auto;
+    margin-left: -5px;
+
+}
+.panel-bd, .panel-danger, .panel-info, .panel-inverse, .panel-primary, .panel-success, .panel-warning {
+    border: none ;
+}
+}
+
+
+
+   </style>
   <!-- /.Navbar  Static Side -->
       <div class="control-sidebar-bg"></div>
       <!-- Page Content -->
@@ -84,12 +97,11 @@ h4.mar {
                   <div class="panel-title">
                     <h4 class="print_time_show cen" style="display: none;">INGENIOUSTRIBE GLOBAL SOLUTIONS (PRIVATE) LIMITED</h4>
                     <h4 class="mar" style="margin-bottom: -25px;">CASH PAYMENT VOUCHER</h4><br>
-                    <h5 class="print_time_show cent" style="margin-bottom: -25px;">CPV # 01</h5><br>
                     <h5 class="print_time_show cent" style="margin-bottom: -25px;">Date : <?php echo date('d M Y', strtotime($detail['date'])) ?></h5>
                   </div>
                 </div>
                 <div class="panel-body">
-                  <div class="table-responsive">
+                  <div class="table-responsive section">
                     <table id="ex" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                       <thead>
                         <tr>
@@ -150,7 +162,7 @@ h4.mar {
           </div>
         
 
-<button type="button" class="btn but btn-primary" onclick="myFunction()">Print this page</button>
+<button type="button" class="btn but btn-primary tab" onclick="myFunction()">Print this page</button>
               <div style="height: 440px;"></div>
 </div> 
 </div>
@@ -159,12 +171,11 @@ h4.mar {
 
 <script>
 function myFunction() {
+        $(".section").removeClass("table-responsive");
     window.print();
-}
-</script>
-<script>
-function myFunction() {
-    window.print();
+    
+        $(".section").addClass("table-responsive");
+
 }
 </script>
 <script language="javascript" type="text/javascript">
@@ -256,5 +267,3 @@ sum6 += isNaN(value) ? 0 : parseInt(value);
 
 
 document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td> </td>  <td> </td>  <td> </td> <td> </td>   <td> <strong>Total</strong></td> </td>   <td> </td>   <td> </td>   <td>  </td> <td><strong>  ' + sum1 + '</strong> </td> <td><strong>  ' + sum2 + '</strong> </td> <td><strong>  ' + sum3 + '</strong> </td> <td><strong>  ' + sum4 + '</strong> </td> <td><strong>  ' + sum5 + '</strong> </td> <td> </td> <td><strong> </strong> </td> <td><strong>  ' + sum6 + '</strong> </td>  </tr></tfoot>';</script>
-
-
