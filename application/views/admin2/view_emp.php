@@ -69,7 +69,7 @@
                                                                 echo 'Interview Complete';
                                                             }
                                                             else{
-                                                                echo 'Panding';
+                                                                echo 'Pending';
                                                             }
                                                         ?>
                                                    </td>

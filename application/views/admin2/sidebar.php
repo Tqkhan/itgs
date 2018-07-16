@@ -49,7 +49,7 @@
                 <ul class="nav nav-second-level">
                     <li><a href="#">Employee Work Load<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="<?php echo base_url('admin/panding_cases') ?>">Panding Tasks</a></li>
+                            <li><a href="<?php echo base_url('admin/panding_cases') ?>">Pending Tasks</a></li>
                             <li><a href="<?php echo base_url('admin/completed_case') ?>">Completed</a></li>
                             <li><a href="<?php echo base_url('admin/due_cases') ?>">Over Due Tasks</a></li>
                             <li><a href="<?php echo base_url('admin/hold_case') ?>">Hold Cases</a></li>
@@ -126,7 +126,7 @@
                             <ul class="nav nav-second-level">
                                 <li><a href="#">Employee Work Load<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
-                                        <li><a href="<?php echo base_url('admin/panding_cases') ?>">Panding Tasks</a></li>
+                                        <li><a href="<?php echo base_url('admin/panding_cases') ?>">Pending Tasks</a></li>
                                         <li><a href="<?php echo base_url('admin/completed_case') ?>">Completed</a></li>
                                         <li><a href="<?php echo base_url('admin/due_cases') ?>">Over Due Tasks</a></li>
                                         <li><a href="<?php echo base_url('admin/hold_case') ?>">Hold Cases</a></li>

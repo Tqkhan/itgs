@@ -54,10 +54,10 @@
                                               <tr>
                                                 <?php 
                                                     if ($list['is_approve']==0) {
-                                                        $status = 'Panding';
+                                                        $status = 'Pending';
                                                     }
                                                     elseif ($list['is_approve']==1) {
-                                                        $status = 'Panding By Admin';
+                                                        $status = 'Pending By Admin';
                                                     }
                                                     elseif ($list['is_approve']==2) {
                                                         $status = 'Reject By HOD';

@@ -60,7 +60,7 @@
                                                    <td>
                                                        <?php 
                                                             if (isset($cv['interview'][0]) && $cv['interview'][0]['con'] == 0) {
-                                                                echo 'Panding';
+                                                                echo 'Pending';
                                                             }
                                                             elseif (isset($cv['interview'][0]) && $cv['interview'][0]['con'] > 0) {
                                                                 echo 'Complete';

@@ -45,7 +45,7 @@
                                             <label for="">Status</label>
                                             <select name="status" class="form-control">
                                               <option value="">Select Status</option>
-                                              <option value="1">Panding</option>
+                                              <option value="1">Pending</option>
                                               <option value="7">In Progress</option>
                                               <option value="5">Completed</option>
                                               <option value="4">Cancel</option>

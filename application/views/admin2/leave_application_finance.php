@@ -54,7 +54,7 @@
                                               <tr>
                                                 <?php 
                                                     if ($list['is_approve']==5) {
-                                                        $status = 'Panding By Finance';
+                                                        $status = 'Pending By Finance';
                                                     }
                                                     elseif ($list['is_approve']==6) {
                                                         $status = 'Reject By Finance';

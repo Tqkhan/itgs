@@ -237,11 +237,11 @@
                         else{
                           $type = 'Team';
                         }
-                        echo '<td>Panding at '.$type.'</td>';
+                        echo '<td>Pending at '.$type.'</td>';
                       }
                     }
                     else{
-                      echo '<td>Panding</td>';
+                      echo '<td>Pending</td>';
                     }
                   }
                 ?>

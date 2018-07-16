@@ -353,7 +353,7 @@ if ($_SESSION['role'] == 'vendor') {
 		$type = 'Team';
 	}
 ?>
-<td><span class="footable-toggle"></span>Panding At <?php echo $type ?></td>
+<td><span class="footable-toggle"></span>Pending At <?php echo $type ?></td>
 <?php } ?>
 
 	<td><span class="footable-toggle"></span><?php echo $case['due_date'] ?></td>

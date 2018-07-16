@@ -142,7 +142,7 @@
                                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                     <?php 
                                         if (isset($panding)) {
-                                            echo '<button class="btn btn-info panding-case">Show Panding Cases</button>';
+                                            echo '<button class="btn btn-info panding-case">Show Pending Cases</button>';
                                         }
                                     ?>
                                     <div class="panel panel-bd ">
@@ -230,7 +230,7 @@
                                                                         $status = 'at Self';
                                                                     }
                                                                 ?>
-                                                                <td class="col-md-3">Panding
+                                                                <td class="col-md-3">Pending
                                                                     <?php echo $status ?>
                                                                 </td>
                                                             </tr>
@@ -335,8 +335,8 @@
                 "fillColors": "#e1ede9",
                 "fillAlphas": 1,
                 "type": "column",
-                "title": "Panding",
-                "valueField": "panding",
+                "title": "Pending",
+                "valueField": "pending",
                 "clustered": false,
                 "columnWidth": 0.5,
                 "legendValueText": "[[value]]",

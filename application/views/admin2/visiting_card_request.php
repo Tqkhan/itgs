@@ -56,7 +56,7 @@
                                               <tr>
                                                 <?php 
                                                     if ($list['issue']==0) {
-                                                        $status = 'Panding';
+                                                        $status = 'Pending';
                                                     }
                                                     elseif ($list['issue']==1) {
                                                         $status = 'Issued';

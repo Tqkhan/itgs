@@ -60,13 +60,13 @@
                                               <tr>
                                                 <?php 
                                                     if ($list['is_approve']==0) {
-                                                        $status = 'Panding';
+                                                        $status = 'Pending';
                                                     }
                                                     elseif ($list['is_approve']==1) {
                                                         $status = 'Reject By HOD';
                                                     }
                                                     elseif ($list['is_approve']==2) {
-                                                        $status = 'Panding By Hr';
+                                                        $status = 'Pending By Hr';
                                                     }
                                                     elseif ($list['is_approve']==3) {
                                                         $status = 'Reject By hr';
@@ -75,7 +75,7 @@
                                                         $status = 'Approve By Hr';
                                                     }
                                                     elseif ($list['is_approve']==5) {
-                                                        $status = 'Panding By Finance';
+                                                        $status = 'Pending By Finance';
                                                     }
                                                     elseif ($list['is_approve']==6) {
                                                         $status = 'Reject By Finance';

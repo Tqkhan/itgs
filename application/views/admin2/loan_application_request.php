@@ -53,7 +53,7 @@
                                               <tr>
                                                 <?php 
                                                     if ($list['is_approve']==0) {
-                                                        $status = 'Panding';
+                                                        $status = 'Pending';
                                                     }
                                                     elseif ($list['is_approve']==1) {
                                                         $status = 'Approve';
