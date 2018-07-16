@@ -526,7 +526,12 @@ $data['services']=$this->db->query("select scope_of_work.scope_name,assign_clien
  {
  	$where = $_SESSION['client_id'];
   if (empty($this->input->post())) {
+   
+     if($_SESSION['role']=="PM"){
+ $data['cases']=$this->db->query("SELECT client.*, case_request.*,count(client_chat.id) as chat from case_request INNER JOIN client ON case_request.client_id = client.client_id  left join client_chat on client_chat.case_id = case_request.id and is_view = 0 and type = 'employee' left join case_team on case_team.case_id = case_request.id where case_request.price_assigned=0 GROUP BY case_request.id ")->result_array();
+     }else{
     $data['cases']=$this->db->query("SELECT client.*, case_request.*,count(client_chat.id) as chat from case_request INNER JOIN client ON case_request.client_id = client.client_id  left join client_chat on client_chat.case_id = case_request.id and is_view = 0 and type = 'employee' left join case_team on case_team.case_id = case_request.id where (client.employee_id='".$_SESSION['id']."' OR case_team.team_lead_id='".$_SESSION['id']."') and case_request.case_status!=0 GROUP BY case_request.id ")->result_array();
+  }
   }
   else{
     $where = array(); 
@@ -8572,7 +8577,19 @@ public function issue_case_payment()
 
   }
 
-
+    public function update_activity_price()
+    {
+     
+      $data=$_POST;
+      $query="Update subject_activities set activity_price='".$data['price']."' where id='".$data['activity_id']."' and subject_id='".$data['subject_id']."' and case_id='".$data['case_id']."' ";
+      $this->db->query($query);
+      if($this->db->affected_rows()>0){
+        $array_json=['success'=>1];
+      }else{
+        $array_json=['success'=>0];
+      }
+      echo json_encode($array_json);
+    }
 
   /* usama code end */
 
