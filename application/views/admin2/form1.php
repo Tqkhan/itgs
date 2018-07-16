@@ -246,7 +246,7 @@
                   
                    <div class="form-group col-lg-6">
                                           
-                        <input type="number" name="price_<?php echo $activity['id']; ?>" value="0" style="width:100px;" class="form-control">
+                        <input type="number" name="price_<?php echo $activity['id']; ?>" onkeydown="if (event.keyCode == 13) { return false;}" value="0" style="width:100px;" class="form-control">
                     <span class="input-group-btn">
                     <button style="margin-top: -34px; margin-left: 99px;" type="button" id="btn_update_price" class="btn btn-primary" onclick="update_activity_price(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>)"><i class="fa fa-refresh" ></i></button>
                     
@@ -411,7 +411,7 @@
     function edit_show_form(case_id,subject_id,activity_id,price) {
           var html=' <div class="form-group col-lg-6">'+
            '<input type="number" name="price_'+activity_id+'"'+ 
-           'value="'+price+'" style="width:100px;" class="form-control">'+
+           'value="'+price+'"  style="width:100px;" class="form-control" onkeydown="if (event.keyCode == 13) {  return false;}">'+
            '<span class="input-group-btn">'+
            '<button style="margin-top: -34px; margin-left: 99px;"'+'type="button" id="btn_update_price" class="btn '+ 
            'btn-primary"'+ 
