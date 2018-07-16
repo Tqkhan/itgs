@@ -44,6 +44,7 @@
                 </ul>
             </li>
             <li>
+                
                 <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/organogram.png">  Oprations<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href="#">Employee Work Load<span class="fa arrow"></span></a>
