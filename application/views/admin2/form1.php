@@ -240,7 +240,21 @@
                     echo "No Attachment";
                     } ?></td>
                 <td><?php if ($_SESSION['role']== "PM"): ?>
-                  <input type="" name="" value="" placeholder="" size="5">
+                
+                  <div class="form-group col-lg-6">
+                                           
+                             
+
+
+                    <input type="text" name="qty" value="1" style="width:100px;" class="form-control">
+                    <input type="hidden" name="rowid" value="8acc74cff2a38595e7fb0fb009233b1f">
+                    <span class="input-group-btn">
+
+                    <button style="margin-top: -34px; margin-left: 99px;" type="submit" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Update"><i class="fa fa-refresh" ></i></button>
+                    
+
+                  </span>  
+                                        </div>
                   <?php endif ?>
                 </td>
                 <td><?php echo $activity['due_date'] ?></td>
@@ -344,10 +358,8 @@
            <?php }
            } ?>
 </div>
-<button type="button" class="btn btn-labeled btn-info m-b-5">
-                                        <span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>Update
-                                    </button> <!-- /.main content -->
-                                    
+ <!-- /.main content -->
+
 <div style="height:180px;"></div>
 </div><!-- /#wrapper -->
 </div>
