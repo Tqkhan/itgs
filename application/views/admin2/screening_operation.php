@@ -1,3 +1,20 @@
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+      $(document).on('keyup','#tags',function(){
+    $( "#tags" ).autocomplete({
+      source:function(request,response){
+                  $.post("<?= base_url('admin/get_case_reference') ?>",{'name':$( "#tags" ).val()}).done(function(data, status){
+
+                    response(JSON.parse(data));
+        });
+      }
+    });
+});
+    </script>
+
     	<!-- /.Navbar  Static Side -->
 			<div class="control-sidebar-bg"></div>
 			<!-- Page Content -->
@@ -31,7 +48,9 @@
 <div class="row">
                         <div class="col-sm-12">
                             <div class="panel-body panel-bd panel">
-                                <form action="<?php echo base_url()?>admin/screening_operation" method="post">
+
+                              <?php if ($_SESSION['role']!="PM"): ?>
+                                 <form action="<?php echo base_url()?>admin/screening_operation" method="post">
                                     <div class="form-group row">
                                         <div class="form-group col-lg-4">
                                         <label for="">Start Date</label>
@@ -59,6 +78,27 @@
                                         </div>
                                     </div>
                                     </form>
+                             <?php else: ?>
+
+                             <form action="<?php echo base_url()?>admin/screening_operation" method="get">
+                                    <div class="form-group row">
+                                       
+                                        <div class="form-group col-lg-4">
+                                            <label for="">Search Case By ITGS Reference</label>
+                                            <input type="text" name="reference_code" id="tags" class="form-control" value="<?php echo $_GET['reference_code'] ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="form-group col-lg-12">
+                                         <button type="submit" class="btn btn-primary pull-right">Search</button>
+                                        </div>
+                                    </div>
+                                    </form>
+  
+                              <?php endif; ?>
+                               
+
+
                                     </div>
                                     </div>
                                     </div>
@@ -203,6 +243,9 @@ $result=$this->db->get()->result_array();
 	?>
 	
 	<td>
+
+    <?php if ($_SESSION['role']!="PM"): ?>
+      
 	   <!-- <a href="" data-toggle="modal" data-target="#myModals" onclick="fund_request_assign_id(<?php echo $case['id'] ?>,'<?php echo $case['reference_code']?>')"><img src="<?php echo base_url(); ?>/admin_assets/img/found.png" title="Fund Request" alt="" width="25" height="25"></a> -->
 
 
@@ -247,6 +290,11 @@ if(!empty($result)){?>
   <?php } else{ ?>
   <a href="<?php echo base_url() ?>admin/edit_team/<?php echo $case['id'] ?>"  <?php if($case['case_status']==4 || $case['case_status']==5) { echo "onclick='return false;'"; } ?>><img src="<?php echo base_url('admin_assets/img/edit_team.png') ?>" title="Edit Team" alt="Edit Team" width="25" height="25"></a>
   <?php } ?>
+
+    <?php else: ?>
+        <a href="<?php echo base_url() ?>admin/form1/<?php echo $case['id'] ?>"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
+
+    <?php endif ?>
 
 <!-- team -->
 	</td>
