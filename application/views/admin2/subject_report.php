@@ -46,10 +46,17 @@
 			<tbody>
 
 <?php 
+
 $scopecount=1;
 foreach ($jobs as $case): 
+
+     $price_data=array(
+     'case_id'=>$case['case_id'],
+     'subject_id'=>$case['subject_id'],
+     'activity_id'=>$case['activity_id']
+    );
 $detail_url = base_url('admin_assets/img/view.png');
-$activity_price=$this->db->get_where('assign_client_services',['client_id'=>$case['client_id']])->row_array();
+$activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
 
 
 	?>
@@ -63,9 +70,9 @@ $activity_price=$this->db->get_where('assign_client_services',['client_id'=>$cas
     <td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $activity_price['price'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $activity_price['activity_price'] ?></td>
 	<td><span class="footable-toggle"></span>
-	<?php echo $activity_price['price'] - $total; ?></td>
+	<?php echo $activity_price['activity_price'] - $total; ?></td>
 		<td><span class="footable-toggle"></span>
 	
 	<?php 
