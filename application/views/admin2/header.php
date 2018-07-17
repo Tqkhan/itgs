@@ -364,3 +364,55 @@
             setInterval(count_notification,2000);
 
             </script>
+
+            <!-- akash code here -->
+
+            
+            <script type="text/javascript">
+                
+             $('#click_task_notification').click(function(){
+                    $.ajax({
+                        url:"<?php echo base_url() ?>admin/get_task_notification",
+                        type:"get",
+                        success:function(resp){
+                            $('#get_notification2').html(resp);
+                            task_notification_view()
+                        }
+                   
+                });
+            });
+
+            function task_notification_view() {
+                $('.not-id-task').click(function(e) {
+                    e.preventDefault();
+                    var id = $(this).attr('data-id')
+                    var href = $(this).attr('href')
+                    $.ajax({
+                        url:"<?php echo base_url() ?>admin/view_notification_task/"+id,
+                        type:"get",
+                        success:function(resp){
+                            window.location.href = href
+                        }
+                    });
+                })
+            }     
+
+
+            function count_notification_task(){
+                $(document).ready(function(){
+                    $.ajax({
+                        url:"<?php echo base_url() ?>admin/task_notification_count",
+                        type:"get",
+                        success:function(resp){
+                            // console.log(resp);
+                            $('#count_notification_task').html(resp);
+                        }
+                    });
+                });
+            }
+            count_notification_task();
+
+            setInterval(count_notification_task,2000);
+
+
+            </script>

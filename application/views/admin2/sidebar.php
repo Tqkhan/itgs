@@ -840,7 +840,15 @@
 
 
 
-
+                         <li>
+                            <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png"> Task Mannager<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="<?php echo base_url()?>admin/task_manager_form">Task Add</a></li>
+                                <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li>
+                            </ul>
+                        </li>
+                     
+                         
                          <li>
                              <a href="#" class="material-ripple"><i class="material-icons">home</i>HR Forms<span class="fa arrow"></span></a>
                              <ul class="nav nav-second-level">
