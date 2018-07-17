@@ -2418,7 +2418,7 @@ window.location.href='".base_url()."admin/add_payment/'
       $date = date('Y-m-d');
       $resignation = $this->admin_model->select_where_row('resignation',array('employee_id'=>$employee_id,'requested_date <'=>$date,'status'=>1));
       if ($resignation) {
-        redirect(base_url().'admin/employee_login_view');
+        redirect(base_url().'admin/client_login_view');
       }
 			$this->session->set_userdata($client);
            redirect(base_url().'admin/employee_dashboard');
