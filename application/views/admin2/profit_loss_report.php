@@ -9,7 +9,9 @@
 							<h1>Profit & Loss Report</h1>
 
 							<ol class="breadcrumb">
-								<li><a href="<?php echo base_url() ?>admin/client_index"><i class="pe-7s-home"></i> Home</a></li>
+								<l
+
+                                i><a href="<?php echo base_url() ?>admin/client_index"><i class="pe-7s-home"></i> Home</a></li>
 								<li class="active">Profit & Loss Report</li>
 							</ol>
 						</div>
@@ -92,8 +94,12 @@
 $scopecount=1;
 foreach ($jobs as $case): 
 
-$activity_price=$this->db->get_where('assign_client_services',['client_id'=>$case['client_id']])->row_array();
-
+ $price_data=array(
+     'case_id'=>$case['case_id'],
+     'subject_id'=>$case['subject_id'],
+     'activity_id'=>$case['activity_id']
+    );
+$activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
 
 	?>
 
@@ -105,10 +111,10 @@ $activity_price=$this->db->get_where('assign_client_services',['client_id'=>$cas
     <td><span class="footable-toggle"></span><?php echo $case['subject_name'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $total ?></td>
-	<td><span class="footable-toggle"></span><?php echo $activity_price['price'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $activity_price['activity_price'] ?></td>
 	<td><span class="footable-toggle"></span>
-	<?php $net = $activity_price['price'] - $total; echo $net; ?></td>
-    <td><span class="footable-toggle"></span><?php echo round($net / $activity_price['price'] * 100).'%';  ?></td>
+	<?php $net = $activity_price['activity_price'] - $total; echo $net; ?></td>
+    <td><span class="footable-toggle"></span><?php echo round($net / $activity_price['activity_price'] * 100).'%';  ?></td>
 				</tr>
 
 <?php 
