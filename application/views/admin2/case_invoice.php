@@ -42,7 +42,6 @@
                                                     <th>Customer</th>
                                                     <th>Total Subject</th>
                                                     <th>Total Activity</th>
-                                                    <th>Case Expance</th>
                                                 </tr>
                                             </thead>
                                            <tbody>
@@ -57,7 +56,7 @@
                                                  <td><?php echo $employee['client_name'] ?></td>
                                                  <td><?php echo $employee['total_subject'] ?></td>
                                                  <td><?php echo $employee['total_activity'] ?></td>
-                                                 <td><?php echo $employee['case_amount'] + $employee['fund_amount'] ?></td>
+                                                 
                                              </tr>
                                             <?php    
                                               $con++;
