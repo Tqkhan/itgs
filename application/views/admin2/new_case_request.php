@@ -373,7 +373,7 @@
 																										<th>ITGS Ref</th>
 																										<th>Subject</th>
 																										<th>Scope Of Work</th>
-																										<th>Price</th>
+																										
 																								</tr>
 																						</thead>
 																						<tbody>
@@ -399,7 +399,6 @@
 	<td><span class="footable-toggle"></span><?php echo $case['reference_code'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['subject_name'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
-	<td class="price"><span class="footable-toggle"></span><?php echo $case['price'] ?></td>
 	</tr>
 						<?php
 						$total+=$case['price'];
@@ -407,13 +406,7 @@
 
 						?>
 
-						<tr>
-						    <td></td>
-						    <td></td>
-						    <td></td>
-						    <td>Total</td>
-						    <td><?php echo $total;?> </td>
-						</tr>
+						
 
 						<div id="result"></div>
 
