@@ -879,7 +879,26 @@
                                 <li><a href="<?php echo base_url()?>admin/salary_advance_finance">Salary Advance Request</a></li>
                             </ul>
                          </li>
-                          <li>
+                         <!-- baqar work -->
+                         <li>
+                             <a href="#" class="material-ripple"><i class="material-icons">home</i>
+                                 Financial Reports<span class="fa arrow"></span></a>
+                             <ul class="nav nav-second-level">
+                                <li><a href="<?php echo base_url()?>admin/case_report">All Case Master Analysis</a></li>
+                                <!-- <li><a href="<?php echo base_url()?>admin/subject_report">All Subject</a></li>
+                                <li><a href="<?php echo base_url()?>admin/activity_report">All Activity</a></li> -->
+                                <li><a href="<?php echo base_url()?>admin/profit_loss_report">Profit & Loss Report</a></li>
+                                <!-- <li><a href="<?php echo base_url()?>admin/monthly_assessment">Monthly Assessment</a></li>
+                                <li><a href="<?php echo base_url()?>admin/monthly_bills">Monthly Assessment Bills</a></li> -->
+                                <li><a href="<?php echo base_url()?>admin/cash_date">Date Wise Cash Out</a></li>
+                                <li><a href="<?php echo base_url()?>admin/payorder_date">Date Wise Payorder</a></li>
+                                <!-- <li><a href="<?php echo base_url()?>admin/cash_client">Client Wise Cash Out</a></li>
+                                <li><a href="<?php echo base_url()?>admin/cash_service">Service Wise Cash Out</a></li> -->
+                                </ul>
+                         </li>
+                         <!-- baqar work end-->
+
+                          <!-- <li>
                              <a href="#" class="material-ripple"><i class="material-icons">home</i>Reporting<span class="fa arrow"></span></a>
                              <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url()?>admin/case_report">All Case</a></li>
@@ -893,14 +912,15 @@
                                 <li><a href="<?php echo base_url()?>admin/cash_client">Client Wise Cash Out</a></li>
                                 <li><a href="<?php echo base_url()?>admin/cash_service">Service Wise Cash Out</a></li>
                                 </ul>
-                         </li>
-                         <li>
+                         </li> -->
+                         <!-- baqar Commt -->
+                        <!--  <li>
                             <a href="#" class="material-ripple"><i class="material-icons">home</i>  Case Invoice<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url('admin/case_invoice') ?>">Case Invoice</a></li>
                                 <li><a href="<?php echo base_url('admin/sales_invoice') ?>">Sales Invoice</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="#" class="material-ripple"><i class="material-icons">home</i>  Vendor Analysis<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -908,7 +928,16 @@
                                 <li><a href="<?php echo base_url('admin/vendor_payment_invoice') ?>">Vendor Payment Invoice</a></li>
                             </ul>
                         </li>
+                        <!-- baqar commt -->
                         <li>
+                            <a href="#" class="material-ripple"><i class="material-icons">home</i>  Customer Analysis<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                               <li><a href="<?php echo base_url('admin/master_amount') ?>">Master Receivable</a></li>
+                               <li><a href="<?php echo base_url('admin/case_invoice') ?>">Case Invoice</a></li>
+                               <li><a href="<?php echo base_url('admin/sales_invoice') ?>">Customer Sales Invoice</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li>
                             <a href="#" class="material-ripple"><i class="material-icons">home</i>  Invoices<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url('admin/courier_invoice') ?>">Courier Invoice</a></li>
@@ -916,7 +945,7 @@
                                 <li><a href="<?php echo base_url('admin/office_fee') ?>">Office Fee Analysis</a></li>
                                 <li><a href="<?php echo base_url('admin/master_amount') ?>">Master Receivable</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                          <li>
                             <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png">  Payrole<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
