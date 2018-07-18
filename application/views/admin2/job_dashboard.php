@@ -199,7 +199,7 @@ if ($case['fid'] <= 0) {
 
 if($case['is_issue']==1){
 	?>
-<a href="<?php echo base_url('admin/fund_invoice/'.$case['id']) ?>"><img src="<?php echo base_url(); ?>/admin_assets/img/view.png" title="View Invoice" alt="View Voucher" width="25" height="25"></a>
+<a href="<?php echo base_url('admin/fund_invoice/'.$case['id']) ?>"><img src="<?php echo base_url(); ?>/admin_assets/img/view.png" title="View Voucher" alt="View Voucher" width="25" height="25"></a>
 <?php } ?>	
                                                 </td>
 				</tr>
@@ -342,12 +342,17 @@ if ($_SESSION['role'] == 'vendor') {
 <td><span class="footable-toggle"></span>Completed</td>
 <?php } else{ ?>
 <?php 
+$case_mem=$this->db->query('select team_member_id from case_team_members where subject_id ='.$case['subject_id'])->row_array();
+ //print_r($case['subject_id']);
 	
 	if ($case['total_fund'] >= 1){
 		$type = 'IA';
 	}
 	elseif (!empty($vendor)) {
 		$type = 'Vendor';
+	}
+	else if($case_mem['team_member_id']== $_SESSION['id']){
+		$type = 'Self';
 	}
 	else{
 		$type = 'Team';
