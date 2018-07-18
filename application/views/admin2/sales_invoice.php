@@ -43,17 +43,11 @@
    .panel-heading{
     height: 70px;
    }
-   .cent{
-    text-align: center !important;
-   } 
-   h4.cen {
-   margin-left: 235px !important;
-    /* margin-right: 110px; */
+   .panel-title {
+    
+    text-align: center;
 }
-h4.mar {
-   margin-left: 450px !important;
-    /* margin-right: 110px; */
-}
+
   }
   </style>
   <!-- /.Navbar  Static Side -->
