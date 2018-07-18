@@ -528,8 +528,16 @@ $data['services']=$this->db->query("select scope_of_work.scope_name,assign_clien
   if (empty($this->input->post())) {
    
      if($_SESSION['role']=="PM"){
+
+      if($_GET['reference_code']){
+    $data['cases']=$this->db->query("SELECT client.*, case_request.*,count(client_chat.id) as chat from case_request INNER JOIN client ON case_request.client_id = client.client_id  left join client_chat on client_chat.case_id = case_request.id and is_view = 0 and type = 'employee' left join case_team on case_team.case_id = case_request.id where case_request.reference_code='".$_GET['reference_code']."' GROUP BY case_request.id ")->result_array();
+      }else{
+
+
  $data['cases']=$this->db->query("SELECT client.*, case_request.*,count(client_chat.id) as chat from case_request INNER JOIN client ON case_request.client_id = client.client_id  left join client_chat on client_chat.case_id = case_request.id and is_view = 0 and type = 'employee' left join case_team on case_team.case_id = case_request.id where case_request.price_assigned=0 GROUP BY case_request.id ")->result_array();
-     }else{
+     }
+     }
+     else{
     $data['cases']=$this->db->query("SELECT client.*, case_request.*,count(client_chat.id) as chat from case_request INNER JOIN client ON case_request.client_id = client.client_id  left join client_chat on client_chat.case_id = case_request.id and is_view = 0 and type = 'employee' left join case_team on case_team.case_id = case_request.id where (client.employee_id='".$_SESSION['id']."' OR case_team.team_lead_id='".$_SESSION['id']."') and case_request.case_status!=0 GROUP BY case_request.id ")->result_array();
   }
   }
@@ -8979,7 +8987,22 @@ public function issue_case_payment()
       }
     }
 
-  
+  public function get_case_reference()
+  {
+   
+
+    $name=$_POST['name'];
+    $result=$this->db->query("SELECT `reference_code`
+FROM `case_request`
+WHERE `reference_code` LIKE '$name%' ")->result_array();
+    $names=array();
+    foreach($result as $row){
+        $names[]=$row['reference_code'];
+    }
+    echo json_encode($names);
+  }
+
+
 
 
 
