@@ -111,7 +111,7 @@
                                                     ?>
                                                     <a href="<?php echo base_url() ?>admin/view_case_detail/<?php echo $f['case_id'] ?>/<?php echo $f['id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
                                                     <?php if ($_SESSION['role'] == 'Manager Finance' && $f['is_issue'] == 0) { ?>
-                                                    <a href="" class="btn btn-success" data-toggle="modal" data-target="#myModal11" onclick="fund_paid(<?php echo $f['id'] ?>,<?php echo $f['charges'] ?>)">Add to invoice</a>  
+                                                    <a href="" class="btn btn-success" data-toggle="modal" data-target="#myModal11" onclick="fund_paid(<?php echo $f['id'] ?>,<?php echo $f['charges'] ?>)">Add to Vendor</a>  
                                                     <a href="<?php echo base_url() ?>admin/update_case_fund?request_id=<?php echo $f['id'] ?>&case_id=<?php echo $f['case_id'] ?>&status=2" class="btn btn-danger">Reject</a>
                                                     <?php } ?>
                                                  </td>
