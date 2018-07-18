@@ -32,15 +32,27 @@
 			<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
-					<th>ITGS Ref</th>
-					<th>Type of Services</th>
-                    <th>Date</th>
-					<th>Payment Mode</th>
-					<th>Official Fee</th>
-					<th>Assigned Price</th>
-					<th>Total</th>
-					<th>Status</th>
-					<th>Action</th>
+                    <th>Date Of Receving</th>
+                    <th>Date Of Insufficieny Raised</th>
+                    <th>Date Of Insufficieny Closed</th>
+                    <th>Date Of Completion</th>
+                    <th>TAT</th>
+                    <th>Client Ref #</th>
+                    <th>ITGS Ref #</th>
+                    <th>Name Of Subject</th>
+                    <th>Name Of Activity</th>
+                    <th>Type</th>
+                    <th>Name Of I/A</th>
+                    <th>Voucher #</th>
+                    <th>Mode Of Costing</th>
+                    <th>Complete Cost Breakup</th>
+                    <th>Total Cost</th>
+                    <th>Total Price</th>
+                    <th>Profit/Lose Per Case</th>
+                    <th>% Profit/Lose</th>
+                    <th>Invoiced To Customer</th>
+                    <th>Invoiced To Vonder</th>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -58,7 +70,13 @@ $activity_price=$this->db->get_where('assign_client_services',['client_id'=>$cas
 
 ?>
 				<tr>
-	<td><span class="footable-toggle"></span><?php echo $case['reference_code'] ?></td>
+    <td><span class="footable-toggle"></span></td>
+    <td><span class="footable-toggle"></span></td>
+    <td><span class="footable-toggle"></span></td>
+    <td><span class="footable-toggle"></span></td>
+    <td><span class="footable-toggle"></span></td>
+    <td><span class="footable-toggle"></span></td>
+    <td><span class="footable-toggle"></span><?php echo $case['reference_code'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
     <td><span class="footable-toggle"></span><?php echo date('d M Y', strtotime($case['date_time'])) ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
