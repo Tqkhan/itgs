@@ -434,10 +434,11 @@ if ($_SESSION['role'] != 'vendor') {
 	if ($case['is_report'] != 1) { 
 		if ($case['hold_status'] == 0) {
 ?> 
-<a href="<?php echo base_url('admin/activity_hold/'.$case['asid']) ?>"><button class="btn btn-warning">Put on hold</button></a>
+<a href="<?php echo base_url('admin/activity_hold/'.$case['asid']) ?>"><img src="<?php echo base_url('admin_assets//img/hold.png') ?>" title="Put on hold" alt="Put on hold" width="25" height="25">
+</a>
 <?php }
 else{?>
-<a href="<?php echo base_url('admin/activity_unhold/'.$case['asid']) ?>"><button class="btn btn-warning">Put on unhold</button></a>
+<a href="<?php echo base_url('admin/activity_unhold/'.$case['asid']) ?>"><img src="<?php echo base_url('admin_assets//img/unhold.png') ?>" title="Put on unhold" alt="Put on unhold" width="25" height="25"></a>
 <?php
  } 
 } } ?>
