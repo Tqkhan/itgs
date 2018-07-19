@@ -111,7 +111,7 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
     <td><span class="footable-toggle"></span><?php echo $case['subject_name'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $total ?></td>
-	<td><span class="footable-toggle"></span><?php echo $activity_price['activity_price'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $activity_price['activity_price'] ?> <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a></td>
 	<td><span class="footable-toggle"></span>
 	<?php $net = $activity_price['activity_price'] - $total; echo $net; ?></td>
     <td><span class="footable-toggle"></span><?php echo round($net / $activity_price['activity_price'] * 100).'%';  ?></td>
@@ -530,8 +530,27 @@ function vendor_assign_id(case_id,subject_id,activity_id){
 $('.cases').change(function() {
     window.location.href = '<?php echo base_url('admin/profit_loss_report/') ?>'+$(this).val()
 })
-
+  
+function get_converted(price_in_usd) {
+    $('.converted_price').html("The Price in USD "+price_in_usd);
+}
     </script>
+
+<div class="modal fade" id="modal-id">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Converted Price</h4>
+            </div>
+            <div class="modal-body">
+                <p class="converted_price"></p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 <style type="text/css">
     ul.dropdown-menu {
     z-index:  999;
