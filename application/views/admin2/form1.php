@@ -398,6 +398,9 @@
       url:"<?php echo base_url() ?>admin/update_activity_price",
       type:"post",
       data:{case_id:case_id,subject_id:subject_id,activity_id:activity_id,price:price},
+      beforeSend: function(){ 
+        $('.change_updated_price_'+activity_id).append("<br><br>"+"Loading...");
+      },
       success:function(resp){
          var response=JSON.parse(resp);
          if (response.success==1) {
