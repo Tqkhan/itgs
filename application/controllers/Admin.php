@@ -8627,6 +8627,7 @@ foreach($divs as $div) {
         if($get_conversion['conversion_rate']<=0){
          $data['conversion_rate']=$further_filter[1];
         }
+     // echo $data['conversion_rate']=0;
 
       $query="Update subject_activities set activity_price='".$data['price']."',price_in_usd='".$data['current_PKR_to_USD']."'";
       if ($get_conversion['conversion_rate']<=0) {
