@@ -8590,9 +8590,49 @@ public function issue_case_payment()
 
     public function update_activity_price()
     {
-     
+
       $data=$_POST;
-      $query="Update subject_activities set activity_price='".$data['price']."' where id='".$data['activity_id']."' and subject_id='".$data['subject_id']."' and case_id='".$data['case_id']."' ";
+      $where=array(
+       'id'=>$data['activity_id'],
+       'subject_id'=>$data['subject_id'],
+       'case_id'=>$data['case_id'],
+      );
+
+      $get_conversion=$this->db->get_where('subject_activities',$where)->row_array();
+     
+      $url='https://www.xe.com/currencyconverter/convert/?Amount='.$data['price'].'&From=PKR&To=USD';
+//file_get_contents() reads remote webpage content
+// $lines_string=file_get_contents($url);
+//output, you can also save it locally on the server
+// echo htmlspecialchars($lines_string);
+
+// echo $lines_string;
+
+$page = file_get_contents($url);
+$doc = new DOMDocument();
+@$doc->loadHTML($page);
+$divs = $doc->getElementsByTagName('span');
+foreach($divs as $div) {
+ 
+    if ($div->getAttribute('class') === 'uccResultAmount') {
+         $data['current_PKR_to_USD']= $div->nodeValue;
+    }
+    if ($div->getAttribute('class') === 'uccInverseResultUnit') {
+         $conversion_rate= $div->nodeValue;
+    }
+}
+        $filter_conversion=explode('=', $conversion_rate);
+        $further_filter=explode(' ',$filter_conversion[1]);
+
+        if($get_conversion['conversion_rate']<=0){
+         $data['conversion_rate']=$further_filter[1];
+        }
+
+      $query="Update subject_activities set activity_price='".$data['price']."',price_in_usd='".$data['current_PKR_to_USD']."'";
+      if ($get_conversion['conversion_rate']<=0) {
+        $query.=" ,conversion_rate='".$data['conversion_rate']."'";
+      }
+      $query.=" where id='".$data['activity_id']."' and subject_id='".$data['subject_id']."' and case_id='".$data['case_id']."'";
       $this->db->query($query);
       if($this->db->affected_rows()>0){
         $array_json=['success'=>1];
