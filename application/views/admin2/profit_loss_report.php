@@ -23,10 +23,38 @@
 								<div class="panel-heading">
 									<div class="panel-title">
 										<h4>Profit & Loss Report</h4>
+
+
+                                        <div class="btn-group pull-right">
+
+                                            <div class="dropdown" style="margin-right: 7px;margin-top: -4px;">
+                                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <span class="glyphicon glyphicon-th-list"></span> Convert
+
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                                                    <li>
+                                                        <a href="#" class="change_in_usd">
+                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
+                                                            Change To USD</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="change_in_pkr">
+                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
+                                                            Change To PKR</a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                           
+                                        </div>
                                         <div class="btn-group pull-right">
 
 
-                                                <div class="dropdown">
+                                                <div class="dropdown" style="margin-right: 7px;margin-top: -4px;">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
      <span class="glyphicon glyphicon-th-list"></span> Download
    
@@ -41,26 +69,7 @@
   </ul>
 </div>
 
-                <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-     <span class="glyphicon glyphicon-th-list"></span> Convert
-   
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-   
-                                
-                                <li><a href="#" class="change_in_usd"> 
-                                    <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> --> 
-                                Change To USD</a></li>
-                             
-                                <li><a href="#" class="change_in_pkr"> 
-                                    <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> --> 
-                                Change To PKR</a></li>
-                             
-                                
-                                
-  </ul>
-</div>
+                
 </div>
 									</div>
 								</div>
