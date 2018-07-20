@@ -69,7 +69,19 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
 	<td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $activity_price['activity_price'] ?> <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a></td>
+	<td><span class="footable-toggle">
+     
+
+    </span>
+      <span class="pkr">
+              <?php echo $activity_price['activity_price'] ?> 
+      </span>
+      <span class="dollar" style="display:none;">
+              <?php echo $activity_price['price_in_usd'] ?> 
+      </span>
+
+ <!--    <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a> -->
+</td>
 	<td><span class="footable-toggle"></span>
 	<?php echo $activity_price['activity_price'] - $total; ?></td>
 		<td><span class="footable-toggle"></span>
@@ -511,12 +523,12 @@ function vendor_assign_id(case_id,subject_id,activity_id){
     
 }
   
-function get_converted(price_in_usd) {
-    $('.converted_price').html("The Price in USD "+price_in_usd);
-}
+// function get_converted(price_in_usd) {
+//     $('.converted_price').html("The Price in USD "+price_in_usd);
+// }
     </script>
 
-<div class="modal fade" id="modal-id">
+<!-- <div class="modal fade" id="modal-id">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -530,4 +542,4 @@ function get_converted(price_in_usd) {
             </div>
         </div>
     </div>
-</div>
+</div> -->
