@@ -8575,12 +8575,7 @@ public function issue_case_payment()
         return strtotime($a['start_date']) - strtotime($b['start_date']);
       }
       usort($data['case_detail'], 'compareOrder');
-      // echo '<pre>';print_r($data['case_detail']);echo '</pre>';
-      // echo '<pre>';print_r($start_case);echo '</pre>';
-      // echo '<pre>';print_r($assign_subject);echo '</pre>';
-      // echo '<pre>';print_r($assign_activity);echo '</pre>';
-      // echo '<pre>';print_r($assign_vendor);echo '</pre>';
-      // die;
+
     }
     $this->load->view('admin2/header',$data);
     $this->load->view('admin2/cases');
@@ -9035,8 +9030,8 @@ foreach($divs as $div) {
 
     $name=$_POST['name'];
     $result=$this->db->query("SELECT `reference_code`
-FROM `case_request`
-WHERE `reference_code` LIKE '$name%' ")->result_array();
+    FROM `case_request`
+    WHERE `reference_code` LIKE '$name%' ")->result_array();
     $names=array();
     foreach($result as $row){
         $names[]=$row['reference_code'];
