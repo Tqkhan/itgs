@@ -77,15 +77,23 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
 
                                       ?>
 
-                  <?php 
-
-                  if($activity_price){
-                    echo $activity_price['activity_price'];
-                  }else{
-                   echo 0;
-                  } ?> 
-
-                  <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a>
+<?php if($r['client_type']=='INT'){
+    if ($activity_price) {
+    echo "$ ".$activity_price['price_in_usd'];
+        
+    }else{
+    echo "$ 0";        
+    }
+}else{
+    
+    if ($activity_price) {
+    echo $activity_price['activity_price']." PKR";
+        
+    }else{
+    echo "0 PKR";        
+    }
+} ?>
+ <!--                  <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a> -->
 
                                 </td>
                                                 </tr>
