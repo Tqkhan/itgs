@@ -21,8 +21,8 @@
 								<div class="panel-heading">
 									<div class="panel-title">
 										<h4>Activity Report</h4>
-                                        <input type="button" value="Convert to USD" class="btn btn-primary pull-right" style="margin-top: -4px;">
-                                        <input type="button" value="Convert to PKR" class="btn btn-primary pull-right" style="margin-right: 9px; margin-top: -4px;">
+                                        <input type="button" value="Convert to USD" class="btn btn-primary pull-right change_in_usd" style="margin-top: -4px;">
+                                        <input type="button" value="Convert to PKR" class="btn btn-primary pull-right change_in_pkr" style="margin-right: 9px; margin-top: -4px;">
 									</div>
 								</div>
 								<div class="panel-body">
@@ -528,6 +528,30 @@ function vendor_assign_id(case_id,subject_id,activity_id){
 // function get_converted(price_in_usd) {
 //     $('.converted_price').html("The Price in USD "+price_in_usd);
 // }
+
+
+$('.change_in_usd').click(function() {
+    
+     $('.pkr').each(function() {
+         $(this).hide();
+     });
+     $('.dollar').each(function() {
+         $(this).show();
+     });
+   
+});
+
+$('.change_in_pkr').click(function() {
+    
+     $('.dollar').each(function() {
+         $(this).hide();
+     });
+     $('.pkr').each(function() {
+         $(this).show();
+     });
+   
+});
+
     </script>
 
 <!-- <div class="modal fade" id="modal-id">

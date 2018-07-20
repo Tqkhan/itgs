@@ -25,29 +25,39 @@
 										<h4>Profit & Loss Report</h4>
                                         <div class="btn-group pull-right">
 
+
                                                 <div class="dropdown">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
      <span class="glyphicon glyphicon-th-list"></span> Download
    
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <!-- <li><a href="#" onclick="$('#exporttable').tableExport({type:'json',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/json.jpg" width="24px"> JSON</a></li>
-                                <li><a href="#" onclick="$('#exporttable').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/json.jpg" width="24px">JSON (ignoreColumn)</a></li>
-                                <li><a href="#" onclick="$('#exporttable').tableExport({type:'json',escape:'true'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/json.jpg" width="24px"> JSON (with Escape)</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" onclick="$('#exporttable').tableExport({type:'xml',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xml.png" width="24px"> XML</a></li>
-                                <li><a href="#" onclick="$('#exporttable').tableExport({type:'sql'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/sql.png" width="24px"> SQL</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" onclick="$('#exporttable').tableExport({type:'csv',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/csv.png" width="24px"> CSV</a></li>
-                                <li><a href="#" onclick="$('#exporttable').tableExport({type:'txt',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/txt.png" width="24px"> TXT</a></li>
-                                <li class="divider"></li>        -->        
+   
                                 
                                 <li><a href="#" onclick="$('#dataTableExample2').tableExport({type:'excel',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> XLS</a></li>
-                                <!-- <li><a href="#" onclick="$('#exporttable').tableExport({type:'doc',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/word.png" width="24px"> Word</a></li>
-                                <li><a href="#" onclick="$('#exporttable').tableExport({type:'powerpoint',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/ppt.png" width="24px"> PowerPoint</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" onclick="$('#exporttable').tableExport({type:'png',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/png.png" width="24px"> PNG</a></li> -->
+                             
                                 <li><a href="#" onclick="$('#dataTableExample2').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'});"> <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/pdf.png" width="24px"> PDF</a></li>
+                                
+  </ul>
+</div>
+
+                <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+     <span class="glyphicon glyphicon-th-list"></span> Convert
+   
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+   
+                                
+                                <li><a href="#" class="change_in_usd"> 
+                                    <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> --> 
+                                Change To USD</a></li>
+                             
+                                <li><a href="#" class="change_in_pkr"> 
+                                    <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> --> 
+                                Change To PKR</a></li>
+                             
+                                
                                 
   </ul>
 </div>
