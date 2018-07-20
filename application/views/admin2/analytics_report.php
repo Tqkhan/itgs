@@ -63,7 +63,31 @@
                                                         $diff = $date2->diff($date1)->format("%a");
                                                     ?>
                                                     <td><?php echo $diff ?></td>
-                                                    <td><?php echo $r['charges'] ?></td>
+                                <td>
+
+  <?php 
+                          
+
+  $price_data=array(
+     'case_id'=>$r['case_id'],
+     'subject_id'=>$r['subject_id'],
+     'id'=>$r['activity_id']
+    );
+$activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
+
+                                      ?>
+
+                  <?php 
+
+                  if($activity_price){
+                    echo $activity_price['activity_price'];
+                  }else{
+                   echo 0;
+                  } ?> 
+
+                  <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a>
+
+                                </td>
                                                 </tr>
                                             <?php    
                                               }
@@ -86,6 +110,16 @@
 
         </div><!-- /#wrapper -->
         <!-- START CORE PLUGINS -->
+
+        <script type="text/javascript">
+    
+
+function get_converted(price_in_usd=0) {
+    $('.converted_price').html("The Price in USD "+price_in_usd);
+}
+</script>
+    
+   
 <script type="text/javascript">
   $('.check_all').change(function() {
     if($(this).is(':checked')){
@@ -99,3 +133,20 @@
     //$('.add_check').click();
   })
 </script>
+
+
+<div class="modal fade" id="modal-id">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Converted Price</h4>
+            </div>
+            <div class="modal-body">
+                <p class="converted_price"></p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
