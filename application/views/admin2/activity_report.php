@@ -21,6 +21,8 @@
 								<div class="panel-heading">
 									<div class="panel-title">
 										<h4>Activity Report</h4>
+                                        <input type="button" value="Convert to USD" class="btn btn-primary pull-right" style="margin-top: -4px;">
+                                        <input type="button" value="Convert to PKR" class="btn btn-primary pull-right" style="margin-right: 9px; margin-top: -4px;">
 									</div>
 								</div>
 								<div class="panel-body">
