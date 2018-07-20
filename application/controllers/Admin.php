@@ -7976,6 +7976,7 @@ public function issue_case_payment()
   public function analytics_report($id)
   {
     $data['reports'] = $this->admin_model->get_ven_report($id);
+    // echo "<pre/>"; print_r($data); die();
     $this->load->view('admin2/header',$data);
     $this->load->view('admin2/analytics_report');
     $this->load->view('admin2/footer');
