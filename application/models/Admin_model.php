@@ -1100,12 +1100,13 @@ class admin_model extends CI_Model
 
 	public function get_ven_report($id)
 	{
-		$this->db->select('a.*, c.reference_code,s.subject_name,sw.scope_name,cf.charges,c.id as case_id,s.id as subject_id,sa.id activity_id')
+		$this->db->select('a.*, c.reference_code,s.subject_name,sw.scope_name,cf.charges,c.id as case_id,s.id as subject_id,sa.id activity_id,cl.client_type')
 				 ->from('assign_vendor_request a')
 				 ->join('scope_of_work sw', 'sw.id = a.activity_id')
 				 ->join('subject_activities sa', 'sa.id = a.activity_id','left')
 				 ->join('subject_case s', 'a.subject_id = s.id')
 				 ->join('case_request c', 'c.id = a.case_id')
+				 ->join('client cl', 'cl.client_id = c.client_id')
 				 ->join('case_fund_request cf', 'cf.case_id = a.case_id and cf.vendor_id = a.vendor_id', 'left')
 				 ->where('a.vendor_id', $id);
 		return $this->db->get()->result_array();
