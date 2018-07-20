@@ -21,8 +21,32 @@
 								<div class="panel-heading">
 									<div class="panel-title">
 										<h4>Activity Report</h4>
-                                        <input type="button" value="Convert to USD" class="btn btn-primary pull-right change_in_usd" style="margin-top: -4px;">
-                                        <input type="button" value="Convert to PKR" class="btn btn-primary pull-right change_in_pkr" style="margin-right: 9px; margin-top: -4px;">
+                                        <div class="btn-group pull-right">
+
+                                            <div class="dropdown" style="margin-right: 7px;margin-top: -4px;">
+                                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <span class="glyphicon glyphicon-th-list"></span> Convert
+
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="    z-index: 99;">
+
+                                                    <li>
+                                                        <a href="#" class="change_in_usd">
+                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
+                                                            Change To USD</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="change_in_pkr">
+                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
+                                                            Change To PKR</a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                           
+                                        </div>
 									</div>
 								</div>
 								<div class="panel-body">
