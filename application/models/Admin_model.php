@@ -1100,9 +1100,10 @@ class admin_model extends CI_Model
 
 	public function get_ven_report($id)
 	{
-		$this->db->select('a.*, c.reference_code,s.subject_name,sw.scope_name,cf.charges')
+		$this->db->select('a.*, c.reference_code,s.subject_name,sw.scope_name,cf.charges,c.id as case_id,s.id as subject_id,sa.id activity_id')
 				 ->from('assign_vendor_request a')
 				 ->join('scope_of_work sw', 'sw.id = a.activity_id')
+				 ->join('subject_activities sa', 'sa.id = a.activity_id','left')
 				 ->join('subject_case s', 'a.subject_id = s.id')
 				 ->join('case_request c', 'c.id = a.case_id')
 				 ->join('case_fund_request cf', 'cf.case_id = a.case_id and cf.vendor_id = a.vendor_id', 'left')
@@ -1330,13 +1331,13 @@ class admin_model extends CI_Model
 				 ->where('is_report','1')
 				 ->group_by(array('case_id','subject_id','activity_id'));
 		$av = $this->db->get_compiled_select();
-		$this->db->select('cl.client_name, ac.price as amount, c.reference_code, s.subject_name, sw.scope_name, f.total, sa.due_date, au.ids as u_id, av.ids as v_id, au.report_time as user_date, av.report_time as vendor_date, c.hold_date, c.unhold_date, c.case_date')
+		$this->db->select('cl.client_name, ac.price as amount, c.reference_code, s.subject_name, sw.scope_name, f.total, sa.due_date, au.ids as u_id, av.ids as v_id, au.report_time as user_date, av.report_time as vendor_date, c.hold_date, c.unhold_date, c.case_date,c.id as case_id,s.id as subject_id,sa.id as activity_id, cl.client_id')
 				 ->from('case_request c')
 				 ->join('subject_case s', 's.case_id = c.id')
 				 ->join('client cl', 'cl.client_id = c.client_id')
 				 ->join('subject_activities sa', 'sa.case_id = c.id')
 				 ->join('scope_of_work sw', 'sa.activity_id = sw.id')
-				 ->join('assign_client_services ac', 'sa.activity_id = ac.scope_id and ac.client_id = cl.client_id')
+				 ->join('assign_client_services ac', 'sa.activity_id = ac.scope_id and ac.client_id = cl.client_id','inner')
 				 ->join('('.$f.') f', 'f.case_id = c.id and f.subject_id = s.id and f.activity_id = sa.activity_id', 'left')
 				 ->join('('.$au.') au', 'au.case_id = c.id and au.subject_id = s.id and au.activity_id = sa.activity_id', 'left')
 				 ->join('('.$av.') av', 'av.case_id = c.id and av.subject_id = s.id and av.activity_id = sa.activity_id', 'left')
