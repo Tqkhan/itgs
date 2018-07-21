@@ -124,6 +124,7 @@ h4.mar {
           <th>Type of Degree</th>
           <th>Name of IA</th>
           <th>Vendor Charges</th>
+          <th>Currency Symbol</th>
      
           
          
@@ -143,9 +144,66 @@ foreach ($payments as $p) {
   <td><?php echo $p['scope_name'] ?></td>
   <td>J.V<?php echo $p['voucher'] ?></td>
   <td>sfssdf</td>
-  <td>sfssdf</td>
-  <td class="fieldCell1"><?php echo $p['charges'] ?></td>
+  <td><?php echo $p['vendor_type']; ?></td>
+  <td class="fieldCell1">
+<?php 
+
+  $url='https://www.xe.com/currencyconverter/convert/?Amount=1&From=PKR&To=USD';
+
+
+$page = file_get_contents($url);
+$doc = new DOMDocument();
+@$doc->loadHTML($page);
+$divs = $doc->getElementsByTagName('span');
+foreach($divs as $div) {
  
+    if ($div->getAttribute('class') === 'uccInverseResultUnit') {
+         $conversion_rate= $div->nodeValue;
+    }
+}
+
+
+     $filter_conversion=explode('=', $conversion_rate);
+        $further_filter=explode(' ',$filter_conversion[1]);
+    
+
+  //   if ($p['vendor_type'] == "INT") {
+  //    $in_dollar=$p['charges']/10;
+  // echo $in_dollar;
+  //  }else{
+        ?>
+
+
+
+   <?php if ($p['vendor_type']=="INT"): ?>
+     <?php 
+   
+  
+   echo number_format((float) $p['charges']/$further_filter[1], 2, '.', '');  
+
+      ?>
+   <?php else:  
+   echo $p['charges'];          
+
+    ?>
+   
+   <?php endif ?>
+
+    </td>
+ 
+  <td><?php if ($p['vendor_type']=="INT"): ?>
+     <?php 
+   
+  
+   echo "$";  
+
+      ?>
+   <?php else:  
+   echo "PKR";          
+
+    ?>
+   
+   <?php endif ?></td>
  
 
    
@@ -179,10 +237,12 @@ function myFunction() {
 }
 </script>
 <script language="javascript" type="text/javascript">
+
 var tds = document.getElementById('ex').getElementsByTagName('td');
 var sum1 = 0;
 for(var i = 0; i < tds.length; i ++) {
 if(tds[i].className == 'fieldCell1') {
+  
   var value = tds[i].innerHTML
   var a = value.indexOf("(")
   if (a > -1) {
@@ -192,9 +252,10 @@ if(tds[i].className == 'fieldCell1') {
     //console.log(value)
   }
 sum1 += isNaN(value) ? 0 : parseInt(value);
+
 }
 }
 
 
-document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td><strong>Total</strong> </td><td> </td> <td> </td>  <td>  </td> </td>   <td> </td> <td> </td>  <td> </td>   <td>  </td> <td><strong>  ' + sum1 + '</strong> </td>';</script>
+document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td><strong>Total</strong> </td><td> </td> <td> </td>  <td>  </td> </td>   <td> </td> <td> </td>  <td> </td>   <td>  </td> <td><strong>  ' + sum1 + '</strong> </td></td> <td></td>';</script>
 
