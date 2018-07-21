@@ -53,6 +53,22 @@
 
                                     <div class="form-group row">
                                         <div class="form-group col-lg-6">
+                                        <label for="">Vendor Type</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"></span>
+                                               <select name="vendor_type" id="" class="form-control">
+                                                   <option value="">Select Vendor Type</option>
+                                                   <option value="INT">International </option>
+                                                   <option value="LC">Local</option>
+                                               </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row">
+                                        <div class="form-group col-lg-6">
                                         <label for="">Email Address</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">@</span>
