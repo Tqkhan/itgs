@@ -1068,7 +1068,7 @@ class admin_model extends CI_Model
 
 	public function get_account_report($id)
 	{
-		$this->db->select('c.client_reference,c.reference_code,s.subject_name,sp.scope_name,c.created_at,a.due_date,cr.date_time,as.price,c.case_status,c.hold_date,c.unhold_date,au.is_report,au.report_time')
+		$this->db->select('c.client_reference,c.reference_code,s.subject_name,sp.scope_name,c.created_at,a.due_date,cr.date_time,as.price,c.case_status,c.hold_date,c.unhold_date,au.is_report,au.report_time,c.id as case_id,a.id as activity_id,s.id as subject_id,cl.client_type')
 				 ->from('subject_activities a')
 				 ->join('scope_of_work sp', 'sp.id = a.activity_id')
 				 ->join('assign_activity_to_user au', 'au.activity_id = a.activity_id')
@@ -1173,8 +1173,9 @@ class admin_model extends CI_Model
 
 	public function get_sales_invoice($start,$end,$id)
 	{
-		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,as.price')
+		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,c.id as case_id,s.id as subject_id,sa.id as activity_id,cl.client_type')
 				 ->from('case_request c')
+				 ->join('client cl', 'cl.client_id = c.client_id')
 				 ->join('subject_case s', 's.case_id = c.id')
 				 ->join('subject_activities sa', 'sa.case_id = c.id and sa.subject_id = s.id')
 				 ->join('scope_of_work sw', 'sa.activity_id = sw.id')
@@ -1203,7 +1204,7 @@ class admin_model extends CI_Model
 
 	public function get_vendor_payments($id,$start,$end)
 	{
-		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,cf.charges,e.employee_name,(CASE f.type WHEN 1 THEN slip WHEN 2 THEN chaque WHEN 3 THEN payorder END) as voucher')
+		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,cf.charges,e.employee_name,e.vendor_type,(CASE f.type WHEN 1 THEN slip WHEN 2 THEN chaque WHEN 3 THEN payorder END) as voucher')
 				 ->from('fund_case_approve f')
 				 ->join('case_fund_request cf', 'f.fund_id = cf.id')
 				 ->join('case_request c', 'c.id = cf.case_id')
