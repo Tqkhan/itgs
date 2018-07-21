@@ -21,6 +21,33 @@
 								<div class="panel-heading">
 									<div class="panel-title">
 										<h4>Subject Report</h4>
+
+                                        <div class="btn-group pull-right">
+
+                                            <div class="dropdown" style="margin-right: 7px;margin-top: -4px;">
+                                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <span class="glyphicon glyphicon-th-list"></span> Convert
+
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="    z-index: 99;">
+
+                                                    <li>
+                                                        <a href="#" class="change_in_usd">
+                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
+                                                            Change To USD</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="change_in_pkr">
+                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
+                                                            Change To PKR</a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                           
+                                        </div>
 									</div>
 								</div>
 								<div class="panel-body">
@@ -37,7 +64,8 @@
                     <th>Type of Services</th>
 					<th>Payment Mode</th>
 					<th>Official Fee</th>
-					<th>Assigned Price</th>
+                    <th>Assigned Price</th>
+					<th>Exchanged Profit/Loss</th>
 					<th>Total</th>
 					<th>Status</th>
 					<th>Action</th>
@@ -70,7 +98,64 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
     <td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $activity_price['activity_price'] ?> <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a></td>
+	<td><span class="footable-toggle"></span>
+
+
+<span class="pkr">
+              <?php  
+             if ($activity_price) {
+                
+             echo $activity_price['activity_price']." PKR";
+             }else{
+                echo "0 PKR";
+             } ?> 
+      </span>
+      <span class="dollar" style="display:none;">
+             <?php  
+             if ($activity_price) {
+                echo $activity_price['price_in_usd']." $";
+                 }else{
+                    echo "0 $";
+                 } ?> 
+      </span>
+
+        <!-- <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a> -->
+    </td>
+    <
+    <td>
+     
+     <?php 
+
+  $url='https://www.xe.com/currencyconverter/convert/?Amount=1&From=PKR&To=USD';
+
+
+$page = file_get_contents($url);
+$doc = new DOMDocument();
+@$doc->loadHTML($page);
+$divs = $doc->getElementsByTagName('span');
+foreach($divs as $div) {
+ 
+    
+    if ($div->getAttribute('class') === 'uccInverseResultUnit') {
+         $conversion_rate= $div->nodeValue;
+    }
+}
+
+
+     $filter_conversion=explode('=', $conversion_rate);
+        $further_filter=explode(' ',$filter_conversion[1]);
+    
+     $saved_rate=$activity_price['price_in_usd']*$activity_price['conversion_rate'];
+     // echo $saved_rate."<br>";
+
+     $latest_rate=$activity_price['price_in_usd']*$filter_conversion[1];
+     echo $latest_rate-$saved_rate;
+?>
+
+
+
+
+    </td>
 	<td><span class="footable-toggle"></span>
 	<?php echo $activity_price['activity_price'] - $total; ?></td>
 		<td><span class="footable-toggle"></span>
@@ -513,23 +598,33 @@ function vendor_assign_id(case_id,subject_id,activity_id){
     
 }
   
-function get_converted(price_in_usd) {
-    $('.converted_price').html("The Price in USD "+price_in_usd);
-}
+// function get_converted(price_in_usd) {
+//     $('.converted_price').html("The Price in USD "+price_in_usd);
+// }
+
+
+$('.change_in_usd').click(function() {
+    
+     $('.pkr').each(function() {
+         $(this).hide();
+     });
+     $('.dollar').each(function() {
+         $(this).show();
+     });
+   
+});
+
+$('.change_in_pkr').click(function() {
+    
+     $('.dollar').each(function() {
+         $(this).hide();
+     });
+     $('.pkr').each(function() {
+         $(this).show();
+     });
+   
+});
+
     </script>
 
-<div class="modal fade" id="modal-id">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Converted Price</h4>
-            </div>
-            <div class="modal-body">
-                <p class="converted_price"></p>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div>
+    </script>
