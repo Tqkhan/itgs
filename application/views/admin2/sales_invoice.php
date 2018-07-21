@@ -129,6 +129,7 @@
           <th>Amount (Excluding Sales Tax)</th>
           <th>Sales Tax</th>
           <th>Amount (Including Sales Tax)</th>
+          <th>Currency Symbol</th>
      
           
          
@@ -139,18 +140,61 @@
 <?php 
 $count = 1;
   foreach ($cases as $c) {
+
+
+  $price_data=array(
+     'case_id'=>$c['case_id'],
+     'subject_id'=>$c['subject_id'],
+     'id'=>$c['activity_id']
+    );
+$activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
 ?>
 				<tr>
 	<td><?php echo $count ?></td>
 	<td><?php echo $c['reference_code'] ?></td>
 	<td><?php echo $c['subject_name'] ?></td>
   <td><?php echo $c['scope_name'] ?></td>
-  <td class="fieldCell1"><?php echo $c['price'] ?></td>
-  <td class="fieldCell2"><?php echo $c['price'] * 13 / 100 ?></td>
-  <td class="fieldCell3"><?php echo $c['price'] + ($c['price'] * 13 / 100) ?></td>
+  
+  <?php if ($c['client_type']=="LC"): ?>
+     <td class="fieldCell1">
+    <?php echo $activity_price['activity_price'] ;?>
+    </td>
+  <td class="fieldCell2"><?php echo $activity_price['activity_price'] * 13 / 100 ?></td>
+  <td class="fieldCell3"><?php echo $activity_price['activity_price'] + ($activity_price['activity_price'] * 13 / 100) ?></td>
  
+ <?php else: 
+   $int_price=$activity_price['price_in_usd'];
+   $int_price_with_tax=$activity_price['activity_price']/$activity_price['conversion_rate'];
 
-   
+  ?>
+     
+  <td class="fieldCell1">
+    <?php  
+echo number_format((float)$int_price, 2, '.', '');  
+
+    ?>
+      
+    </td>
+  <td class="fieldCell2"><?php $sales_tax=$int_price_with_tax * 13 / 100;
+    
+echo number_format((float)$sales_tax, 2, '.', '');  
+    ?>
+  </td>
+  <td class="fieldCell3"><?php $wsTax=$int_price + ($sales_tax);
+echo number_format((float)$wsTax, 2, '.', '');  
+
+   ?></td>
+ 
+ 
+  <?php endif ?>
+ 
+   <td><?php if ($c['client_type']=="LC"): 
+    echo "PKR";
+   ?>
+     <?php else:
+    echo "$";
+      ?>
+   <?php endif ?></td>
 
 
 				</tr>
@@ -230,7 +274,7 @@ sum3 += isNaN(value) ? 0 : parseInt(value);
 }
 }
 
-document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td>   </td>  <td> <strong>Total</strong></td> <td>   </td>    </td> <td><strong>  ' + sum1 + '</strong> </td> <td><strong>  ' + sum2 + '</strong> </td> <td><strong>  ' + sum3 + '</strong> </td> </tr></tfoot>';</script>
+document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td>   </td>  <td> <strong>Total</strong></td> <td>   </td>    </td> <td><strong>  ' + sum1 + '</strong> </td> <td><strong>  ' + sum2 + '</strong> </td> <td><strong>  ' + sum3 + '</strong> </td>  <td>   </td></tr></tfoot>';</script>
 <script type="text/javascript">
   $('.export-report').change(function() {
     var value = $(this).val()
