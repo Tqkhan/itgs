@@ -64,6 +64,7 @@
 					<th>Payment Mode</th>
 					<th>Official Fee</th>
 					<th>Assigned Price</th>
+                    <th>Exchange Profit/Loss</th>
 					<th>Total</th>
 					<th>Status</th>
 					<th>Action</th>
@@ -100,14 +101,60 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
 
     </span>
       <span class="pkr">
-              <?php echo $activity_price['activity_price'] ?> 
+              <?php  
+             if ($activity_price) {
+                
+             echo $activity_price['activity_price']." PKR";
+             }else{
+                echo "0 PKR";
+             } ?> 
       </span>
       <span class="dollar" style="display:none;">
-              <?php echo $activity_price['price_in_usd'] ?> 
+             <?php  
+             if ($activity_price) {
+                echo $activity_price['price_in_usd']." $";
+                 }else{
+                    echo "0 $";
+                 } ?> 
       </span>
 
  <!--    <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a> -->
 </td>
+
+    <td>
+     
+     <?php 
+
+  $url='https://www.xe.com/currencyconverter/convert/?Amount=1&From=PKR&To=USD';
+
+
+$page = file_get_contents($url);
+$doc = new DOMDocument();
+@$doc->loadHTML($page);
+$divs = $doc->getElementsByTagName('span');
+foreach($divs as $div) {
+ 
+    
+    if ($div->getAttribute('class') === 'uccInverseResultUnit') {
+         $conversion_rate= $div->nodeValue;
+    }
+}
+
+
+     $filter_conversion=explode('=', $conversion_rate);
+        $further_filter=explode(' ',$filter_conversion[1]);
+    
+     $saved_rate=$activity_price['price_in_usd']*$activity_price['conversion_rate'];
+     // echo $saved_rate."<br>";
+
+     $latest_rate=$activity_price['price_in_usd']*$filter_conversion[1];
+     echo $latest_rate-$saved_rate;
+?>
+
+
+
+
+    </td>
 	<td><span class="footable-toggle"></span>
 	<?php echo $activity_price['activity_price'] - $total; ?></td>
 		<td><span class="footable-toggle"></span>
@@ -526,7 +573,7 @@ function fund_request_assign_id(case_id,subject_id,activity_id,client_reference,
     Date.prototype.yyyymmdd = function() {
 	  var yyyy = this.getFullYear().toString();
 	  var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-	  var dd  = this.getDate().toString();
+	  var dd  = this.getDate().thisoString();
 	  return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
 	};
     var d = new Date();
