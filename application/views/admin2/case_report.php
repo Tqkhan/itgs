@@ -70,17 +70,21 @@ $activity_price=$this->db->get_where('assign_client_services',['client_id'=>$cas
 
 ?>
 				<tr>
-    <td><span class="footable-toggle"></span></td>
-    <td><span class="footable-toggle"></span></td>
-    <td><span class="footable-toggle"></span></td>
-    <td><span class="footable-toggle"></span></td>
-    <td><span class="footable-toggle"></span></td>
-    <td><span class="footable-toggle"></span></td>
-    <td><span class="footable-toggle"></span><?php echo $case['reference_code'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
-    <td><span class="footable-toggle"></span><?php echo date('d M Y', strtotime($case['date_time'])) ?></td>
+    <td><span class="footable-toggle"><?php echo $case['date_of_receiving']; ?></span></td>
+    <td><span class="footable-toggle"><?php echo $case['hold_date']; ?></span></td>
+    <td><span class="footable-toggle"><?php echo $case['unhold_date']; ?></span></td>
+    <td><span class="footable-toggle"><?php echo ""; ?></span></td>
+    <td><span class="footable-toggle"><?php echo ""; ?></span></td>
+    <td><span class="footable-toggle"><?php echo $case['client_reference']; ?></span></td>
+    <td><span class="footable-toggle"><?php echo ""; ?></span><?php echo $case['reference_code'] ?></td>
+    <td><span class="footable-toggle"></span><?php echo $case['subject_name'] ?></td>
+    <td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
+    <!-- <td><span class="footable-toggle"></span><?php echo date('d M Y', strtotime($case['date_time'])) ?></td> -->
+    <td><span class="footable-toggle"></span><?php echo $case['type_of_service'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $case['name_of_ia'] ?></td>
+    <td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td>
 	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td>
+    <td><span class="footable-toggle"></span><?php  ?></td>
 	<td><span class="footable-toggle"></span><?php echo $activity_price['price'] ?></td>
 	<td><span class="footable-toggle"></span>
 	<?php echo $activity_price['price'] - $total; ?></td>
@@ -111,6 +115,8 @@ $activity_price=$this->db->get_where('assign_client_services',['client_id'=>$cas
                                                     
 
                                                 </td>
+                                                <td></td>
+                                                <td></td>
 				</tr>
 
 <?php 
