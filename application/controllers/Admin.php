@@ -4466,7 +4466,12 @@ public function get_word($num)
 
    public function case_report()
    {
-     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes, SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.case_id')->result_array();
+     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,case_request.created_at as date_of_receiving,scope_of_work.scope_name,aatu.hold_date,aatu.unhold_date, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes,s.subject_name,  SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id)
+     inner join assign_activity_to_user aatu on (case_request.id=aatu.case_id  )
+      inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id)
+       inner join subject_case s on (s.case_id=case_request.id)
+
+       GROUP BY fund_request_activity.case_id')->result_array();
      //echo '<pre>';print_r($data);die;
     $this->load->view('admin2/header', $data);
     $this->load->view('admin2/case_report');
@@ -7836,6 +7841,14 @@ public function issue_case_payment()
     $data = $this->admin_model->get_account_report($id);
     $con = 1;
     foreach ($data as $row) {
+
+           $price_data=array(
+     'case_id'=>$row['case_id'],
+     'subject_id'=>$row['subject_id'],
+     'activity_id'=>$row['activity_id']
+    );
+$activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
+
       if($row['case_status']==1){
       $status = "Pending";
       }else if($row['case_status']==2){
@@ -7852,7 +7865,7 @@ public function issue_case_payment()
       $status = "Completed";
       }
         $report_date = ($row['is_report'] == '1')?date('Y-m-d', strtotime($row['report_time'])):'';
-        $lineData = array($con, $row['client_reference'], $row['reference_code'], $row['subject_name'], $row['scope_name'], $row['created_at'], $row['due_date'], $row['date_time'], $row['price'], $status, $report_date, $row['hold_date'], $row['unhold_date']);
+        $lineData = array($con, $row['client_reference'], $row['reference_code'], $row['subject_name'], $row['scope_name'], $row['created_at'], $row['due_date'], $row['date_time'], $row['client_type']=="INT" ? $activity_price['price_in_usd']." $" : $activity_price['activity_price']." PKR", $status, $report_date, $row['hold_date'], $row['unhold_date']);
         fputcsv($f, $lineData, $delimiter);
         $con++;
     }
@@ -8597,12 +8610,7 @@ public function issue_case_payment()
       $get_conversion=$this->db->get_where('subject_activities',$where)->row_array();
      
       $url='https://www.xe.com/currencyconverter/convert/?Amount='.$data['price'].'&From=PKR&To=USD';
-//file_get_contents() reads remote webpage content
-// $lines_string=file_get_contents($url);
-//output, you can also save it locally on the server
-// echo htmlspecialchars($lines_string);
 
-// echo $lines_string;
 
 $page = file_get_contents($url);
 $doc = new DOMDocument();
