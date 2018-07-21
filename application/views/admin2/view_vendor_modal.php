@@ -36,6 +36,7 @@
                                                     <th>Logsin Name</th>
                                                     <th>Password</th>
                                                     <th>Role</th>
+                                                    <th>Type</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -46,6 +47,7 @@
                                                 <td><?php echo $employee['login_name']; ?> </td>
                                                 <td><?php echo $employee['password']; ?> </td>
                                                 <td><?php echo $employee['role']; ?> </td>
+                                                <td><?php echo $employee['vendor_type']; ?> </td>
                                                 <td><a href="<?php echo base_url() ?>admin/edit_vendor/<?php echo $employee['id'] ?>"><img src="<?php echo base_url('admin_assets/img/edit.png') ?>" title="Edit Report" alt="Edit Report" width="25" height="25"></a>
 </td>
                                                 
