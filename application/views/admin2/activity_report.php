@@ -201,7 +201,7 @@ foreach($divs as $div) {
           }else{
             ?>
 
-               <p class="dollar"> <?php echo rount($total*$activity_price['conversion_rate']); ?> $ </p>
+               <p class="dollar"> <?php echo round($total*$activity_price['conversion_rate']); ?> $ </p>
                <p class="pkr"> <?php echo $total; ?> PKR </p>
             <?php
           }

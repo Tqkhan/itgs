@@ -212,7 +212,7 @@ $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['m
           }else{
             ?>
 
-               <p class="dollar"> <?php echo rount($total*$all_act['c_rate']); ?> $ </p>
+               <p class="dollar"> <?php echo round($total*$all_act['c_rate']); ?> $ </p>
                <p class="pkr"> <?php echo $total; ?> PKR </p>
             <?php
           }
