@@ -29,18 +29,9 @@
 
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="    z-index: 99;">
+                                                    <li><a href="#" class="change_in_usd"> Change To USD</a></li>
 
-                                                    <li>
-                                                        <a href="#" class="change_in_usd">
-                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
-                                                            Change To USD</a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="#" class="change_in_pkr">
-                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
-                                                            Change To PKR</a>
-                                                    </li>
+                                                    <li> <a href="#" class="change_in_pkr"> Change To PKR</a> </li>
 
                                                 </ul>
                                             </div>
@@ -64,8 +55,9 @@
 					<th>Payment Mode</th>
 					<th>Official Fee</th>
 					<th>Assigned Price</th>
-                    <th>Exchange Profit/Loss</th>
-					<th>Total</th>
+          <th>Exchange Profit/Loss</th>
+          <th>Total</th>
+					<th>Profit/Loss</th>
 					<th>Status</th>
 					<th>Action</th>
 				</tr>
@@ -85,45 +77,23 @@ $detail_url = base_url('admin_assets/img/view.png');
     );
 $detail_url = base_url('admin_assets/img/view.png');
 $activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
-	?>
 
-<?php $total=$case['official_fee']+$case['vendor_changes']+$case['easy_paisa_charges']+$case['mobi_cash_charges']+$case['bank_commission']+$case['postage_courier']+$case['other_charges'];
+
+
+
+$funds_total=$this->db->query('Select fund_request_activity.official_fee as of, fund_request_activity.vendor_changes as vc,  fund_request_activity.easy_paisa_charges as epc, fund_request_activity.mobi_cash_charges as mcc, fund_request_activity.bank_commission as bc, fund_request_activity.postage_courier as pcr, fund_request_activity.other_charges as otc 
+       from 
+      fund_request_activity where is_approved=1 and activity_id='.$case['activity_id'].' and subject_id='.$case['subject_id'])->row_array();
+
+$vendor_total=$this->db->query("select SUM(charges) as charges from case_fund_request where  is_approve=1 and activity_id=".$case['activity_id'].' and subject_id='.$case['subject_id'])->row_array();
+
+
+$total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['mcc']+$funds_total['bc']+$funds_total['pcr']+$funds_total['otc']+$vendor_total['charges'];
 
 ?>
-				<tr>
-	<td><span class="footable-toggle"></span><?php echo $case['reference_code'] ?></td>
-    <td><span class="footable-toggle"></span><?php echo $case['subject_name'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td>
-	<td><span class="footable-toggle">
-     
 
-    </span>
-      <span class="pkr">
-              <?php  
-             if ($activity_price) {
-                
-             echo $activity_price['activity_price']." PKR";
-             }else{
-                echo "0 PKR";
-             } ?> 
-      </span>
-      <span class="dollar" style="display:none;">
-             <?php  
-             if ($activity_price) {
-                echo $activity_price['price_in_usd']." $";
-                 }else{
-                    echo "0 $";
-                 } ?> 
-      </span>
 
- <!--    <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a> -->
-</td>
-
-    <td>
-     
-     <?php 
+  <?php 
 
   $url='https://www.xe.com/currencyconverter/convert/?Amount=1&From=PKR&To=USD';
 
@@ -154,35 +124,137 @@ foreach($divs as $div) {
 
 
 
+
+				<tr>
+	<td><span class="footable-toggle"></span><?php echo $case['reference_code'] ?></td>
+    <td><span class="footable-toggle"></span><?php echo $case['subject_name'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
+
+
+  <td>
+    <span class="footable-toggle"></span>
+     <?php if ($case['client_type']=="INT"): ?>
+        <p class="dollar"><?php echo $funds_total['of']; ?> $</p>
+        <p class="pkr"><?php echo $funds_total['of']*$activity_price['conversion_rate']; ?> PKR</p>
+     <?php else: ?>
+        <p class="dollar"><?php echo $funds_total['of']/$activity_price['conversion_rate']; ?> $</p>
+        <p class="pkr"><?php echo $funds_total['of'];?> PKR</p>
+     <?php endif ?>
+  </td>
+
+    <td><span class="footable-toggle"></span>
+
+             
+        <?php 
+          if ($case['client_type']=="INT") {
+               ?>
+               <p class="dollar"> <?php echo $activity_price['activity_price'] ?> $ </p>
+               <p class="pkr"> <?php echo round($activity_price['activity_price']*$activity_price['conversion_rate']) ?> PKR </p>
+              
+          <?php 
+          }
+          else{
+            ?>
+            <p class="dollar"> <?php echo round($activity_price['activity_price']/$activity_price['conversion_rate']); ?> $ </p>
+               <p class="pkr"> <?php echo $activity_price['activity_price'] ?> PKR </p>
+         <?php 
+          }         
+         ?>
+
     </td>
-	<td><span class="footable-toggle"></span>
-	<?php echo $activity_price['activity_price'] - $total; ?></td>
+   
+
+
+  <td><span class="footable-toggle"></span>
+    
+    <?php  if ($case['client_type']=="INT") {
+               ?>
+               <p class="dollar"> <?php echo ($activity_price['activity_price'] - $total); ?> $ </p>
+               <p class="pkr"> <?php echo round(($activity_price['activity_price'] - $total)*$further_filter[1]); ?> PKR </p>
+              
+          <?php 
+          }else{
+
+            ?>
+
+            <p class="dollar"> <?php echo round($total*$further_filter[1]); ?> $ </p>
+               <p class="pkr"> <?php echo $total; ?> PKR </p>
+
+            <?php
+          }
+           ?>
+
+    </td>
+    
+
+   
+
+  <td><span class="footable-toggle"></span>
+
+        <?php  if ($case['client_type']=="INT") {
+               ?>
+               <p class="dollar"> <?php echo $total; ?> $ </p>
+               <p class="pkr"> <?php echo round($total*$activity_price['conversion_rate']); ?> PKR </p>
+              
+          <?php 
+          }else{
+            ?>
+
+               <p class="dollar"> <?php echo rount($total*$activity_price['conversion_rate']); ?> $ </p>
+               <p class="pkr"> <?php echo $total; ?> PKR </p>
+            <?php
+          }
+          ?>
+
+    </td>
+
+
+  <td><span class="footable-toggle"></span>
+    
+    <?php  if ($case['client_type']=="INT") {
+               ?>
+               <p class="dollar"> <?php echo ($activity_price['activity_price'] - $total); ?> $ </p>
+               <p class="pkr"> <?php echo round(($activity_price['activity_price'] - $total)*$activity_price['conversion_rate']); ?> PKR </p>
+              
+          <?php 
+          }else{
+
+            ?>
+
+            <p class="dollar"> <?php echo round($total*$activity_price['conversion_rate']); ?> $ </p>
+               <p class="pkr"> <?php echo $total; ?> PKR </p>
+
+            <?php
+          }
+           ?>
+
+    </td>
+    
 		<td><span class="footable-toggle"></span>
 	
-	<?php 
-	if($case['is_approved']==0){
-	    echo "Pending";
-	}else if($case['is_approved']==1){
-	    echo "Approved";
-	}else if($case['is_approved']==2){
-	    echo "Rejected";
-	}
-	?>
+ <?php if($case['case_status']==1){
+    echo "New Case";
+    }else if($case['case_status']==2){
+    echo "In Progress";
+    }else if($case['case_status']==3){
+    echo "On Hold";
+    }else if($case['case_status']==4){
+  echo "Cancelled";
+  }else if($case['case_status']==7){
+  echo "In Progress";
+  }else if($case['case_status']==8){
+    echo "OnHold";
+    }else if($case['case_status']==5){
+    echo "<a href='".base_url()."admin/view_report_submission/".$case['id']."' style='color:black;'>Completed</a>";
+    } ?>
+
 	
 	</td>
 	
-<td>
-                                                   
-                                                    
-                                                    
-                                                    
+<td>                                                 
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
-
-
-                                                    
-                                                    
-
-                                                </td>
+ </td>
 				</tr>
 
 <?php 
@@ -601,6 +673,11 @@ function vendor_assign_id(case_id,subject_id,activity_id){
 // }
 
 
+     $('.dollar').each(function() {
+         $(this).hide();
+     });
+
+
 $('.change_in_usd').click(function() {
     
      $('.pkr').each(function() {
@@ -624,19 +701,3 @@ $('.change_in_pkr').click(function() {
 });
 
     </script>
-
-<!-- <div class="modal fade" id="modal-id">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Converted Price</h4>
-            </div>
-            <div class="modal-body">
-                <p class="converted_price"></p>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div> -->

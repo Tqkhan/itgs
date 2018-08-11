@@ -112,6 +112,8 @@ h4.mar {
 								<div class="panel-body">
 
 									<div class="table-responsive">
+<form action="<?php echo base_url() ?>admin/submit_vendor_invoice" method="post">
+
 		<table id="ex" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
 			<thead>
 				<tr>
@@ -136,7 +138,22 @@ $count = 1;
 foreach ($payments as $p) {
 ?>
 
+
+
 				<tr>
+
+  <input type="hidden" name="start" value="<?php echo $start; ?>"/>
+    <input type="hidden" name="end" value="<?php echo $end ?>"/>
+    <input type="hidden" name="case_id[]" value="<?php echo $p['case_id'] ?>"/>
+    <input type="hidden" name="client_id" value="<?php echo $p['client_id'] ?>"/>
+    <input type="hidden" name="vendor_id" value="<?php echo $id; ?>"/>
+    <input type="hidden" name="voucher_no" value="J.V<?php echo $p['voucher'] ?>"/>
+    <input type="hidden" name="vendor_charges" value="<?php echo $p['charges'] ?>"/>
+
+     <?php $ref=explode("-", $p['reference_code']);
+     ?>
+    <input type="hidden" name="invoice_no" value="<?php echo $p['client_name'].'-'.date('Y-m-d').'-'.$ref[5]; ?>">
+      
   <td><?php echo $count ?></td>
   <td><?php echo $p['employee_name'] ?></td>
   <td><?php echo $p['reference_code'] ?></td>
@@ -166,12 +183,7 @@ foreach($divs as $div) {
      $filter_conversion=explode('=', $conversion_rate);
         $further_filter=explode(' ',$filter_conversion[1]);
     
-
-  //   if ($p['vendor_type'] == "INT") {
-  //    $in_dollar=$p['charges']/10;
-  // echo $in_dollar;
-  //  }else{
-        ?>
+ ?>
 
 
 
@@ -216,7 +228,10 @@ $count++;
 ?>       
         
 			</tbody>
-		</table>
+      		</table>
+          <input type="submit" value="Submit Invoice" class="btn btn primary pull-right" >
+</form>
+
                   </div>
                 </div>
               </div>

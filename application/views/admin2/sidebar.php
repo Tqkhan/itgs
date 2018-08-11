@@ -926,6 +926,7 @@
                             <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url('admin/case_vendor_invoice') ?>">Case Vendor Invoice</a></li>
                                 <li><a href="<?php echo base_url('admin/vendor_payment_invoice') ?>">Vendor Payment Invoice</a></li>
+                                <li><a href="<?php echo base_url('admin/vendor_invoice_view') ?>">Vendor Invoice History</a></li>
                             </ul>
                         </li>
                         <!-- baqar commt -->
@@ -934,7 +935,10 @@
                             <ul class="nav nav-second-level">
                                <li><a href="<?php echo base_url('admin/master_amount') ?>">Master Receivable</a></li>
                                <li><a href="<?php echo base_url('admin/case_invoice') ?>">Case Invoice</a></li>
-                               <li><a href="<?php echo base_url('admin/sales_invoice') ?>">Customer Sales Invoice</a></li>
+                               <li><a href="<?php echo base_url('admin/sales_invoice') ?>">Customer Sales Invoice</a>
+                               </li>
+                               <li><a href="<?php echo base_url('admin/client_invoice_view') ?>">Client Invoice History</a>
+                               </li>
                             </ul>
                         </li>
                         <!-- <li>

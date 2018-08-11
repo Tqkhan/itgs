@@ -1173,16 +1173,17 @@ class admin_model extends CI_Model
 
 	public function get_sales_invoice($start,$end,$id)
 	{
-		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,c.id as case_id,s.id as subject_id,sa.id as activity_id,cl.client_type')
+		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,c.id as case_id,s.id as subject_id,sa.id as activity_id,cl.client_type,cl.client_id,cl.client_name')
 				 ->from('case_request c')
 				 ->join('client cl', 'cl.client_id = c.client_id')
 				 ->join('subject_case s', 's.case_id = c.id')
 				 ->join('subject_activities sa', 'sa.case_id = c.id and sa.subject_id = s.id')
 				 ->join('scope_of_work sw', 'sa.activity_id = sw.id')
 				 ->join('assign_client_services as', 'sa.activity_id = as.scope_id')
+				 ->where('c.is_paid','0')
 				 ->where('c.case_status','5')
-				 ->where('c.created_at >=', DATE($start))
-				 ->where('c.created_at <=', DATE($end))
+				 ->where('c.created_at >=', date($start))
+				 // ->where('c.created_at <=', date($end))
 				 ->where('c.client_id', $id)
 				 ->group_by(array("sa.id", "s.id", "c.id"));
 		return $this->db->get()->result_array();
@@ -1204,16 +1205,17 @@ class admin_model extends CI_Model
 
 	public function get_vendor_payments($id,$start,$end)
 	{
-		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,cf.charges,e.employee_name,e.vendor_type,(CASE f.type WHEN 1 THEN slip WHEN 2 THEN chaque WHEN 3 THEN payorder END) as voucher')
+		$this->db->select('c.reference_code,c.id as case_id,cl.client_name,s.subject_name,sw.scope_name,cf.charges,e.employee_name,e.vendor_type,c.client_id,(CASE f.type WHEN 1 THEN slip WHEN 2 THEN chaque WHEN 3 THEN payorder END) as voucher')
 				 ->from('fund_case_approve f')
 				 ->join('case_fund_request cf', 'f.fund_id = cf.id')
 				 ->join('case_request c', 'c.id = cf.case_id')
+				 ->join('client cl', 'c.client_id = cl.client_id')
 				 ->join('subject_case s', 's.case_id = c.id')
 				 ->join('subject_activities sa', 'sa.case_id = c.id and sa.subject_id = s.id')
 				 ->join('scope_of_work sw', 'sa.activity_id = sw.id')
 				 ->join('employee_itgs e', 'e.id = cf.vendor_id')
-				 ->where('cf.created_at >=', DATE($start))
-				 ->where('cf.created_at <=', DATE($end))
+				 // ->where('cf.created_at >=', DATE($start))
+				 // ->where('cf.created_at <=', DATE($end))
 				 ->where('cf.vendor_id', $id)
 				 ->group_by('f.id');
 		return $this->db->get()->result_array();

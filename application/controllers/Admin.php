@@ -56,7 +56,7 @@ class Admin extends CI_Controller
 	 public function client_creation_form1()
    {
 
-        $data['clients']= $this->db->query("SELECT * FROM `client` WHERE `sub_account` = 1 AND `is_parent` = 1 ")->result_array();
+    $data['clients']= $this->db->query("SELECT * FROM `client` WHERE `sub_account` = 1 AND `is_parent` = 1 ")->result_array();
     $data['title']="Client Creation";
     $data['employees']=$this->db->get('employee_itgs')->result_array();
     $data['countries']=$this->db->get('country')->result_array();
@@ -115,14 +115,24 @@ class Admin extends CI_Controller
   // $data['cases']=$this->db->get('case_request')->result_array();
   $data['title']="Job Dashboard";
   if($_SESSION['role']=="Internal Auditor"){
-  $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.reference_code,scope_of_work.scope_name, employee_itgs.employee_name from fund_request_activity left JOIN case_request on(case_request.id=fund_request_activity.case_id) left join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) left join employee_itgs on employee_itgs.id = fund_request_activity.employe_id order by fund_request_activity.id desc')->result_array();
+  $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.reference_code,case_request.reference_code,scope_of_work.scope_name, employee_itgs.employee_name from fund_request_activity left JOIN case_request on(case_request.id=fund_request_activity.case_id) left join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) left join employee_itgs on employee_itgs.id = fund_request_activity.employe_id order by fund_request_activity.id desc')->result_array();
   }else if($_SESSION['role']=="Manager Finance"){
   $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.reference_code,scope_of_work.scope_name, count(fund_approve.id) as fid, employee_itgs.employee_name from fund_request_activity left JOIN case_request on(case_request.id=fund_request_activity.case_id) left join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) left join fund_approve on fund_approve.fund_id = fund_request_activity.id left join employee_itgs on employee_itgs.id = fund_request_activity.employe_id where fund_request_activity.is_approved = 1 GROUP BY fund_request_activity.id')->result_array();
   }else if($_SESSION['role']=="vendor"){
- $data['jobs']=$this->db->query('SELECT case_request.client_reference,case_request.reference_code,subject_case.subject_name,assign_vendor_request.*,scope_of_work.scope_name,case_request.id, assign_vendor_request.date_time, assign_vendor_request.is_report, assign_vendor_request.id as van_id, assign_vendor_request.file as file, sub_scope.name as sub_category from assign_vendor_request inner JOIN case_request on(case_request.id=assign_vendor_request.case_id) inner JOIN subject_case on (subject_case.id=assign_vendor_request.subject_id) inner join scope_of_work on (scope_of_work.id=assign_vendor_request.activity_id) left join sub_scope on sub_scope.id = assign_vendor_request.sub_scope_id where assign_vendor_request.is_assigned = 1 and assign_vendor_request.vendor_id='.$_SESSION['id'])->result_array();
-  }else{
 
-    $data['jobs']=$this->db->query('SELECT case_request.client_reference,case_request.reference_code,subject_case.subject_name,assign_activity_to_user.*,scope_of_work.scope_name,scope_of_work.type,case_request.id,assign_activity_to_user.id as asid, count(fund_request_activity.id) as total_fund from assign_activity_to_user inner JOIN case_request on(case_request.id=assign_activity_to_user.case_id) inner JOIN subject_case on (subject_case.id=assign_activity_to_user.subject_id) inner join scope_of_work on (scope_of_work.id=assign_activity_to_user.activity_id) left join fund_request_activity on fund_request_activity.activity_id = assign_activity_to_user.activity_id and fund_request_activity.case_id = assign_activity_to_user.case_id where assign_activity_to_user.member_id='.$_SESSION['id'].' GROUP BY assign_activity_to_user.id order by assign_activity_to_user.id desc')->result_array();
+ $data['jobs']=$this->db->query('SELECT client.client_type,case_request.client_reference,case_request.reference_code,subject_case.subject_name,assign_vendor_request.*,scope_of_work.scope_name,case_request.id, assign_vendor_request.date_time, assign_vendor_request.is_report, assign_vendor_request.id as van_id, assign_vendor_request.file as file, sub_scope.name as sub_category from assign_vendor_request 
+  inner JOIN case_request on(case_request.id=assign_vendor_request.case_id) inner JOIN subject_case on (subject_case.id=assign_vendor_request.subject_id) 
+  inner JOIN client on(case_request.client_id=client.client_id) 
+  inner join scope_of_work on (scope_of_work.id=assign_vendor_request.activity_id) 
+  left join sub_scope on sub_scope.id = assign_vendor_request.sub_scope_id where assign_vendor_request.is_assigned = 1 and assign_vendor_request.vendor_id='.$_SESSION['id'])->result_array();
+  }
+  else{
+
+    $data['jobs']=$this->db->query('SELECT client.client_type,case_request.client_reference,case_request.reference_code,subject_case.subject_name,assign_activity_to_user.*,scope_of_work.scope_name,scope_of_work.type,case_request.id,assign_activity_to_user.id as asid, count(fund_request_activity.id) as total_fund from assign_activity_to_user 
+
+      inner JOIN case_request on(case_request.id=assign_activity_to_user.case_id) 
+       INNER JOIN client on(case_request.client_id=client.client_id) 
+      inner JOIN subject_case on (subject_case.id=assign_activity_to_user.subject_id) inner join scope_of_work on (scope_of_work.id=assign_activity_to_user.activity_id) left join fund_request_activity on fund_request_activity.activity_id = assign_activity_to_user.activity_id and fund_request_activity.case_id = assign_activity_to_user.case_id where assign_activity_to_user.member_id='.$_SESSION['id'].' GROUP BY assign_activity_to_user.id order by assign_activity_to_user.id desc')->result_array();
 
 
       
@@ -2598,7 +2608,8 @@ for ($p=0; $p < sizeof($file_links); $p++) {
 	}
 
 public function update_case($status = null)
-	{
+	{ 
+
 		$case_id= $_POST['case_id'];
 		error_reporting(0);
 		$count_subject=count($_POST['subject_name']);
@@ -2617,11 +2628,15 @@ public function update_case($status = null)
 		);
 		$this->db->update('case_request', $data_case,['id'=>$case_id]);
     $due_date=$_POST['due_date'];
+   
+
     $this->db->select('id')
              ->from('subject_case')
              ->where('case_id', $case_id);
     $sub_current = $this->db->get()->result_array();
     $sub_delete = array();
+
+
 		for ($i=0; $i < $count_subject; $i++) {
       $activity_id=$_POST['scope_id'][$i];
       $count_activity=count($activity_id);
@@ -2686,7 +2701,7 @@ public function update_case($status = null)
           }
         }
       }
-      else{
+      else{ 
         $data_subject=array(
           'case_id'=>$case_id,
           'subject_name'=>$subject_name[$i],
@@ -2722,13 +2737,13 @@ public function update_case($status = null)
         unset($sub_current[$sub_delete[$i]]);
       }
     }
-    $sub_current = array_values($sub_current);
-    if (sizeof($sub_current) >= 1) {
-      for ($i=0; $i < sizeof($sub_current); $i++) { 
-        $this->admin_model->delete_data('subject_case',array('id' => $sub_current[$i]['id']));
-        $this->admin_model->delete_data('subject_activities',array('subject_id' => $sub_current[$i]['id']));
-      }
-    }
+    // $sub_current = array_values($sub_current);
+    // if (sizeof($sub_current) >= 1) {
+    //   for ($i=0; $i < sizeof($sub_current); $i++) { 
+    //     $this->admin_model->delete_data('subject_case',array('id' => $sub_current[$i]['id']));
+    //     $this->admin_model->delete_data('subject_activities',array('subject_id' => $sub_current[$i]['id']));
+    //   }
+    // }
     $emails['data'] = array(
       'client_reference'=>$this->input->post('client_reference'),
       'reference_code'=>$this->input->post('reference_code'),
@@ -3406,6 +3421,32 @@ $data =array(
 	public function insert_fund_request(){
 //error_reporting('-1');
 
+
+      $url='https://www.xe.com/currencyconverter/convert/?Amount='.$data['price'].'&From=PKR&To=USD';
+
+
+$page = file_get_contents($url);
+$doc = new DOMDocument();
+@$doc->loadHTML($page);
+$divs = $doc->getElementsByTagName('span');
+foreach($divs as $div) {
+ 
+    if ($div->getAttribute('class') === 'uccResultAmount') {
+         $data['current_PKR_to_USD']= $div->nodeValue;
+    }
+    if ($div->getAttribute('class') === 'uccInverseResultUnit') {
+         $conversion_rate= $div->nodeValue;
+    }
+}
+        $filter_conversion=explode('=', $conversion_rate);
+        $further_filter=explode(' ',$filter_conversion[1]);
+
+        if($get_conversion['conversion_rate']<=0){
+         $usd=$further_filter[1];
+        }
+        // echo 120/$usd;
+        // die();
+
      $data=array(
     'case_id'=>$this->input->post('fund_case_id'),
     'subject_id'=>$this->input->post('fund_subject_id'),
@@ -3422,6 +3463,8 @@ $data =array(
     'bank_commission'=>$this->input->post('bank_commission'),
     'postage_courier'=>$this->input->post('postage_courier'),
     'other_charges'=>$this->input->post('other_charges'),
+    'mode_of_payment'=>$this->input->post('mode_of_payment'),
+    'is_int'=>$this->input->post('is_int'),
     'total_cost'=>$this->input->post('total_cost'),
     'employe_id'=>$_SESSION['id'],
 
@@ -4466,13 +4509,18 @@ public function get_word($num)
 
    public function case_report()
    {
-     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,case_request.created_at as date_of_receiving,scope_of_work.scope_name,aatu.hold_date,aatu.unhold_date, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes,s.subject_name,  SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id)
+     $data['jobs']=$this->db->query('
+      select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,case_request.created_at as date_of_receiving,case_request.case_status,scope_of_work.scope_name,aatu.hold_date,aatu.unhold_date,case_request.id as case_id,aatu.subject_id,aatu.activity_id,  
+      s.subject_name,client.client_type
+       from 
+      fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id)
      inner join assign_activity_to_user aatu on (case_request.id=aatu.case_id  )
+     inner join client on (case_request.client_id=client.client_id )
       inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id)
        inner join subject_case s on (s.case_id=case_request.id)
-
        GROUP BY fund_request_activity.case_id')->result_array();
      //echo '<pre>';print_r($data);die;
+
     $this->load->view('admin2/header', $data);
     $this->load->view('admin2/case_report');
     $this->load->view('admin2/footer');
@@ -4481,12 +4529,18 @@ public function get_word($num)
    public function subject_report($id = null)
    {
      if ($id != null) {
-      $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name,
-        fund_request_activity.subject_id,fund_request_activity.activity_id, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes, SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges,subject_case.subject_name from fund_request_activity inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) WHERE fund_request_activity.case_id = "'.$id.'" GROUP BY fund_request_activity.subject_id')->result_array();
+      $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,case_request.case_status,scope_of_work.scope_name,client.client_type
+        ,subject_case.subject_name from fund_request_activity inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id)
+        inner join client on(case_request.client_id=client.client_id)
+         WHERE fund_request_activity.case_id = "'.$id.'" GROUP BY fund_request_activity.subject_id')->result_array();
     }
     else{
-     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name,
-     fund_request_activity.subject_id,fund_request_activity.activity_id, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes, SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.subject_id')->result_array();
+     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.case_status,case_request.reference_code,scope_of_work.scope_name,client.client_type,
+      subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) 
+
+        inner join client on(case_request.client_id=client.client_id)
+
+      inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.subject_id')->result_array();
     }
     $this->load->view('admin2/header', $data);
     $this->load->view('admin2/subject_report');
@@ -4496,11 +4550,15 @@ public function get_word($num)
    public function activity_report($id = null)
    {
      if ($id != null) {
-      $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, 
-        SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes, SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) WHERE fund_request_activity.subject_id = "'.$id.'" GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
+      $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, case_request.case_status,client.client_type,
+       subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) 
+       inner join client on (client.client_id = case_request.client_id)
+       inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) WHERE fund_request_activity.subject_id = "'.$id.'" ')->result_array();
     }
     else{
-     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes, SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
+     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, case_request.case_status,subject_case.subject_name,client.client_type from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) 
+       inner join client on (client.client_id = case_request.client_id)
+      inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
     }
     $this->load->view('admin2/header', $data);
     $this->load->view('admin2/activity_report');
@@ -4512,10 +4570,15 @@ public function get_word($num)
    {
       $data['cases'] = $this->admin_model->get_data('case_request');
       if ($id) {
-      $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes, SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) WHERE fund_request_activity.case_id = "'.$id.'" GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
+      $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, client.client_type
+        ,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) 
+        inner join client on (client.client_id=case_request.client_id)
+        inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) WHERE fund_request_activity.case_id = "'.$id.'" GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
     }
     else{
-     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, SUM(fund_request_activity.official_fee) as official_fee, SUM(fund_request_activity.vendor_changes) as vendor_changes, SUM(fund_request_activity.easy_paisa_charges) as easy_paisa_charges, SUM(fund_request_activity.mobi_cash_charges) as mobi_cash_charges, SUM(fund_request_activity.bank_commission) as bank_commission, SUM(fund_request_activity.postage_courier) as postage_courier, SUM(fund_request_activity.other_charges) as other_charges,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
+     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name,client.client_type,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) 
+      inner join client on (client.client_id=case_request.client_id) 
+      inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
     }
     $data['id'] = $id;
     //echo '<pre>';print_r($data['cases']);die;
@@ -4527,7 +4590,9 @@ public function get_word($num)
 
    public function monthly_assessment()
    {
-    $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.hold_date,case_request.unhold_date,case_request.case_date,case_request.client_id,case_request.reference_code,scope_of_work.scope_name,subject_case.subject_name, case_report.date_time from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) left join case_report on case_report.case_id = case_request.id')->result_array();
+    $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.hold_date,case_request.unhold_date,case_request.case_date,case_request.client_id,case_request.reference_code,scope_of_work.scope_name,subject_case.subject_name, case_report.date_time from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) left join case_report on case_report.case_id = case_request.id
+
+      ')->result_array();
     $this->load->view('admin2/header', $data);
     $this->load->view('admin2/monthly_assessment');
     $this->load->view('admin2/footer');
@@ -5656,7 +5721,7 @@ public function subject_dummy()
   $all_files = $_FILES;
   $file = [];
   $config['upload_path'] = './uploads/attachment';
-  $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg|7z|rar|dot';
+  $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg|7z|rar|dot|zip';
   $config['max_size'] = '60000';
   $config['max_width'] = '10024';
   $config['max_height'] = '7068';
@@ -5702,7 +5767,7 @@ public function activity_dummy()
   $all_files = $_FILES;
   $file = [];
   $config['upload_path'] = './uploads/activity_attachment';
-  $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg|7z|rar|dot';
+  $config['allowed_types'] = 'pdf|doc|docx|jpg|png|rtf|txt|xlsx|xls|pptx|jpeg|7z|rar|dot|zip';
   $config['max_size'] = '60000';
   $config['max_width'] = '10024';
   $config['max_height'] = '7068';
@@ -8010,17 +8075,19 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
 
   public function sales_invoice()
   {
-    if ($this->input->post()) {
+    if ($_REQUEST) {
       $start = date('Y-m-01', strtotime('-1 month'));
       $end = date('Y-m-t', strtotime('-1 month'));
-      $id = $this->input->post('client');
-      if ($this->input->post('start')) {
-        $start = date('Y-m-d', strtotime($this->input->post('start')));
+      $id = $this->input->get_post('client');
+      if ($this->input->get_post('start')) {
+        $start = date('Y-m-d', strtotime($this->input->get_post('start')));
       }
-      if ($this->input->post('end')) {
-        $end = date('Y-m-d', strtotime($this->input->post('end')));
+      if ($this->input->get_post('end')) {
+        $end = date('Y-m-d', strtotime($this->input->get_post('end')));
       }
       $data['id'] = $id;
+      $data['start'] = $start;
+      $data['end'] = $end;
       $data['cases'] = $this->admin_model->get_sales_invoice($start,$end,$id);
       //print_r($this->db->last_query());die;
       $this->load->view('admin2/header',$data);
@@ -8055,11 +8122,123 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
     }
   }
 
+  public function submit_client_invoice()
+  {
+    
+    $case_id=array_unique($_POST['case_id']);
+
+foreach ($case_id as $id) {
+    $data['case_id']=$id;
+    $data['invoice_no']=$_POST['invoice_no'];
+    $data['client_id']=$_POST['client_id'];
+    $data['start_date']=$_POST['start'];
+    $data['activity_price_total']=$_POST['activity_price_total'];
+    $data['activity_tax_total']=$_POST['activity_tax_total'];
+    $data['activity_pricetax_total']=$_POST['activity_pricetax_total'];
+    $data['end_date']=$_POST['end'];
+
+    $data['date_time']=date('d-m-Y h:i:s a');
+    
+
+    $this->db->insert('client_invoice',$data);
+    $this->db->insert_id();
+
+}
+    redirect(base_url().'admin/client_invoice_view');
+
+
+  } 
+
+  public function submit_vendor_invoice()
+  {
+    
+    $case_id=array_unique($_POST['case_id']);
+
+foreach ($case_id as $id) {
+
+    $data['case_id']=$id;
+    $data['invoice_id']=$_POST['invoice_no'];
+    $data['client_id']=$_POST['client_id'];
+    $data['vendor_id']=$_POST['vendor_id'];
+    $data['voucher_no']=$_POST['voucher_no'];
+    $data['vendor_charges']=$_POST['vendor_charges'];
+    $data['start_date']=$_POST['start'];
+    $data['end_date']=$_POST['end'];
+
+    $data['date_time']=date('d-m-Y h:i:s a');
+    
+
+    $this->db->insert('vendor_invoice',$data);
+    $invoice=$this->db->insert_id();
+    echo $id;
+}
+    if($invoice){
+    redirect(base_url().'admin/vendor_invoice_view');
+    }else{
+
+    echo "Done";
+    }
+
+
+  } 
+
+  public function client_invoice_view()
+  {
+    $sql="SELECT client.*, GROUP_CONCAT(case_request.client_reference separator ',') as client_reference, GROUP_CONCAT(case_request.id separator ',') as caseID,client_invoice.status as paid_status,client_invoice.start_date,client_invoice.invoice_no,client_invoice.end_date,client_invoice.activity_price_total,client_invoice.activity_tax_total,client_invoice.activity_pricetax_total  from client INNER JOIN case_request on case_request.client_id=client.client_id INNER JOIN client_invoice on client_invoice.case_id=case_request.id ORDER BY client_invoice.client_id";
+    $data['results']=$this->db->query($sql)->result_array();
+    $this->load->view('admin2/header',$data);
+    $this->load->view('admin2/client_invoice_view',$data);
+    $this->load->view('admin2/footer',$data);
+  }
+
+  public function vendor_invoice_view()
+  {
+     if (!$_POST['v_id']) {
+       
+    $sql="select vendor_invoice.*,case_request.reference_code,case_request.client_reference,employee_itgs.employee_name,client.client_name,client.client_type from vendor_invoice inner join case_request on (case_request.id=vendor_invoice.case_id) inner join employee_itgs on (employee_itgs.id=vendor_invoice.vendor_id) INNER join client on (client.client_id=vendor_invoice.client_id) ORDER BY vendor_invoice.id DESC";
+     }else{
+    $sql="select vendor_invoice.*,case_request.reference_code,case_request.client_reference,employee_itgs.employee_name,client.client_name,client.client_type from vendor_invoice inner join case_request on (case_request.id=vendor_invoice.case_id) inner join employee_itgs on (employee_itgs.id=vendor_invoice.vendor_id) INNER join client on (client.client_id=vendor_invoice.client_id) where vendor_invoice.vendor_id='".$_POST['v_id']."' ORDER BY vendor_invoice.id DESC";
+      
+     }
+
+    $data['results']=$this->db->query($sql)->result_array();
+    $this->load->view('admin2/header',$data);
+    $this->load->view('admin2/vendor_invoice_view',$data);
+    $this->load->view('admin2/footer',$data);
+  }
+
+  public function update_client_case_status()
+  {
+    $caseID=explode(",",$_GET['caseID']);
+    $client=$_GET['client'];
+    foreach ($caseID as $id) {
+       $this->db->update("case_request",['is_paid'=>1],['id'=>$id,'client_id'=>$client]);
+       $this->db->update("client_invoice",['status'=>1],['case_id'=>$id,'client_id'=>$client]);
+      }
+      redirect(base_url().'admin/sales_invoice');  
+    }
+
+  public function update_vendor_invoice_status()
+  {
+    $caseID=$_GET['caseID'];
+    $clientID=$_GET['client'];
+       $this->db->update("vendor_invoice",['status'=>1],[
+        'case_id'=>$caseID,
+        'client_id'=>$clientID
+      ]);
+         
+      redirect(base_url().'admin/vendor_invoice_view');  
+
+    }
+
   public function vendor_payment_invoice()
   {
     if ($this->input->post()) {
       $start = date('Y-m-01', strtotime('-1 month'));
       $end = date('Y-m-t', strtotime('-1 month'));
+
+      $data['start'] = date('Y-m-01', strtotime('-1 month'));
+      $data['end'] = date('Y-m-t', strtotime('-1 month'));
       $id = $this->input->post('vendor');
       $data['id'] = $id;
       if ($this->input->post('start')) {
@@ -8600,43 +8779,37 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
     public function update_activity_price()
     {
 
+
+  $url='https://www.xe.com/currencyconverter/convert/?Amount=1&From=PKR&To=USD';
+
+
+      $page = file_get_contents($url);
+      $doc = new DOMDocument();
+      @$doc->loadHTML($page);
+      $divs = $doc->getElementsByTagName('span');
+      foreach($divs as $div) {
+       
+          
+          if ($div->getAttribute('class') === 'uccInverseResultUnit') {
+               $conversion_rate= $div->nodeValue;
+          }
+      }
+
+
+     $filter_conversion=explode('=', $conversion_rate);
+     $further_filter=explode(' ',$filter_conversion[1]);
+
       $data=$_POST;
+  
       $where=array(
        'id'=>$data['activity_id'],
        'subject_id'=>$data['subject_id'],
        'case_id'=>$data['case_id'],
       );
 
-      $get_conversion=$this->db->get_where('subject_activities',$where)->row_array();
      
-      $url='https://www.xe.com/currencyconverter/convert/?Amount='.$data['price'].'&From=PKR&To=USD';
-
-
-$page = file_get_contents($url);
-$doc = new DOMDocument();
-@$doc->loadHTML($page);
-$divs = $doc->getElementsByTagName('span');
-foreach($divs as $div) {
- 
-    if ($div->getAttribute('class') === 'uccResultAmount') {
-         $data['current_PKR_to_USD']= $div->nodeValue;
-    }
-    if ($div->getAttribute('class') === 'uccInverseResultUnit') {
-         $conversion_rate= $div->nodeValue;
-    }
-}
-        $filter_conversion=explode('=', $conversion_rate);
-        $further_filter=explode(' ',$filter_conversion[1]);
-
-        if($get_conversion['conversion_rate']<=0){
-         $data['conversion_rate']=$further_filter[1];
-        }
-     // echo $data['conversion_rate']=0;
-
-      $query="Update subject_activities set activity_price='".$data['price']."',price_in_usd='".$data['current_PKR_to_USD']."'";
-      if ($get_conversion['conversion_rate']<=0) {
-        $query.=" ,conversion_rate='".$data['conversion_rate']."'";
-      }
+      $query="Update subject_activities set activity_price='".$data['price']."', is_int='".$data['is_int']."', conversion_rate='".$further_filter[1]."'";
+      
       $query.=" where id='".$data['activity_id']."' and subject_id='".$data['subject_id']."' and case_id='".$data['case_id']."'";
       $this->db->query($query);
       if($this->db->affected_rows()>0){

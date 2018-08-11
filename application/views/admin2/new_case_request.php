@@ -129,7 +129,7 @@
 
 									 $last_id=$this->db->select('reference_code')->where('client_id',$_SESSION['client_id'])->order_by('id','desc')->limit(1)->get('case_request')->row('reference_code');
 											 ?>
-<input type="text" name="reference_code" id="reference_code" readonly class="form-control">
+											<input type="text" name="reference_code" id="reference_code" readonly class="form-control">
 
 
 												</div>
@@ -639,6 +639,7 @@ $('#country_id').change(function(){
 var number='<?php echo $d[5]+1?>';
 
 
+
 var itgs_reference="ITGS-"+'<?php echo $_SESSION[client_type]?>'+"-"+'<?php echo $_SESSION[abbreviation]?>'+"-"+$(this).val()+"-"+"<?php echo date('Y')?>"+"-"+number;
 
 $('#reference_code').val(itgs_reference);
@@ -720,7 +721,7 @@ $('.file_name').on("change", function (e) {
 			    	}
 			    	delete_act_file()
 			    	th.parent().find('.act_file_id').val(total.join(','))	
-			    	$('.img-loader').hide()		    	
+			    	$('.img-loader').hide();
 			    	// console.log(activity_file)
 			    	// $('[name="activity_files_id[]"]').val(JSON.stringify(activity_file))
 			    }

@@ -33,13 +33,13 @@
 
                                                     <li>
                                                         <a href="#" class="change_in_usd">
-                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
+                                                            
                                                             Change To USD</a>
                                                     </li>
 
                                                     <li>
                                                         <a href="#" class="change_in_pkr">
-                                                            <!-- <img src="https://www.phpflow.com/demo/tableExport-jquery-plugin-demo/images/xls.png" width="24px"> -->
+                                                           
                                                             Change To PKR</a>
                                                     </li>
 
@@ -61,12 +61,13 @@
 				<tr>
 					<th>ITGS Ref</th>
 					<th>Subject Name</th>
-                    <th>Type of Services</th>
+          <th>Type of Services</th>
 					<th>Payment Mode</th>
 					<th>Official Fee</th>
-                    <th>Assigned Price</th>
+          <th>Assigned Price</th>
 					<th>Exchanged Profit/Loss</th>
-					<th>Total</th>
+          <th>Total Cost</th>
+					<th>Profit Loss</th>
 					<th>Status</th>
 					<th>Action</th>
 				</tr>
@@ -75,56 +76,6 @@
 
 <?php 
 
-$scopecount=1;
-foreach ($jobs as $case): 
-
-     $price_data=array(
-     'case_id'=>$case['case_id'],
-     'subject_id'=>$case['subject_id'],
-     'activity_id'=>$case['activity_id']
-    );
-$detail_url = base_url('admin_assets/img/view.png');
-$activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
-
-
-	?>
-
-<?php $total=$case['official_fee']+$case['vendor_changes']+$case['easy_paisa_charges']+$case['mobi_cash_charges']+$case['bank_commission']+$case['postage_courier']+$case['other_charges'];
-
-?>
-				<tr>
-	<td><span class="footable-toggle"></span><?php echo $case['reference_code'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $case['subject_name'] ?></td>
-    <td><span class="footable-toggle"></span><?php echo $case['scope_name'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
-	<td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td>
-	<td><span class="footable-toggle"></span>
-
-
-<span class="pkr">
-              <?php  
-             if ($activity_price) {
-                
-             echo $activity_price['activity_price']." PKR";
-             }else{
-                echo "0 PKR";
-             } ?> 
-      </span>
-      <span class="dollar" style="display:none;">
-             <?php  
-             if ($activity_price) {
-                echo $activity_price['price_in_usd']." $";
-                 }else{
-                    echo "0 $";
-                 } ?> 
-      </span>
-
-        <!-- <a  data-toggle="modal" href='#modal-id' onclick="get_converted(<?php echo $activity_price['price_in_usd']; ?>)">Convert</a> -->
-    </td>
-    <
-    <td>
-     
-     <?php 
 
   $url='https://www.xe.com/currencyconverter/convert/?Amount=1&From=PKR&To=USD';
 
@@ -143,33 +94,170 @@ foreach($divs as $div) {
 
 
      $filter_conversion=explode('=', $conversion_rate);
-        $further_filter=explode(' ',$filter_conversion[1]);
+     $further_filter=explode(' ',$filter_conversion[1]);
+    // echo $conversion_rate;
+
+$scopecount=1;
+
+
+
+
+
+
+
+foreach ($jobs as $case): 
+
     
-     $saved_rate=$activity_price['price_in_usd']*$activity_price['conversion_rate'];
-     // echo $saved_rate."<br>";
+    $all_activity=$this->db->select('GROUP_CONCAT(sow.scope_name separator ",") as act_name , SUM(sa.activity_price) as assigned_price , sa.conversion_rate as c_rate')
+                        ->from('scope_of_work sow')
+                        ->join('subject_activities sa','sow.id=sa.activity_id','left')
+                        ->where('sa.subject_id',$case['subject_id']);
+    $all_act=$this->db->get()->row_array();
 
-     $latest_rate=$activity_price['price_in_usd']*$filter_conversion[1];
-     echo $latest_rate-$saved_rate;
+     $price_data=array(
+     'case_id'=>$case['case_id'],
+     'subject_id'=>$case['subject_id'],
+     'activity_id'=>$case['activity_id']
+    );
+
+
+
+
+$detail_url = base_url('admin_assets/img/view.png');
+$activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
+	?>
+<?php 
+
+
+$funds_total=$this->db->query('Select SUM(fund_request_activity.official_fee) as of, SUM(fund_request_activity.vendor_changes) as vc,  SUM(fund_request_activity.easy_paisa_charges) as epc, SUM(fund_request_activity.mobi_cash_charges) as mcc, SUM(fund_request_activity.bank_commission) as bc, SUM(fund_request_activity.postage_courier) as pcr, SUM(fund_request_activity.other_charges) as otc 
+       from 
+      fund_request_activity where is_approved=1 and subject_id='.$case['subject_id'].' GROUP BY fund_request_activity.subject_id')->row_array();
+
+$vendor_total=$this->db->query("select SUM(charges) as charges from case_fund_request where  is_approve=1 and subject_id=".$case['subject_id'])->row_array();
+
+
+$total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['mcc']+$funds_total['bc']+$funds_total['pcr']+$funds_total['otc']+$vendor_total['charges'];
+
 ?>
+				<tr>
+	<td><span class="footable-toggle"></span><?php echo $case['reference_code'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $case['subject_name'] ?></td>
+    <td><span class="footable-toggle"></span><?php echo $all_act['act_name'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
+	<td>
+    <span class="footable-toggle"></span>
+     <?php if ($case['client_type']=="INT"): ?>
+        <p class="dollar"><?php echo $funds_total['of']; ?> $</p>
+        <p class="pkr"><?php echo $funds_total['of']*$all_act['c_rate']; ?> PKR</p>
+     <?php else: ?>
+        <p class="dollar"><?php echo $funds_total['of']/$all_act['c_rate']; ?> $</p>
+        <p class="pkr"><?php echo $funds_total['of'];?> PKR</p>
+     <?php endif ?>
+  </td>
+    <td><span class="footable-toggle"></span>
 
-
-
+             
+        <?php 
+          if ($case['client_type']=="INT") {
+               ?>
+               <p class="dollar"> <?php echo $all_act['assigned_price'] ?> $ </p>
+               <p class="pkr"> <?php echo round($all_act['assigned_price']*$all_act['c_rate']) ?> PKR </p>
+              
+          <?php 
+          }
+          else{
+            ?>
+            <p class="dollar"> <?php echo round($all_act['assigned_price']/$all_act['c_rate']); ?> $ </p>
+               <p class="pkr"> <?php echo $all_act['assigned_price'] ?> PKR </p>
+         <?php 
+          }         
+         ?>
 
     </td>
-	<td><span class="footable-toggle"></span>
-	<?php echo $activity_price['activity_price'] - $total; ?></td>
+   
+    
+
+  <td><span class="footable-toggle"></span>
+    
+    <?php  if ($case['client_type']=="INT") {
+               ?>
+               <p class="dollar"> <?php echo ($all_act['assigned_price'] - $total); ?> $ </p>
+               <p class="pkr"> <?php echo round(($all_act['assigned_price'] - $total)*$further_filter[1]); ?> PKR </p>
+              
+          <?php 
+          }else{
+
+            ?>
+
+            <p class="dollar"> <?php echo round($total*$further_filter[1]); ?> $ </p>
+               <p class="pkr"> <?php echo $total; ?> PKR </p>
+
+            <?php
+          }
+           ?>
+
+    </td>
+    
+
+
+
+  <td><span class="footable-toggle"></span>
+
+        <?php  if ($case['client_type']=="INT") {
+               ?>
+               <p class="dollar"> <?php echo $total; ?> $ </p>
+               <p class="pkr"> <?php echo round($total*$all_act['c_rate']); ?> PKR </p>
+              
+          <?php 
+          }else{
+            ?>
+
+               <p class="dollar"> <?php echo rount($total*$all_act['c_rate']); ?> $ </p>
+               <p class="pkr"> <?php echo $total; ?> PKR </p>
+            <?php
+          }
+          ?>
+
+    </td>
+
+  <td><span class="footable-toggle"></span>
+    
+    <?php  if ($case['client_type']=="INT") {
+               ?>
+               <p class="dollar"> <?php echo ($all_act['assigned_price'] - $total); ?> $ </p>
+               <p class="pkr"> <?php echo round(($all_act['assigned_price'] - $total)*$all_act['c_rate']); ?> PKR </p>
+              
+          <?php 
+          }else{
+
+            ?>
+
+            <p class="dollar"> <?php echo round($total*$all_act['c_rate']); ?> $ </p>
+               <p class="pkr"> <?php echo $total; ?> PKR </p>
+
+            <?php
+          }
+           ?>
+
+    </td>
+    
 		<td><span class="footable-toggle"></span>
 	
-	<?php 
-	if($case['is_approved']==0){
-	    echo "Pending";
-	}else if($case['is_approved']==1){
-	    echo "Approved";
-	}else if($case['is_approved']==2){
-	    echo "Rejected";
-	}
-	?>
-	
+    <?php if($case['case_status']==1){
+    echo "New Case";
+    }else if($case['case_status']==2){
+    echo "In Progress";
+    }else if($case['case_status']==3){
+    echo "On Hold";
+    }else if($case['case_status']==4){
+  echo "Cancelled";
+  }else if($case['case_status']==7){
+  echo "In Progress";
+  }else if($case['case_status']==8){
+    echo "OnHold";
+    }else if($case['case_status']==5){
+    echo "<a href='".base_url()."admin/view_report_submission/".$case['id']."' style='color:black;'>Completed</a>";
+    } ?>
 	</td>
 	
 <td>
@@ -385,19 +473,7 @@ $scopecount++;
                                             <input name="type_of_service" required="" type="text" class="form-control">
                                         </div>
                                     </div>
-                                    <!--<div class="form-group row">-->
-                                    <!--    <div class="form-group col-lg-6">-->
-                                    <!--    <label for="">Activity</label>-->
-                                    <!--        <select class="form-control" name="activity">-->
-                                    <!--            <option>Select Activity</option>-->
-                                    <!--            <option value="1">1</option>-->
-                                    <!--            <option value="2">2</option>-->
-                                    <!--            <option value="3">3</option>-->
-                                    <!--            <option value="4">4</option>-->
-                                    <!--        </select>-->
-                                        
-                                    <!--    </div>-->
-                                    <!--</div>-->
+                                 
                                      
                                 </div>
                                 <div class=panel-footer>
@@ -601,6 +677,10 @@ function vendor_assign_id(case_id,subject_id,activity_id){
 // function get_converted(price_in_usd) {
 //     $('.converted_price').html("The Price in USD "+price_in_usd);
 // }
+
+     $('.dollar').each(function() {
+         $(this).hide();
+     });
 
 
 $('.change_in_usd').click(function() {

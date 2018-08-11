@@ -210,35 +210,44 @@
                            ->from('fund_case_approve')
                            ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
                            ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
+                           ->where('type',1)
                            ->order_by('id', 'desc');
                       $slip = $this->db->get()->row_array();
-                      if ($slip['type'] == 1) {
-                        $slip = $slip['slip'];
-                      }
-                      elseif ($slip['type'] == 2) {
-                        $slip = $slip['chaque'];
-                      }
-                      elseif ($slip['type'] == 3) {
-                        $slip = $slip['payorder'];
-                      }
-                      else{
-                        $slip = 0;
-                      }
-                      $slip = $slip + 1;
+                      
+                      $this->db->select('*')
+                           ->from('fund_case_approve')
+                           ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
+                           ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
+                           ->where('type',2)
+                           ->order_by('id', 'desc');
+                      $chaque = $this->db->get()->row_array();
+                      
+                      $this->db->select('*')
+                           ->from('fund_case_approve')
+                           ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
+                           ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
+                           ->where('type',3)
+                           ->order_by('id', 'desc');
+                      $payorder = $this->db->get()->row_array();
+                      
+
+                      $slip1 = $slip['slip'] + 1;
+                      $chaque1 = $chaque['chaque'] + 1;
+                      $payorder1 = $payorder['payorder'] + 1;
                     ?>
                     <div class="form-group col-lg-6 change-type type-1">
                       <label>Slip No#</label>
-                      <input name="" type="text" class="form-control" value="<?php echo 'JV'.$slip ?>" readonly>
+                      <input name="" type="text" class="form-control" value="<?php echo 'JV'.$slip1 ?>" readonly>
                       <input type="hidden" name="slip" value="<?php echo $slip ?>">
                     </div>
                     <div class="form-group col-lg-6 change-type type-2" style="display: none">
                       <label>Chaque No#</label>
-                      <input name="" type="text" class="form-control" value="<?php echo 'JV'.$slip ?>" readonly>
+                      <input name="" type="text" class="form-control" value="<?php echo 'JV'.$chaque1 ?>" readonly>
                       <input type="hidden" name="chaque" value="<?php echo $slip ?>">
                     </div>
                     <div class="form-group col-lg-6 change-type type-3" style="display: none">
                       <label>Payorder No#</label>
-                      <input name="" type="text" class="form-control" value="<?php echo 'JV'.$slip ?>" readonly>
+                      <input name="" type="text" class="form-control" value="<?php echo 'JV'.$payorder1 ?>" readonly>
                       <input type="hidden" name="payorder" value="<?php echo $slip ?>">
                     </div>
                    </div>

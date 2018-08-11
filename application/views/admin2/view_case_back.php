@@ -297,8 +297,8 @@ $key = array_search($activity['scope_id'], array_column($activities, 'activity_i
 
                 ?>
               <tr>
-                  <input type="hidden"  name="case_id" value="<?php echo $client_details['id'] ?>" id="case_id">
-
+<!--                   <input type="hidden"  name="case_id" value="<?php echo $client_details['id'] ?>" id="case_id">
+ -->
                 <td><input type="checkbox" name="scope_id[0][]" class="scope_value" value="<?php echo $activity['scope_id'] ?>" id="<?php echo $activity['scope_id'] ?>" <?php if (array_key_exists($key,$activities)) echo 'checked ' ?>>
                   <?php if (array_key_exists($key,$activities)){ ?>
                   <input type="hidden" name="a_id[<?php echo $subject['id'] ?>][]" value="<?php if (array_key_exists($key,$activities)) echo $activities[$key]['id'] ?>">

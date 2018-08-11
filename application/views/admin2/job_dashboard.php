@@ -145,7 +145,9 @@ $scopecount++;
 $scopecount=1;
 foreach ($jobs as $case): ?>
 
-<?php $total=$case['official_fee']+$case['vendor_changes']+$case['easy_paisa_charges']+$case['mobi_cash_charges']+$case['bank_commission']+$case['postage_courier']+$case['other_charges'];
+<?php 
+$total=$case['official_fee']+$case['vendor_changes']+$case['easy_paisa_charges']+$case['mobi_cash_charges']+$case['bank_commission']+$case['postage_courier']+$case['other_charges'];
+$total_usd=$case['official_fee_usd']+$case['vendor_changes_usd']+$case['easy_paisa_charges_usd']+$case['mobi_cash_charges_usd']+$case['bank_commission_usd']+$case['postage_courier_usd']+$case['other_charges_usd'];
 
 ?>
 				<tr>
@@ -159,7 +161,10 @@ foreach ($jobs as $case): ?>
 	<td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td>
 
 	<td><span class="footable-toggle"></span>
-	<?php echo $total; ?></td>
+	     <p class="total_pkr"><?php echo $total; ?></p>
+	     <p class="total_usd" style="display: none;"><?php echo $total_usd; ?></p>
+
+</td>
 	<td>
 		<?php 
 			$files = explode(',', $case['file']);
@@ -189,7 +194,7 @@ foreach ($jobs as $case): ?>
  <?php 
 if ($case['fid'] <= 0) {
  ?>                                                  
- <a href="" data-toggle="modal" data-target="#myModal11" onclick="fund_paid(<?php echo $case['id'] ?>,<?php echo $total ?>)">Payment Issue</a>    
+ <a href="" data-toggle="modal" data-target="#myModal11" onclick="fund_paid(<?php echo $case['id'] ?>,<?php echo $total ?>,<?php echo $t ?>)">Payment Issue</a>    
  <a href="<?php echo base_url() ?>admin/fund_request_update?request_id=<?php echo $case['id'] ?>&case_id=<?php echo $case['case_id'] ?>&status=2" class="btn btn-danger">Reject</a>                                               
 <?php } ?> 
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>/<?php echo $case['id'] ?>" target="_blank"><img src="<?php echo base_url(); ?>/admin_assets/img/view.png" title="View Detail" alt="View Detail" width="25" height="25"></a>
@@ -418,12 +423,19 @@ else {
 	$fund = 'class="sweets-alert"';
 	echo '<a class="open-modal" style="display:none" data-toggle="modal" data-target="#myModal"></a>';
 } 
+
+
+if ($case['client_type']=="INT") {
+	$is_int=1;
+}else{
+	$is_int=0;
+}
 ?>
-                                                    <a <?php echo $fund ?> onclick="fund_request_assign_id(<?php echo $case['case_id'] ?>,<?php echo $case['subject_id'] ?>,<?php echo $case['activity_id'] ?>,'<?php echo $case['reference_code']?>','<?php echo $case['subject_name'];?>','<?php echo $case['scope_name'] ?>')"><img src="<?php echo base_url(); ?>/admin_assets/img/found.png" title="Fund Request" alt="" width="25" height="25"></a>
+        <a <?php echo $fund ?> onclick="fund_request_assign_id(<?php echo $is_int; ?>,<?php echo $case['case_id'] ?>,<?php echo $case['subject_id'] ?>,<?php echo $case['activity_id'] ?>,'<?php echo $case['reference_code']?>','<?php echo $case['subject_name'];?>','<?php echo $case['scope_name'] ?>')"><img src="<?php echo base_url(); ?>/admin_assets/img/found.png" title="Fund Request" alt="" width="25" height="25"></a>
 <?php 
 if (empty($vendor)) {
 ?>
-                                                    <a href="" data-toggle="modal" data-target="#myModal2" onclick="vendor_assign_id(<?php echo $case['case_id'] ?>,<?php echo $case['subject_id'] ?>,<?php echo $case['activity_id'] ?>,'<?php echo $case['reference_code'] ?>','<?php echo $case['scope_name'] ?>','<?php echo $case['subject_name'] ?>')"><img src="<?php echo base_url(); ?>/admin_assets/img/task.png" title="Assign Vendor" alt="" width="25" height="25"></a>
+       <a href="" data-toggle="modal" data-target="#myModal2" onclick="vendor_assign_id(<?php echo $case['case_id'] ?>,<?php echo $case['subject_id'] ?>,<?php echo $case['activity_id'] ?>,'<?php echo $case['reference_code'] ?>','<?php echo $case['scope_name'] ?>','<?php echo $case['subject_name'] ?>')"><img src="<?php echo base_url(); ?>/admin_assets/img/task.png" title="Assign Vendor" alt="" width="25" height="25"></a>
 <?php } else{ ?>
 <a class="sweets-alert2" onclick="vendor_assign_id(<?php echo $case['case_id'] ?>,<?php echo $case['subject_id'] ?>,<?php echo $case['activity_id'] ?>,'<?php echo $case['reference_code'] ?>','<?php echo $case['scope_name'] ?>','<?php echo $case['subject_name'] ?>',<?php echo $vendor['id'] ?>)"><img src="<?php echo base_url(); ?>/admin_assets/img/task.png" title="View Vendor" alt="" width="25" height="25"></a>
 <?php echo '<a class="open-modal2" style="display:none" data-toggle="modal" data-target="#myModal2"></a>'; ?>
@@ -633,52 +645,33 @@ $scopecount++;
                     <?php 
                     	$this->db->select('*')
                     			 ->from('fund_approve')
-                    			 ->where('STR_TO_DATE(date, "%Y-%m-%d") >=', date('Y-m-d'))
-                    			 ->where('STR_TO_DATE(date, "%Y-%m-%d") <=', date('Y-m-t'))
+                    			 ->where('type', 1)
                     			 ->order_by('slip', 'desc');
                     	$slip = $this->db->get()->row_array();
                     	$slip = $slip['slip'];
                     	$slip = $slip + 1;
                     ?>
-                    <!-- <?php 
+                 
+                    <?php 
                     	$this->db->select('*')
                     			 ->from('fund_approve')
-                    			 ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
-                    			 ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
+                    			 
+                    			  ->where('type', 3)
                     			 ->order_by('payorder', 'desc');
                     	$payorder = $this->db->get()->row_array();
-                    	$payorder = $payorder['payorder'];
-                    	$payorder = $payorder + 1;
+	                    $payorder = $payorder['payorder'];
+	                  	$payorder +=  1;
+                    	// echo $payorder;
                     ?>
                     <?php 
                     	$this->db->select('*')
                     			 ->from('fund_approve')
-                    			 ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
-                    			 ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
+                    			  ->where('type', 2)
                     			 ->order_by('chaque', 'desc');
                     	$chaque = $this->db->get()->row_array();
-                    	$chaque = $chaque['chaque'];
-                    	$chaque = $chaque + 1;
-                    ?> -->
-                    <?php 
-                    	$this->db->select('*')
-                    			 ->from('fund_approve')
-                    			 ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
-                    			 ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
-                    			 ->where('type != ', '1')
-                    			 ->order_by('id', 'desc');
-                    	$payorder = $this->db->get()->row_array();
-                    	$payorder = $payorder['payorder'];
-                    	if ($slip['type'] == 2) {
-	                        $payorder = $payorder['chaque'];
-	                    }
-	                    elseif ($payorder['type'] == 3) {
-	                        $payorder = $payorder['payorder'];
-	                    }
-	                    else{
-	                        $payorder = 0;
-	                    }
-                    	$payorder = $payorder + 1;
+	                    $chaque = $chaque['chaque'];
+	                  	$chaque +=  1;
+                    	// echo $payorder;
                     ?>
                     <div class="form-group col-lg-6 change-type type-1">
                     	<label>Slip No#</label>
@@ -687,8 +680,8 @@ $scopecount++;
                     </div>
                     <div class="form-group col-lg-6 change-type type-2" style="display: none">
                     	<label>Chaque No#</label>
-                    	<input name="" type="text" class="form-control" value="<?php echo 'BPV'.$payorder ?>" readonly>
-                    	<input type="hidden" name="chaque" value="<?php echo $payorder ?>">
+                    	<input name="" type="text" class="form-control" value="<?php echo 'BPV'.$chaque ?>" readonly>
+                    	<input type="hidden" name="chaque" value="<?php echo $chaque ?>">
                     </div>
                     <div class="form-group col-lg-6 change-type type-3" style="display: none">
                     	<label>Payorder No#</label>
@@ -1092,6 +1085,8 @@ $scopecount++;
                             </div>
                         </form>
 					<form method="POST" action="<?php echo base_url()?>admin/insert_fund_request" enctype="multipart/form-data">
+
+
 					    
 					     <input type="hidden" name="fund_case_id" >
                          <input type="hidden" name="fund_subject_id" >
@@ -1133,6 +1128,8 @@ $scopecount++;
                                         </div>
                                     </div>
                                     <div class="form-group row">
+
+                                    	<input type="hidden" name="is_int" class="is_int">
                                         <div class="form-group col-lg-12">
                                         <label for="">Degree Type</label>
                                         <select class="form-control" name="degree_type" required="">
@@ -1148,6 +1145,8 @@ $scopecount++;
                                         
                                         </div>
                                     </div>
+
+                               
                                     <div class="form-group row">
                                         <div class="form-group col-lg-6">
                                         <label for="">Name Of IA</label>
@@ -1155,7 +1154,7 @@ $scopecount++;
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label for="">Mode of Payment Ffor Official Fee</label>
+                                            <label for="">Mode of Payment for Official Fee</label>
                                             <div class=" checkbox-info checkbox-circle">
                                                         <input id="checkbox8" type="radio" required=""  name="mode_of_payment" value="Cash">
                                                         <label for="checkbox8">Cash</label>
@@ -1191,46 +1190,46 @@ $scopecount++;
                                     </div>
                                     <div class="form-group row">
                                         <div class="form-group col-lg-6">
-                                        <label for="">Official Fee</label>
-                                            <input name="official_fee" type="number" required="" class="form-control num">
+                                        <label for="">Official Fee <label class="show_int"></label></label>
+                                            <input name="official_fee" type="number" value="0" required="" class="form-control num">
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label for="">Vendor Charges</label>
-                                            <input name="vendor_changes" type="number" required="" class="form-control num">
+                                            <label for="">Vendor Charges <label class="show_int"></label></label>
+                                            <input name="vendor_changes" type="number" value="0"  required="" class="form-control num">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="form-group col-lg-6">
-                                        <label for="">Easy Paisa Charges</label>
-                                            <input name="easy_paisa_charges" type="number" required="" class="form-control num">
+                                        <label for="">Easy Paisa Charges <label class="show_int"></label></label>
+                                            <input name="easy_paisa_charges" type="number" required="" value="0"  class="form-control num">
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label for="">Mobi Cash Charges</label>
-                                            <input name="mobi_cash_charges" type="number" required="" class="form-control num">
+                                            <label for="">Mobi Cash Charges <label class="show_int"></label></label>
+                                            <input name="mobi_cash_charges" type="number" value="0"  required="" class="form-control num">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="form-group col-lg-6">
-                                        <label for="">Bank Commission</label>
-                                            <input name="bank_commission" type="number" required="" class="form-control num">
+                                        <label for="">Bank Commission <label class="show_int"></label></label>
+                                            <input name="bank_commission" type="number" value="0"  required="" class="form-control num">
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label for="">Postage & Couries Charges</label>
-                                            <input name="postage_courier" type="number" required="" class="form-control num">
+                                            <label for="">Postage & Couries Charges <label class="show_int"></label></label>
+                                            <input name="postage_courier" type="number" value="0"  required="" class="form-control num">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="form-group col-lg-6">
-                                        <label for="">Other Charges</label>
-                                            <input name="other_charges" type="number" required="" class="form-control num">
+                                        <label for="">Other Charges <label class="show_int"></label></label>
+                                            <input name="other_charges" type="number" value="0"  required="" class="form-control num">
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label for="">Total Cost</label>
-                                            <input name="total_cost" required="" type="number" class="form-control totals" readonly="">
+                                            <input name="total_cost" required="" value="0"  type="number" class="form-control totals" readonly="">
                                         </div>
                                     </div>
 
@@ -2353,8 +2352,19 @@ function cancel_id_assign(case_id) {
 
   }
 
-function fund_request_assign_id(case_id,subject_id,activity_id,client_reference,subject_name,type){
+function fund_request_assign_id(is_int,case_id,subject_id,activity_id,client_reference,subject_name,type){
     
+         	if (is_int==1) {
+              
+               	$('.show_int').html(' in USD');
+              
+         	}else{
+               
+               	$('.show_int').html(' ');
+               
+               
+           }
+    $('[name=is_int]').val(is_int);
     $('[name=fund_case_id]').val(case_id);
     $('[name=client_reference]').val(client_reference).text();
     $('[name=fund_subject_id]').val(subject_id);
@@ -2421,7 +2431,6 @@ function vendor_view(id) {
 	    method: 'GET',
 	    type: 'GET', // For jQuery < 1.9
 	    success: function(response){
-	    	console.log(response)
 	    	$('#myModal26 [name="vendor_id"] option[value="'+response.vendor_id+'"]').attr('selected', true)
 	    	$('#myModal26 [name="type_of_service"]').val(response.type_of_service)
 	    	$('#myModal26 [name="remarks"]').val(response.remarks)
@@ -2716,6 +2725,9 @@ $('.subject_file').on("change", function (e) {
   		total = total + val;
   	})
   	$('.totals').val(total)
-  })
+  });
+
+
+
 </script>
 <div class="img-loader" style="display: none"><img src="<?php echo base_url('admin_assets/img/Ajax-loader.gif') ?>"></div>

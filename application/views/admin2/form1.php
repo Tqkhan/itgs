@@ -157,7 +157,8 @@
             $j=1;
             foreach ($subjects as $subject):
 
-             $activities=$this->db->query("select subject_activities.*,scope_of_work.scope_name, assign_activity_to_user.id as aid, assign_activity_to_user.is_report, assign_activity_to_user.hold_status from subject_activities inner JOIN scope_of_work on (subject_activities.activity_id=scope_of_work.id) left join assign_activity_to_user on assign_activity_to_user.activity_id = subject_activities.activity_id and assign_activity_to_user.case_id = subject_activities.case_id where subject_activities.subject_id='".$subject['id']."'")->result_array();
+             $activities=$this->db->query("select subject_activities.*,scope_of_work.scope_name, assign_activity_to_user.id as aid, assign_activity_to_user.is_report, assign_activity_to_user.hold_status from subject_activities inner JOIN scope_of_work on (subject_activities.activity_id=scope_of_work.id) left join assign_activity_to_user on assign_activity_to_user.activity_id = subject_activities.activity_id and assign_activity_to_user.case_id = subject_activities.case_id where subject_activities.subject_id='".$subject['id']."' GROUP BY subject_activities.activity_id")->result_array();
+             
              ?>
              <div class="panel-default panel">
   <div class="panel-heading" style="background-color: #7dbbdf;">
@@ -202,8 +203,13 @@
                   <th>Serial #</th>
                   <th>Name</th>
                   <th>Attachment</th>
-                  <th><?php if ($_SESSION['role']== "PM"): ?>
-                  Price
+                  <th><?php if ($_SESSION['role']== "PM"): 
+                  if ($client_details['client_type']=="INT") {
+                     echo "Price in USD";
+                   }else{
+                  
+                    echo "Price";                    
+                   } ?>
                   <?php endif ?></th>
                   <th>Due Date</th>
                   <?php 
@@ -239,14 +245,19 @@
                 else if ($activity['activity_attachement']==""){
                     echo "No Attachment";
                     } ?></td>
-                <td><?php if ($_SESSION['role']== "PM"): ?>
+                <td><?php if ($_SESSION['role']== "PM"): 
+              if ($client_details['client_type']=="INT") {
+                ?>
+
+
+
                
                    <div class="change_updated_price_<?php echo $activity['id'] ?>">
                  <?php if ($activity['activity_price']==0){ ?>
                   
                    <div class="form-group col-lg-6">
                                           
-                        <input type="number" name="price_<?php echo $activity['id']; ?>" onkeydown="if (event.keyCode == 13) { return false;}" value="0" style="width:100px;" class="form-control">
+              <input type="number" name="price_<?php echo $activity['id']; ?>" onkeydown="if (event.keyCode == 13) { return false;}" value="0" style="width:100px;" class="form-control">
                     <span class="input-group-btn">
                     <button style="margin-top: -34px; margin-left: 99px;" type="button" id="btn_update_price" class="btn btn-primary" onclick="update_activity_price(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>)"><i class="fa fa-refresh" ></i></button>
                     
@@ -257,11 +268,45 @@
                                         </div>
                  <?php }
                  else{
-                  echo $activity['activity_price'];
+                  echo $activity['activity_price']." $";
+                 } ?>
+                  <a   onclick="edit_show_form(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>,<?php echo $activity['activity_price'] ?>,'1')">Edit</a>
+
+                  </div>    
+
+                <?php
+              }else{
+                ?>
+
+
+               
+                   <div class="change_updated_price_<?php echo $activity['id'] ?>">
+                 <?php if ($activity['activity_price']==0){ ?>
+                  
+                   <div class="form-group col-lg-6">
+                                          
+                        <input type="number" name="price_<?php echo $activity['id']; ?>" onkeydown="if (event.keyCode == 13) { return false;}" value="0" style="width:100px;" class="form-control">
+                    <span class="input-group-btn">
+                    <button style="margin-top: -34px; margin-left: 99px;" type="button" id="btn_update_price" class="btn btn-primary" onclick="update_activity_price(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>,'0')"><i class="fa fa-refresh" ></i></button>
+                    
+
+                  </span>  
+                      
+                    
+                                        </div>
+                 <?php }
+                 else{
+                  echo $activity['activity_price']." Pkr";
                  } ?>
                   <a   onclick="edit_show_form(<?php echo $activity['case_id'] ?>,<?php echo $activity['subject_id'] ?>,<?php echo $activity['id'] ?>,<?php echo $activity['activity_price'] ?>)">Edit</a>
 
-                  </div>                  
+                  </div>    
+
+
+
+                <?php
+              }
+                ?>              
                   <?php endif ?>
 
 
@@ -337,7 +382,12 @@
       ?>
 
 </div>
+        <?php if ($_SESSION['role']=="PM"): ?>
+          
             <a class="btn btn-success pull-right update_assigned_price" id="<?php echo base_url() ?>admin/update_assigned_price?case_id=<?php echo $client_details['id'] ?>">Price Assigned</a>
+
+        <?php endif ?>
+
             <div class="clearfix"></div>
              </div>
             </form>
@@ -390,14 +440,14 @@
 <script type="text/javascript">
 
 
-  function update_activity_price(case_id,subject_id,activity_id) {
+  function update_activity_price(case_id,subject_id,activity_id,is_int) {
     var price=$('[name=price_'+activity_id+']').val();
-    var html=price+' <a onclick="edit_show_form('+case_id+','+subject_id+','+activity_id+','+price+')">Edit</a>';
+    var html=price+' <a onclick="edit_show_form('+case_id+','+subject_id+','+activity_id+','+price+','+is_int+')">Edit</a>';
 
     $.ajax({
       url:"<?php echo base_url() ?>admin/update_activity_price",
       type:"post",
-      data:{case_id:case_id,subject_id:subject_id,activity_id:activity_id,price:price},
+      data:{case_id:case_id,subject_id:subject_id,activity_id:activity_id,price:price,is_int:is_int},
       beforeSend: function(){ 
         $('.change_updated_price_'+activity_id).append("<br><br>"+"Loading...");
       },
@@ -411,22 +461,20 @@
   }
 
 
-    function edit_show_form(case_id,subject_id,activity_id,price) {
+    function edit_show_form(case_id,subject_id,activity_id,price,is_int) {
           var html=' <div class="form-group col-lg-6">'+
            '<input type="number" name="price_'+activity_id+'"'+ 
            'value="'+price+'"  style="width:100px;" class="form-control" onkeydown="if (event.keyCode == 13) {  return false;}">'+
            '<span class="input-group-btn">'+
            '<button style="margin-top: -34px; margin-left: 99px;"'+'type="button" id="btn_update_price" class="btn '+ 
            'btn-primary"'+ 
-           'onclick="update_activity_price('+case_id+','+subject_id+','+activity_id+')">'+
+           'onclick="update_activity_price('+case_id+','+subject_id+','+activity_id+','+is_int+')">'+
            '<i class="fa fa-refresh" ></i></button>'+
             '</span></div>';
            $('.change_updated_price_'+activity_id).html(html);
     }
 
-    $('.edit_activity_price').click(function() {
-      alert();
-    });
+  
 
 
   $('.update_assigned_price').click(function() {

@@ -107,7 +107,9 @@
 								<div class="panel-body">
 
 									<div class="table-responsive">
-		<table id="ex" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+		<form method="post" action="<?php echo base_url() ?>admin/submit_client_invoice">
+
+    <table id="ex" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
       <div class="col-md-12 hidden-print" id="">
         <div class="col-md-3">
           <label>Export Full Report</label>
@@ -136,7 +138,6 @@
 				</tr>
 			</thead>
 			<tbody>
-
 <?php 
 $count = 1;
   foreach ($cases as $c) {
@@ -148,53 +149,60 @@ $count = 1;
      'id'=>$c['activity_id']
     );
 $activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
+
+// echo $activity_price['case_id'];
 ?>
 				<tr>
+    <input type="hidden" name="start" value="<?php echo $start; ?>"/>
+    <input type="hidden" name="end" value="<?php echo $end ?>"/>
+    <input type="hidden" name="case_id[]" value="<?php echo $c['case_id'] ?>"/>
+    <input type="hidden" name="client_id" value="<?php echo $c['client_id'] ?>"/>
+    <?php $ref=explode("-", $c['reference_code']);
+     ?>
+    <input type="hidden" name="invoice_no" value="<?php echo $c['client_name'].'-'.date('Y-m-d').'-'.$ref[5]; ?>">
+      
 	<td><?php echo $count ?></td>
 	<td><?php echo $c['reference_code'] ?></td>
 	<td><?php echo $c['subject_name'] ?></td>
   <td><?php echo $c['scope_name'] ?></td>
+  <?php if ($activity_price['is_int']==1 && $c['client_type']=="INT"): ?>
+  <td><?php echo $activity_price['activity_price']; 
+          $activity_price_total+=$activity_price['activity_price'];
+  ?></td>
   
-  <?php if ($c['client_type']=="LC"): ?>
-     <td class="fieldCell1">
-    <?php echo $activity_price['activity_price'] ;?>
-    </td>
-  <td class="fieldCell2"><?php echo $activity_price['activity_price'] * 13 / 100 ?></td>
-  <td class="fieldCell3"><?php echo $activity_price['activity_price'] + ($activity_price['activity_price'] * 13 / 100) ?></td>
- 
- <?php else: 
-   $int_price=$activity_price['price_in_usd'];
-   $int_price_with_tax=$activity_price['activity_price']/$activity_price['conversion_rate'];
+  <td><?php echo $activity_price['activity_price']*13/100; 
+          $activity_tax_total+=$activity_price['activity_price']*13/100;
 
-  ?>
-     
-  <td class="fieldCell1">
-    <?php  
-echo number_format((float)$int_price, 2, '.', '');  
+  ?></td>
 
-    ?>
-      
-    </td>
-  <td class="fieldCell2"><?php $sales_tax=$int_price_with_tax * 13 / 100;
-    
-echo number_format((float)$sales_tax, 2, '.', '');  
-    ?>
-  </td>
-  <td class="fieldCell3"><?php $wsTax=$int_price + ($sales_tax);
-echo number_format((float)$wsTax, 2, '.', '');  
+  <td><?php echo  $activity_price['activity_price'] +$activity_price['activity_price']*13/100; 
+  $activity_pricetax_total+=$activity_price['activity_price'] +$activity_price['activity_price']*13/100; 
 
-   ?></td>
- 
- 
+  ?></td>
+  <td><?php echo "$"; ?></td>
+
+  <?php else: ?>
+
+    <td><?php echo $activity_price['activity_price']; 
+          $activity_price_total+=$activity_price['activity_price'];
+  ?></td>
+  
+  <td><?php echo $activity_price['activity_price']*13/100; 
+          $activity_tax_total+=$activity_price['activity_price']*13/100;
+
+  ?></td>
+
+  <td><?php echo  $activity_price['activity_price'] +$activity_price['activity_price']*13/100; 
+  $activity_pricetax_total+=$activity_price['activity_price'] +$activity_price['activity_price']*13/100; 
+
+  ?></td> 
+  <td><?php if ($c['client_type']=="INT") {
+  echo "$"; 
+  }else{
+  echo "PKR";
+  } 
+  ?></td>
   <?php endif ?>
- 
-   <td><?php if ($c['client_type']=="LC"): 
-    echo "PKR";
-   ?>
-     <?php else:
-    echo "$";
-      ?>
-   <?php endif ?></td>
 
 
 				</tr>
@@ -203,8 +211,24 @@ $count++;
 } 
 ?>        
 
+
 			</tbody>
+      <tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td>   </td>  <td> <strong>Total</strong></td> <td>   </td>    </td> <td><strong>   <?php echo $activity_price_total  ?> </strong> </td> <td><strong>  <?php echo $activity_tax_total  ?> </strong> </td> <td><strong>   <?php echo $activity_pricetax_total  ?> </strong> </td>  
+
+  <td>   <?php if ( $c['client_type']=="INT"){
+        echo "$";
+       }else{
+        echo "PKR";
+       }?> </td></tr></tfoot>
 		</table>
+<input type="hidden" name="activity_price_total" value="<?php echo $activity_price_total ?>">
+<input type="hidden" name="activity_tax_total" value="<?php echo $activity_tax_total ?>">
+<input type="hidden" name="activity_pricetax_total" value="<?php echo $activity_pricetax_total ?>">
+   <?php if ($cases): ?>
+    <input type="submit" value="Submit Invoice" class="btn btn-primary pull-right">
+     
+   <?php endif ?>
+  </form>
                   </div>
                 </div>
               </div>
@@ -271,10 +295,10 @@ if(tds[i].className == 'fieldCell3') {
     //console.log(value)
   }
 sum3 += isNaN(value) ? 0 : parseInt(value);
-}
-}
+// }
+// }
 
-document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td>   </td>  <td> <strong>Total</strong></td> <td>   </td>    </td> <td><strong>  ' + sum1 + '</strong> </td> <td><strong>  ' + sum2 + '</strong> </td> <td><strong>  ' + sum3 + '</strong> </td>  <td>   </td></tr></tfoot>';</script>
+// // document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td>   </td>  <td> <strong>Total</strong></td> <td>   </td>    </td> <td><strong>  ' + sum1 + '</strong> </td> <td><strong>  ' + sum2 + '</strong> </td> <td><strong>  ' + sum3 + '</strong> </td>  <td>   </td></tr></tfoot>';</script>
 <script type="text/javascript">
   $('.export-report').change(function() {
     var value = $(this).val()
