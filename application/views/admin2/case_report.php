@@ -187,7 +187,7 @@ $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['m
           }else{
             ?>
 
-               <p class="dollar"> <?php echo rount($total*$all_act['c_rate']); ?> $ </p>
+               <p class="dollar"> <?php echo round($total*$all_act['c_rate']); ?> $ </p>
                <p class="pkr"> <?php echo $total; ?> PKR </p>
             <?php
           }
@@ -298,10 +298,10 @@ $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['m
     </td>
     <td>
       <?php 
-      $client_invoice =$this->db->get_where('client_invoice',['case_id'=>$case['casedsa_id']])->row_array();
-     if ($client_invoice) {
+      $vendor_invoice =$this->db->get_where('vendor_invoice',['case_id'=>$case['case_id']])->row_array();
+     if ($vendor_invoice) {
        # code...
-      echo $client_invoice['invoice_no'];
+      echo $vendor_invoice['invoice_no'];
      }else{
       echo "Invoice Not Generated";
      }
