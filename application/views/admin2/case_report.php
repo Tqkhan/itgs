@@ -59,7 +59,7 @@
 								<div class="panel-body">
 
 									<div class="table-responsive">
-									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo"){
+									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo" || $_SESSION['role']=="Analysis"){
 		    ?>
 		
 			<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
@@ -145,8 +145,27 @@ $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['m
     <td><span class="footable-toggle"><?php echo $case['date_of_receiving']; ?></span></td>
     <td><span class="footable-toggle"><?php echo $case['hold_date']; ?></span></td>
     <td><span class="footable-toggle"><?php echo $case['unhold_date']; ?></span></td>
-    <td><span class="footable-toggle"><?php echo ""; ?></span></td>
-    <td><span class="footable-toggle"><?php echo ""; ?></span></td>
+    <?php
+    if ($case['date_time'] != null && $case['date_time'] != '') {
+        $old_date = $case['date_time'];              // returns Saturday, January 30 10 02:06:34
+        $old_date_timestamp = strtotime($old_date);
+        $new_date3 = date('d-M-y', $old_date_timestamp);
+    }
+    else{
+        $new_date3 = '';
+    }
+    $date1=date_create($new_date1);
+$date2=date_create($new_date2);
+    $diff=date_diff($date1,$date2);
+    $dated1 = $diff->format("%a");
+    $date1=date_create($new_date);
+$date2=date_create($new_date3);
+    $diff=date_diff($date1,$date2);
+    $dated2 = $diff->format("%a");
+    $dated = $dated2 - $dated1;
+    ?>
+    <td><span class="footable-toggle"></span><?php echo $new_date3 ?></td>
+    <td><span class="footable-toggle"></span><?php echo $dated ?></td>
     <td><span class="footable-toggle"><?php echo $case['client_reference']; ?></span></td>
     <td><span class="footable-toggle"><?php echo ""; ?></span><?php echo $case['reference_code'] ?></td>
     <td><span class="footable-toggle"></span><?php echo $all_sub['sub_name'] ?></td>
@@ -301,7 +320,7 @@ $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['m
       $vendor_invoice =$this->db->get_where('vendor_invoice',['case_id'=>$case['case_id']])->row_array();
      if ($vendor_invoice) {
        # code...
-      echo $vendor_invoice['invoice_no'];
+      echo $vendor_invoice['invoice_id'];
      }else{
       echo "Invoice Not Generated";
      }
@@ -312,10 +331,16 @@ $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['m
     
 	
 <td>
-                                                   
+                 <?php if (!$_SESSION['role']=="Analysis"): ?>
+                                                                                      
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
 
 <a href="<?php echo base_url() ?>admin/subject_report/<?php echo $case['case_id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Subject Report" alt="View Subject Report" width="25" height="25"></a>
+
+<?php else: ?>
+
+  Prohibited
+                                                   <?php endif ?> 
     </td>
 
 				</tr>

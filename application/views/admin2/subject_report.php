@@ -53,7 +53,7 @@
 								<div class="panel-body">
 
 									<div class="table-responsive">
-									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo"){
+									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo" || $_SESSION['role']=="Analysis"){
 		    ?>
 		
 			<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
@@ -264,12 +264,17 @@ $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['m
                                                    
                                                     
                                                     
-                                                    
+                              <?php if (!$_SESSION['role']=="Analysis"): ?>
+                                       
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
 
 <a href="<?php echo base_url() ?>admin/activity_report/<?php echo $case['subject_id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Activity Report" alt="View Activity Report" width="25" height="25"></a>
 
-                                                    
+                  
+<?php else: ?>
+
+  Prohibited
+                                                   <?php endif ?>                                        
                                                     
 
                                                 </td>

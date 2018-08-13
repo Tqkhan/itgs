@@ -26,7 +26,7 @@
 								<div class="panel-body">
 
 									<div class="table-responsive">
-									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo"){
+									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo" || $_SESSION['role']=="Analysis"){
 		    ?>
 		
 			<table id="dataTableExample2" class="table table-bordered table-striped table-hover">

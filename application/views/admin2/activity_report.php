@@ -43,7 +43,7 @@
 								<div class="panel-body">
 
 									<div class="table-responsive">
-									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo"){
+									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo" || $_SESSION['role']=="Analysis"){
 		    ?>
 		
 			<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
@@ -118,7 +118,6 @@ foreach($divs as $div) {
      // echo $saved_rate."<br>";
 
      $latest_rate=$activity_price['price_in_usd']*$filter_conversion[1];
-     echo $latest_rate-$saved_rate;
 ?>
 
 
@@ -252,8 +251,18 @@ foreach($divs as $div) {
 	
 	</td>
 	
-<td>                                                 
+<td>   
+
+                              <?php if (!$_SESSION['role']=="Analysis"): ?>
+
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
+
+                  
+<?php else: ?>
+
+  Prohibited
+            <?php endif; ?>                                   
+
  </td>
 				</tr>
 
