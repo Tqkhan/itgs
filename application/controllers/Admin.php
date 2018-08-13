@@ -4826,27 +4826,7 @@ public function get_word($num)
         $links[] = $file_links[$p]['file'];
       }
       $files=implode(',', $links);
-      // $files = '';
-      // if (!empty($_FILES)) {
-      //   $config['upload_path'] = './uploads/vendor_request';
-      //   $config['allowed_types'] = 'pdf|doc|docs|jpg';
-      //   $config['max_size'] = '10000';
-      //   $config['max_width'] = '1024';
-      //   $config['max_height'] = '768';
-      //   if (!empty($_FILES)) {
-      //     $this->load->library('upload', $config);
-      //     if($this->upload->do_upload('attachment'))
-      //     {
-      //       $files = '/uploads/vendor_request/'.$this->upload->data('file_name');
-      //       //$data += array('image' => '/uploads/activity_files/'.$this->upload->data('file_name') );
-      //     }
-      //     else
-      //     {
-      //       //$error = array('error' => $this->upload->display_errors());
-      //       //$files = '';
-      //     }
-      //   }
-      // }
+     
       for ($i=0; $i < sizeof($subject); $i++) {
         $tl = $this->admin_model->select_where('case_team',array('case_id'=>$_POST['case_id'],'subject_id'=>$subject[$i]));
         if (empty($tl)) {

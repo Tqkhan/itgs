@@ -367,7 +367,7 @@ $scopecount++;
                          <input type="hidden" name="fund_subject_id" >
                          <input type="hidden" name="fund_activity_id" >
 
-                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" >
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" >
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content" style="width: 857px; margin-left: -122px">
                                         <div class="modal-header">
@@ -411,10 +411,10 @@ $scopecount++;
                                         <div class="form-group col-lg-6">
                                             <label for="">Mode of Payment Ffor Official Fee</label>
                                             <div class=" checkbox-info checkbox-circle">
-                                                        <input id="checkbox8" type="radio" required=""  name="mode_of_payment" value="Cash">
-                                                        <label for="checkbox8">Cash</label>
-                                                         <input id="checkbox9" type="radio" required=""  name="mode_of_payment" value="Payorder">
-                                                        <label style="margin-left: 34px;" for="checkbox9">Payorder</label>
+  <input id="checkbox8" type="radio" required=""  name="mode_of_payment" value="Cash">
+  <label for="checkbox8">Cash</label>
+   <input id="checkbox9" type="radio" required=""  name="mode_of_payment" value="Payorder">
+  <label style="margin-left: 34px;" for="checkbox9">Payorder</label>
                                                     </div>
                                                    
                                         </div>
