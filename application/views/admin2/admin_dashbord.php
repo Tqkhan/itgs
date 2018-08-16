@@ -101,6 +101,46 @@
                             </div>
                         </div>
                     </div>
+                    <div class=row>
+                       
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                            <div class="panel panel-bd ">
+                                <div class=panel-heading>
+                                    <div class=panel-title>
+                                        <i class=ti-email></i>
+                                        <h4>Memos</h4>
+                                    </div>
+                                </div>
+                                <div class=panel-body style="height:250px; overflow: scroll;">
+                                    <div class=message_inner>
+                                        <div class=message_widgets>
+                                          <?php foreach ($memos as $memo): ?>
+                                            <a href="#">
+                                                <div class=inbox-item>
+                                                    <div class=inbox-item-img>
+                                                      <?php if ($memo['file']): ?><img src="<?php echo base_url().'uploads/memo/'.$memo['file'] ?>" class=img-circle alt="">
+                                                    <?php else: ?>
+                                                      No File
+                                                    <?php endif ?>
+                                                    </div>
+                                                    <strong class=inbox-item-author><?php echo $memo['title'] ?></strong>
+                                                    <span class=inbox-item-date>Assigned By -<?php echo $memo['assigned_by'] ?></span>
+                                                    <p class=inbox-item-text>Assigned To - <?php echo $memo['assigned_to'] != NULL ? $memo['assigned_to'] : "All"; ?></p>
+                                                    <span class="profile-status available pull-right"></span>
+                                                </div>
+                                            </a>
+                                            <?php endforeach ?>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                     
+                        
+                    </div>
                 </div> <!-- /.main content -->
             </div><!-- /#page-wrapper -->
         </div><!-- /#wrapper -->

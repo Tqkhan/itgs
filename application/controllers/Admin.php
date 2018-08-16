@@ -137,6 +137,7 @@ class Admin extends CI_Controller
 
       
   }
+   
   $this->load->view('admin2/header', $data);
   $this->load->view('admin2/job_dashboard');
   $this->load->view('admin2/footer');
@@ -238,9 +239,14 @@ class Admin extends CI_Controller
    }
    public function admin_dashboard()
    {
+     if ($id) {
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id) where memo.id =".$id)->result_array();
+          }else{
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id)")->result_array();
+          }
     $this->is_login();
   $this->load->view('admin2/header');
-  $this->load->view('admin2/admin_dashboard');
+  $this->load->view('admin2/admin_dashboard',$data);
   $this->load->view('admin2/footer');
 
    }
@@ -762,11 +768,15 @@ public function view_chart()
 
 	public function dashboard()
 	{
-
+ if ($id) {
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id) where memo.id =".$id)->result_array();
+          }else{
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id)")->result_array();
+          }
 	$_SESSION['page']="create_employee";
 		$this->is_login();
          $this->load->view('admin2/header');
-         $this->load->view('admin2/index');
+         $this->load->view('admin2/index',$data);
 
          $this->load->view('admin2/footer');
 	}
@@ -2459,8 +2469,14 @@ window.location.href='".base_url()."admin/add_payment/'
 
 	public function employee_dashboard()
 	{
+    
+          if ($id) {
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id) where memo.id =".$id)->result_array();
+          }else{
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id)")->result_array();
+          }
 		$this->load->view('admin2/header');
-		$this->load->view('admin2/employee_dashboard');
+		$this->load->view('admin2/employee_dashboard',$data);
 		$this->load->view('admin2/footer');
 	}
 

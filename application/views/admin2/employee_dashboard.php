@@ -65,6 +65,47 @@
                         </div>
 
                     </div>
+                    <div class=row>
+                       
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                            <div class="panel panel-bd ">
+                                <div class=panel-heading>
+                                    <div class=panel-title>
+                                        <i class=ti-email></i>
+                                        <h4>Memos</h4>
+                                    </div>
+                                </div>
+                                <div class=panel-body style="height:250px; overflow: scroll;">
+                                    <div class=message_inner>
+                                        <div class=message_widgets>
+                                          <?php foreach ($memos as $memo): ?>
+                                            <a href="#">
+                                                <div class=inbox-item>
+                                                    <div class=inbox-item-img>
+                                                      <?php if ($memo['file']): ?><img src="<?php echo base_url().'uploads/memo/'.$memo['file'] ?>" class=img-circle alt="">
+                                                    <?php else: ?>
+                                                      No File
+                                                    <?php endif ?>
+                                                    </div>
+                                                    <strong class=inbox-item-author><?php echo $memo['title'] ?></strong></br>
+                                                    <span class=inbox-item-date><strong>Assigned By</strong> - <?php echo $memo['assigned_by'] ?></span>
+                                                    <span class=inbox-item-date><strong>Assigned To</strong> - <?php echo $memo['assigned_to'] != NULL ? $memo['assigned_to'] : "All"; ?></span>
+                                                    <p class=inbox-item-text><strong>Memo Date</strong> - <?php echo $memo['date_time'] ?></p>
+                                                   <!--  <span class="profile-status available pull-right"></span> -->
+                                                </div>
+                                            </a>
+                                            <?php endforeach ?>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                     
+                        
+                    </div>
                      <div style="height: 290px;"></div>
                 </div>
 <div id="chartContainer" style="height: 300px; width: 100%;">
