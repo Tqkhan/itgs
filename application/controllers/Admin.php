@@ -1607,13 +1607,7 @@ $this->admin_model->insert_recruitment("recruitment_qualification",$data_recruit
       $id = $this->session->userdata('client_id');
       $type = 'client';
     }
-    $this->db->select('*')
-             ->from('notifications')
-             ->where('user_type', $type)
-             ->where('user_id', $id != NULL ? $id : "all" )
-             ->where('view', '0')
-             ->order_by('id', 'desc');
-    $data['not'] = $this->db->get()->result_array();
+    $data['not'] = $this->db->query("select * from notifications where user_id='".$id."' or (user_id='0' and user_type='Memo') and view='0' order by id DESC")->result_array();
     //$data['not'] = $this->admin_model->select_where('notifications',array('user_id' => $id, 'view' => '0'));
          echo count($data['notification']) + count($data['not']);
 
