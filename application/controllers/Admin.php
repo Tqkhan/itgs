@@ -8835,9 +8835,22 @@ foreach ($case_id as $id) {
 
       if ( ! $this->upload->do_upload('file_image'))
       {
-        $error = array('upload_error' => $this->upload->display_errors());
-        echo "<pre>";
-        print_r($error);
+        
+       $data = array(
+          'department' => $this->input->post('department'),
+          
+          'assign_date' => $this->input->post('assign_date'),
+          'due_date' => $this->input->post('due_date'),
+          'priority' => $this->input->post('priority'),
+          'subject' => $this->input->post('subject'),
+          'description' => $this->input->post('description'),
+          'user_id' => $_SESSION['id'],
+          
+        );
+
+        $task_id=$this->admin_model->task_manager_form_insert($data);
+                
+
       }
 
      else{
@@ -8945,7 +8958,8 @@ foreach ($case_id as $id) {
   
     $sql="SELECT tm.id as task_manager_id, tm.subject , tm.user_id ,  tm.description  , tm.priority , tm.due_date  ,  tsk_emp.id as tsk_emp_id ,tsk_emp.employee_id ,  
     emp1.employee_name as assigned,emp2.employee_name as assigned_by ,   
-       departments.name as departments_id , tsk_emp.id as employes_id  , tsk_emp.status FROM task_manager tm
+       departments.name as departments_id , tsk_emp.id as employes_id  , tsk_emp.status,
+      tsk_emp.employee_id as emp_id  FROM task_manager tm
           INNER JOIN task_employee tsk_emp ON (tm.id = tsk_emp.task_id) 
           INNER JOIN employee_itgs emp1 ON (emp1.id  =  tsk_emp.employee_id)
           INNER JOIN employee_itgs emp2 ON (emp2.id=tsk_emp.assigned_by) 
@@ -8990,7 +9004,8 @@ foreach ($case_id as $id) {
       $employee_id_var = $this->input->post('task_employee_id');
   
 
-      $sql="SELECT tm.id as task_manager_id,tsk_emp.id as tsk_emp_id ,tsk_emp.employee_id , emp1.employee_name as assigned, tm.file  ,  emp2.employee_name as assigned_by , departments.name as departments_id , tsk_emp.id as employes_id FROM task_manager tm INNER JOIN task_employee tsk_emp ON (tm.id = tsk_emp.task_id) INNER JOIN employee_itgs emp1 ON (emp1.id = tsk_emp.employee_id) INNER JOIN employee_itgs emp2 ON (emp2.id=tsk_emp.assigned_by) INNER JOIN departments ON (tm.department = departments.id)
+      $sql="SELECT tm.id as task_manager_id,tsk_emp.id as tsk_emp_id ,tsk_emp.employee_id , emp1.employee_name as assigned, tm.file  ,  emp2.employee_name as assigned_by , departments.name as departments_id , tsk_emp.id as employes_id,
+      tsk_emp.employee_id as emp_id FROM task_manager tm INNER JOIN task_employee tsk_emp ON (tm.id = tsk_emp.task_id) INNER JOIN employee_itgs emp1 ON (emp1.id = tsk_emp.employee_id) INNER JOIN employee_itgs emp2 ON (emp2.id=tsk_emp.assigned_by) INNER JOIN departments ON (tm.department = departments.id)
 
       WHERE tm.user_id = '".$_SESSION['id']."'  AND tsk_emp.task_id  = '".$id."'";
 
@@ -9074,23 +9089,12 @@ foreach ($case_id as $id) {
   }
 
 
-  public function task_notification_destroy($id)
+  public function task_notification_destroy($id,$user_id)
   {
 
-      $where = $this->db->where('id' , $id);
-     
-      $data2['task_form_data'] = $this->admin_model->get_row('task_manager' , $where );
+      $where = $this->db->where(['task_id'=>$id,'employee_id'=>$user_id]);
 
-      $img_name2 = $data2['task_form_data']['file'];
-
-      unlink('./uploads/task/' . $img_name2);
-
-      $affected =  $this->admin_model->delete_data('task_manager',array('id'=>$id));
-
-
-      
-
-       $this->admin_model->delete_data('task_employee',array('task_id'=>$id));
+       $this->admin_model->delete_data('task_employee',$where);
        
        redirect('admin/task_notification_view');
 

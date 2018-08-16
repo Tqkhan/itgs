@@ -75,9 +75,9 @@
                             <label for="parity">Priority </label>
                             <select class="form-control req" required="" name="priority" >
                                 <option value="">Select Priority </option>
-                                <option value="1">High </option>
-                                <option value="2">Medium</option>
-                                <option value="3">Low</option>
+                                <option value="High">High </option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
                             </select>
                         </div>
 

@@ -75,7 +75,6 @@
                </div>
                <div class="panel-body">
                   <div class="table-responsive">
-                     <?php if($task_notification_data) : ?>							
                      <table id="ex" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                         <thead>
                            <tr>
@@ -115,7 +114,7 @@
                               if($task_notification['user_id'] == $_SESSION['id']) :?>      
                                  <a href="<?php echo base_url(); ?>/admin/task_notification_destroy/<?php echo
                                   $task_notification['task_manager_id'];?>/<?php echo
-                                  $task_notification['task_emp_id'];?>">Delete</a>
+                                  $task_notification['emp_id'];?>" onclick="return confirm('Are You Sure?')">Delete</a>
                                  
                                  <a href="<?php echo base_url(); ?>/admin/task_manager_form_edit/<?php echo $task_notification['task_manager_id'];?>"> Edit </a>
                               <?php endif;  ?>   
@@ -129,19 +128,13 @@
                            <?php endforeach; ?>
                         </tbody>
                      </table>
-                     <?php else : ?>
-                     <h2>Notifications Not Found </h2>
-                     <?php endif; ?>
+                     
                   </div>
                </div>
             </div>
          </div>
       </div>
-      <?php if($task_notification_data) : ?>		
-      <button type="button" class="btn but btn-primary" onclick="myFunction()">Print this page</button>
-      <div style="height: 440px;"></div>
-      <?php endif; ?>
-
+     
 
    </div>
 </div>
