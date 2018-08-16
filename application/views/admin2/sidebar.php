@@ -1,3 +1,4 @@
+
 <?php if ($_SESSION['role']=="vendor"): ?>
     <ul class="nav" id="side-menu">
         <li class="nav-heading "> <span>Main Navigation&nbsp;&nbsp;&nbsp;&nbsp;------</span></li>
@@ -6,6 +7,7 @@
         <li><a href="<?php echo base_url('admin/analytics_report/'.$_SESSION['id']) ?>"  class="fa fa-icon"><i class="fa fa-file-text-o"></i> Analytics Report</a></li>
     </ul>
 <?php endif ?>
+
     <?php if ($_SESSION['role']=="Analysis"): ?>
         <ul class="nav" id="side-menu">
             <li class="nav-heading "> <span>Main Navigation&nbsp;&nbsp;&nbsp;&nbsp;------</span></li>
@@ -196,6 +198,22 @@
 
                         </li>
                         <li>
+                            <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/performance_review.png">  Memo<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="<?php echo base_url() ?>admin/create_memo">Create Memo</a></li>
+                                <li><a href="<?php echo base_url() ?>admin/view_memo">View Memo</a></li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/performance_review.png">  Task Manager<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="<?php echo base_url()?>admin/task_manager_form">Task Add</a></li>
+                                <!-- <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li> -->
+                            </ul>
+
+                        </li>
+                        <li>
                             <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/training_development.png">  Training & Development<span class="fa arrow"></span></a>
                              <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url() ?>admin/add_training_hr">Create Training</a></li>
@@ -272,81 +290,81 @@
    <?php endif ?>
 <?php if ($_SESSION['role']=="Sales"): ?>
 
-<ul class="nav" id="side-menu">
-                        <li class="nav-heading "> <span>Main Navigation&nbsp;&nbsp;&nbsp;&nbsp;------</span></li>
-                        <li><a href="<?php echo base_url() ?>admin/dashboard" class="material-ripple"><i class="material-icons">home</i> Dashboard</a></li>
-                        <li><a href="<?php echo base_url() ?>admin/view_chart" class="material-ripple"><i class="material-icons">home</i>Charts</a></li>
-                        <li><a href="<?php echo base_url() ?>admin/calender" class="material-ripple"><i class="material-icons">home</i> Activity Calender</a></li>
+        <ul class="nav" id="side-menu">
+                                <li class="nav-heading "> <span>Main Navigation&nbsp;&nbsp;&nbsp;&nbsp;------</span></li>
+                                <li><a href="<?php echo base_url() ?>admin/dashboard" class="material-ripple"><i class="material-icons">home</i> Dashboard</a></li>
+                                <li><a href="<?php echo base_url() ?>admin/view_chart" class="material-ripple"><i class="material-icons">home</i>Charts</a></li>
+                                <li><a href="<?php echo base_url() ?>admin/calender" class="material-ripple"><i class="material-icons">home</i> Activity Calender</a></li>
 
 
-                        <li>
-                             <a href="#" class="material-ripple"><i class="material-icons">home</i>Leads<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li><a href="<?php echo base_url() ?>admin/create_lead">Create Leads</a></li>
-                                <li><a href="<?php echo base_url()?>admin/view_lead">View Leads</a></li>
-                                </ul>
-                         </li>
+                                <li>
+                                     <a href="#" class="material-ripple"><i class="material-icons">home</i>Leads<span class="fa arrow"></span></a>
+                                     <ul class="nav nav-second-level">
+                                        <li><a href="<?php echo base_url() ?>admin/create_lead">Create Leads</a></li>
+                                        <li><a href="<?php echo base_url()?>admin/view_lead">View Leads</a></li>
+                                        </ul>
+                                 </li>
 
-                         <li>
-                             <a href="#" class="material-ripple"><i class="material-icons">home</i>RFQ<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li><a href="<?php echo base_url() ?>admin/create_rfq">Create RFQ</a></li>
-                                <li><a href="<?php echo base_url()?>admin/view_rfq">View RFQ</a></li>
-                                </ul>
+                                 <li>
+                                     <a href="#" class="material-ripple"><i class="material-icons">home</i>RFQ<span class="fa arrow"></span></a>
+                                     <ul class="nav nav-second-level">
+                                        <li><a href="<?php echo base_url() ?>admin/create_rfq">Create RFQ</a></li>
+                                        <li><a href="<?php echo base_url()?>admin/view_rfq">View RFQ</a></li>
+                                        </ul>
 
-                         </li>
-                          <li>
-                             <a href="#" class="material-ripple"><i class="material-icons">home</i>Customer<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li><a href="<?php echo base_url() ?>admin/view_customer">View Customer</a></li>
-                                <li><a href="#">Create Customer</a></li>
-                                </ul>
+                                 </li>
+                                  <li>
+                                     <a href="#" class="material-ripple"><i class="material-icons">home</i>Customer<span class="fa arrow"></span></a>
+                                     <ul class="nav nav-second-level">
+                                        <li><a href="<?php echo base_url() ?>admin/view_customer">View Customer</a></li>
+                                        <li><a href="#">Create Customer</a></li>
+                                        </ul>
 
-                         </li>
-                         <!-- <li><a href="<?php echo base_url()?>admin/view_customer"><i class="material-icons">home</i>View Customer</a></li> -->
+                                 </li>
+                                 <!-- <li><a href="<?php echo base_url()?>admin/view_customer"><i class="material-icons">home</i>View Customer</a></li> -->
 
-                        <li>
-                             <a href="#" class="material-ripple"><i class="material-icons">home</i>Resource Management<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li><a href="#">Role Assignment</a></li>
-                                <li><a href="#">Target KPI Allocation</a></li>
-                                <li><a href="#">Sales Activity Tracking</a></li>
-                                <li><a href="#">Visit/Job Description</a></li>
-                                </ul>
-                         </li>
-                         <li>
-                             <a href="#" class="material-ripple"><i class="material-icons">home</i>Performance Management<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li><a href="#">Target Vs. Actual</a></li>
-                                <li><a href="#">Sales Activity Overview</a></li>
-                                <li><a href="#">Business Segment Performance</a></li>
-                                <li><a href="#">Historic Sales View</a></li>
-                                </ul>
-                         </li>
-                          <li>
-                             <a href="#" class="material-ripple"><i class="material-icons">home</i>Analytics<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li><a href="<?php echo base_url('admin/case_analytics') ?>">Case Analytics</a></li>
-                                <li><a href="<?php echo base_url('admin/fund_request_analytics') ?>">Fund Request Analytics</a></li>
-                                <li><a href="#">Real Time analysis</a></li>
-                                <li><a href="#">Reports Module</a></li>
-                                <li><a href="#">Graphical Analysis</a></li>
-                                </ul>
-                         </li>
+                                <li>
+                                     <a href="#" class="material-ripple"><i class="material-icons">home</i>Resource Management<span class="fa arrow"></span></a>
+                                     <ul class="nav nav-second-level">
+                                        <li><a href="#">Role Assignment</a></li>
+                                        <li><a href="#">Target KPI Allocation</a></li>
+                                        <li><a href="#">Sales Activity Tracking</a></li>
+                                        <li><a href="#">Visit/Job Description</a></li>
+                                        </ul>
+                                 </li>
+                                 <li>
+                                     <a href="#" class="material-ripple"><i class="material-icons">home</i>Performance Management<span class="fa arrow"></span></a>
+                                     <ul class="nav nav-second-level">
+                                        <li><a href="#">Target Vs. Actual</a></li>
+                                        <li><a href="#">Sales Activity Overview</a></li>
+                                        <li><a href="#">Business Segment Performance</a></li>
+                                        <li><a href="#">Historic Sales View</a></li>
+                                        </ul>
+                                 </li>
+                                  <li>
+                                     <a href="#" class="material-ripple"><i class="material-icons">home</i>Analytics<span class="fa arrow"></span></a>
+                                     <ul class="nav nav-second-level">
+                                        <li><a href="<?php echo base_url('admin/case_analytics') ?>">Case Analytics</a></li>
+                                        <li><a href="<?php echo base_url('admin/fund_request_analytics') ?>">Fund Request Analytics</a></li>
+                                        <li><a href="#">Real Time analysis</a></li>
+                                        <li><a href="#">Reports Module</a></li>
+                                        <li><a href="#">Graphical Analysis</a></li>
+                                        </ul>
+                                 </li>
 
-                         <li>
-                             <a href="#" class="material-ripple"><i class="material-icons">home</i>Profile<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li><a href="<?php echo base_url('admin/view_single_leaves/'.$_SESSION['id']) ?>">Leave Balance</a></li>
-                                </ul>
-                                <ul class="nav nav-second-level">
-                                <li><a href="#">My Qualification</a></li>
-                                </ul>
-                                <ul class="nav nav-second-level">
-                                <li><a href="<?php echo base_url('admin/my_payslips/'.$_SESSION['id']) ?>">My Payslips</a></li>
-                                </ul>
-                         </li>
- <li>
+                                 <li>
+                                     <a href="#" class="material-ripple"><i class="material-icons">home</i>Profile<span class="fa arrow"></span></a>
+                                     <ul class="nav nav-second-level">
+                                        <li><a href="<?php echo base_url('admin/view_single_leaves/'.$_SESSION['id']) ?>">Leave Balance</a></li>
+                                        </ul>
+                                        <ul class="nav nav-second-level">
+                                        <li><a href="#">My Qualification</a></li>
+                                        </ul>
+                                        <ul class="nav nav-second-level">
+                                        <li><a href="<?php echo base_url('admin/my_payslips/'.$_SESSION['id']) ?>">My Payslips</a></li>
+                                        </ul>
+                                 </li>
+         <li>
                              <a href="#" class="material-ripple"><i class="material-icons">home</i>Company Information<span class="fa arrow"></span></a>
                              <ul class="nav nav-second-level">
                                 <li><a href="#">Memo/News</a></li>
@@ -840,13 +858,7 @@
 
 
 
-                         <li>
-                            <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png"> Task Mannager<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="<?php echo base_url()?>admin/task_manager_form">Task Add</a></li>
-                                <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li>
-                            </ul>
-                        </li>
+                         
                      
                          
                          <li>
@@ -1021,16 +1033,25 @@
                          <li><a href="#" class="fa fa-icon"><i class="fa fa-comments"></i>Check In/Out Work</a></li>
                          <li><a href="<?php echo base_url('admin/discussion_board') ?>" class="fa fa-icon"><i class="fa fa-comments"></i>Discussion Board</a></li>
 
-                        <!--
-                          <li>
-                             <a href="#" class="material-ripple"><i class="material-icons">home</i>Customer<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li><a href="<?php echo base_url() ?>admin/view_customer">View Customer</a></li>
-                                <li><a href="#">Create Customer</a></li>
-                                </ul>
-
-                         </li> -->
-
 
 
 <?php endif ?>
+                                <?php if ($_SESSION['role']!="Hr"): ?>
+
+                         <li>
+                            <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png"> Task Mannager<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="<?php echo base_url()?>admin/task_manager_form">Task Add</a></li>
+                                <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png"> Memo<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                               
+                                <li><a href="<?php echo base_url()?>admin/create_memo">Create Memo</a></li>
+                            
+                                <li><a href="<?php echo base_url()?>admin/view_memo">View Memo </a></li>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
