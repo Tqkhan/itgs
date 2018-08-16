@@ -1,5 +1,7 @@
 <?php 
 
+
+
 foreach($not as $noti){
 
 ?>
@@ -9,7 +11,8 @@ foreach($not as $noti){
     <a class="rad-content not-id" data-id="<?php echo $noti['id'] ?>" href="<?php echo base_url() ?>/<?php echo $noti['url'] ?>">
         <div class="pull-left"><i class="fa fa-bell  fa-2x color-green"></i></div>
         <div class="rad-notification-body">
-            <div class="lg-text"><?php echo $noti['title'] ?></div>
+            <div class="lg-text">
+                <?php echo $noti['user_id']==0 && $noti['user_type']=="Memo" ? "Memo ".$noti['title'] : " ". $noti['title'] ?></div>
             <div class="sm-text"><?php echo $noti['message'] ?></div>
         </div>
     </a>

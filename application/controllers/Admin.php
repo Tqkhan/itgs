@@ -1567,28 +1567,28 @@ $this->admin_model->insert_recruitment("recruitment_qualification",$data_recruit
     elseif ($this->session->userdata('client_id')){
       $id = $this->session->userdata('client_id');
       $type = 'client';
+    }else{
+      $type='all';
     }
-    $this->db->select('*')
-             ->from('notifications')
-             ->where('user_id', $id)
-             ->where('user_type', $type)
-             ->where('view', '0')
-             ->order_by('id', 'desc');
-    $data['not'] = $this->db->get()->result_array();
-    //$data['not'] = $this->admin_model->select_where('notifications',array('user_id' => $id, 'user_type' => $type, 'view' => '0'));
-    // $not = $data['not'];
-    // for ($i=0; $i < sizeof($not); $i++) { 
-    //   $this->admin_model->update_data('notifications',array('view' => '1'),array('id' => $not[$i]['id']));
-    // }
 
-
+    // $this->db->select('*')
+    //          ->from('notifications')
+    //          ->where('user_id', $id)
+    //          ->or_where(['usser_id'=>0,'user_type'=>'Memo'])
+    //          // // ->where('user_type', $type)
+    //          ->where('view', '0')
+    //          ->order_by('id', 'desc');
+    $data['not'] = $this->db->query("select * from notifications where user_id='".$id."' or (user_id='0' and user_type='Memo') and view='0' order by id DESC")->result_array();
+   
+   
 	 $this->load->view('admin2/get_notification',$data);
 
 	}
   public function view_notification($id)
   {
-    $this->admin_model->update('notifications',array('view'=>'1'),array('id'=>$id));
+    $this->admin_model->update('notifications',array('view'=>'1'),array('id'=>$id != NULL ? $id : "all"));
   }
+
 	public function count_notification()
 	{
 		$events = array();
@@ -1609,8 +1609,8 @@ $this->admin_model->insert_recruitment("recruitment_qualification",$data_recruit
     }
     $this->db->select('*')
              ->from('notifications')
-             ->where('user_id', $id)
              ->where('user_type', $type)
+             ->where('user_id', $id != NULL ? $id : "all" )
              ->where('view', '0')
              ->order_by('id', 'desc');
     $data['not'] = $this->db->get()->result_array();
@@ -9207,5 +9207,97 @@ foreach ($case_id as $id) {
 
 
   /*aakash code end*/
+
+    // Memo Controller Code Start
+       
+        public function create_memo()
+        {
+  $data['employees'] = $this->admin_model->all_rows('employee_itgs'); 
+    $data['departments'] = $this->admin_model->get_data('departments');
+
+    $this->load->view('admin2/header');
+    $this->load->view('admin2/create_memo',$data);
+    $this->load->view('admin2/footer');          
+        }
+
+        public function insert_memo()
+        {
+
+
+        move_uploaded_file($_FILES['file']['tmp_name'], "./uploads/memo/".$_FILES['file']['name']);
+        
+          $data=array(
+    'departmentID'=>$this->input->post('department'),
+    'date_time'=>$this->input->post('assign_date'),
+    'due_date'=>$this->input->post('due_date'),
+    'priority'=>$this->input->post('priority'),
+    'subject'=>$this->input->post('subject'),
+    'description'=>$this->input->post('description'),
+    'title'=>$this->input->post('title'),
+    'file'=>$_FILES['file']['name'] ? $_FILES['file']['name'] : '',
+    'user_id'=>$this->session->userdata('id')
+              );
+
+          //   echo "<pre>";
+          // print_r($data);
+          // die();
+   
+      $this->db->insert('memo',$data);
+
+      if($memoID=$this->db->insert_id()){
+
+           $url="view_memo/".$memoID;
+
+    if($_POST['employes']){
+         for ($i = 0; $i < count($_POST['employes']); $i++) {
+     $notification = array(
+        'user_id'=>$_POST['employes'][$i],
+        'user_type'=>'Memo',
+        'title' => $_POST['title'],
+        'message'=>date('Y-m-d'),
+        'url'=>'admin/'.$url
+      );
+     $this->admin_model->insert_data("notifications",$notification);
+
+           }
+    }
+    else{
+     $notification = array(
+        'user_id'=>$this->input->post('department'),
+        'user_type'=>'Memo',
+        'title' => $_POST['title'],
+        'message'=>date('Y-m-d'),
+        'url'=>'admin/'.$url
+      );
+       $this->admin_model->insert_data("notifications",$notification);
+    }
+
+      }
+
+      redirect(base_url().'admin/view_memo');
+
+        }
+
+        final public function view_memo($id=null)
+        {
+          $data['title']="View Memo";
+          if ($id) {
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id) where memo.id =".$id)->result_array();
+          }else{
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id)")->result_array();
+          }
+            $this->load->view('admin2/header',$data);
+            $this->load->view('admin2/view_memo');
+            $this->load->view('admin2/footer');          
+          
+        }
+
+
+        function delete_memo($id)
+        {
+          $this->db->delete('memo',['id'=>$id]);
+          redirect(base_url().'admin/view_memo');
+        }
+    // Memo Controller Code End
 
 }
