@@ -26,7 +26,7 @@
                <div class="panel panel-bd ">
                   <div class="panel-heading">
                      <div class="panel-title">
-                        <h4>Add Task </h4>
+                        <h4>Edit Task </h4>
                      </div>
                   </div>
                   <div class="panel-body">
@@ -42,15 +42,18 @@
                             <?php endforeach  ?>
                         </select>
                     </div>
-
+<?php 
+ $employee_task=explode(",", $task_employee['employee_id']);
+ ?>
                     <div class="form-group col-lg-6">
                         <label for="Department">Employes</label>
                        <select class="form-control req" required="" multiple="" id="employes" name="employes[]">
                        
                              <?php
+
                                   foreach ($employees as $employe) :
                               ?>
-                              <option <?php if( $employe['id'] == $task_form_data['employes_ids']  ){ echo 'selected'; }   ?> value="<?php echo $employe['id']; ?>">
+                              <option <?php if( in_array($employe['id'] ,$employee_task) ){ echo 'selected'; }   ?> value="<?php echo $employe['id']; ?>">
                                   <?php echo $employe['employee_name']; ?>
                               </option>
 
@@ -99,7 +102,7 @@
 
                      <div class="form-group row">
                         <div class="col-sm-12">
-                           <button type="submit" class="btn btn-primary pull-right">Add</button>
+                           <button type="submit" class="btn btn-primary pull-right">Update</button>
                         </div>
                      </div>
                   </div>

@@ -9016,15 +9016,17 @@ foreach ($case_id as $id) {
       WHERE task_manager.user_id = '".$_SESSION['id']."'  AND task_employee.task_id  = '".$id."'";
 
 
-      if($sql)
-      {
         $data['task_form_data'] = $this->db->query($sql)->row_array();
         $data['employees'] = $this->admin_model->all_rows('employee_itgs');
         $data['departments'] = $this->admin_model->get_data('departments');
+        $data['task_employee'] = $this->db->query("select GROUP_CONCAT(employee_id separator ',') as employee_id from task_employee where task_id=".$id)->row_array();
+
+        // print_r($data);
+
         $this->load->view('admin2/header');
         $this->load->view('admin2/task_manager_form_edit',$data);
         $this->load->view('admin2/footer');
-      } 
+      
   }
 
   public function task_manager_edit_update($id)
@@ -9103,7 +9105,6 @@ foreach ($case_id as $id) {
              $data3 = array(
             'task_id' => $id,
             'employee_id' => $emp,
-            'assigned_by' => $_SESSION['id']
         );  
 
 
