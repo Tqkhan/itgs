@@ -200,7 +200,11 @@
                         <li>
                             <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/performance_review.png">  Memo<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                                <?php if ($_SESSION['role'] == "Hr"): ?>
                                 <li><a href="<?php echo base_url() ?>admin/create_memo">Create Memo</a></li>
+                                    
+                                <?php endif ?>
+
                                 <li><a href="<?php echo base_url() ?>admin/view_memo">View Memo</a></li>
                             </ul>
 
@@ -1050,8 +1054,11 @@
                         <li <?php if ($_SESSION['client_id']) echo 'style="display: none"';?>>
                             <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png"> Memo<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                               
-                                <li><a href="<?php echo base_url()?>admin/create_memo">Create Memo</a></li>
+                             
+                             <?php if ($_SESSION['role'] == "Hr"): ?>
+                                <li><a href="<?php echo base_url() ?>admin/create_memo">Create Memo</a></li>
+                                    
+                                <?php endif ?>
                             
                                 <li><a href="<?php echo base_url()?>admin/view_memo">View Memo </a></li>
                             </ul>

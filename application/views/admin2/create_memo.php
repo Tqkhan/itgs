@@ -51,14 +51,14 @@
                     <div class="form-group col-lg-6">
                         <label for="Department">Employes</label>
                        <select class="form-control req" multiple="" id="employes" name="employes[]">
-                       
+                               <option value="">Select Department First</option>
                              <?php
                                   foreach ($employees as $employe) :
                               ?>
-                              <option <?php if( $employe['id'] == $task_form_data['assign_user_id']  ){ echo 'selected'; }   ?> value="<?php echo $employe['id']; ?>">
+<!--                               <option <?php if( $employe['id'] == $task_form_data['assign_user_id']  ){ echo 'selected'; }   ?> value="<?php echo $employe['id']; ?>">
                                   <?php echo $employe['employee_name']; ?>
                               </option>
-
+ -->
                               <?php endforeach; ?>
                         </select>
                     </div>
@@ -80,9 +80,9 @@
                             <label for="parity">Priority </label>
                             <select class="form-control req" required="" name="priority" >
                                 <option value="">Select Priority </option>
-                                <option value="1">High </option>
-                                <option value="2">Medium</option>
-                                <option value="3">Low</option>
+                                <option value="High">High </option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
                             </select>
                         </div>
 

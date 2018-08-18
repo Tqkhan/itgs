@@ -43,13 +43,7 @@
 					<th>Priority</th>
           <th>Description</th>
           <th>File</th>
-           <?php if ($memo['user_id']==$_SESSION['id'] || $memo['user_id'] == $_SESSION['login_id']):  ?>
-
           <th>Action?</th>
-
-                     <?php endif ?>
-
-
 				</tr>
 			</thead>
 			<tbody>
@@ -65,21 +59,15 @@
          <td><?php echo $memo['priority'] ?></td>
          <td><?php echo $memo['description'] ?></td>
          <td><?php if ($memo['file']): ?>
-          <a href="<?php echo base_url() ?>uploads/memo/<?php echo $memo['file'] ?>" download>Download</a>
+           <img src="<?php echo base_url().'uploads/memo/'.$memo['file'] ?> " width="80" />
          <?php else: ?>
           No File
-         <?php endif ?>
-       </td>
-         <td>
-           <?php if ($memo['user_id'] == $_SESSION['login_id']):  ?>
+         <?php endif ?></td>
+         <td><?php if ($memo['user_id']==$_SESSION['id']):  ?>
           <a href="<?php echo base_url() ?>admin/delete_memo/<?php echo $memo['id'] ?>" onclick="return confirm('Are You Sure?')"><i class="fa fa-trash"></i></a>
-          <a data-toggle="modal" href='#modal-id' onclick="passMemoID(<?php echo $memo['id'] ?>,'<?php echo $memo[assigned_by] ?>')">Detail</a>
-           <?php else  : ?>
-              <a href="#"> Not Authorized </a>
          <?php endif ?>
+          <a data-toggle="modal" href='#modal-id' onclick="passMemoID(<?php echo $memo['id'] ?>)">Detail</a>
            </td>
-
-           
         </tr>
       <?php endforeach ?>
 				
@@ -105,52 +93,21 @@
 		</div><!-- /#wrapper -->
 		<!-- START CORE PLUGINS -->
 
- 
+
 <div class="modal fade" id="modal-id">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Memo Detail</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table table-responsive table-bordered table-striped table-hover">
-        	
-        	<thead>
-        		<tr>
-        		<th>Memo Title</th>
-        		<th>Assigned By</th>
-        		<th>Assigned To</th>
-        		<th>Date</th>
-            <th>Priority</th>
-        		<th>Seen?</th>
-        	</tr>
-        	</thead>
-        	<tbody class="showDetail">
-
-        	</tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Memo Detail</h4>
+			</div>
+			<div class="modal-body">
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
 </div>
-
-
-<script type="text/javascript">
- 
- function passMemoID(memoID,assigned_by) {
- 			$.ajax({
- 				url:"<?php echo base_url() ?>admin/get_memo_detail",
- 				data:{memoID:memoID,assigned_by:assigned_by},
- 				type:"post",
- 				success:function(resp) {
- 					$('.showDetail').html(resp);
- 				}
- 			});
- 		}
- 		
-  
-</script>

@@ -79,7 +79,7 @@
                                     <div class=message_inner>
                                         <div class=message_widgets>
                                           <?php foreach ($memos as $memo): ?>
-                                            <a href="#">
+                                            <a href="<?php echo base_url() ?>admin/view_memo/<?php echo $memo['id'] ?>">
                                                 <div class=inbox-item>
                                                     <div class=inbox-item-img>
                                                       <?php if ($memo['file']): ?><img src="<?php echo base_url().'uploads/memo/'.$memo['file'] ?>" class=img-circle alt="">
@@ -88,10 +88,25 @@
                                                     <?php endif ?>
                                                     </div>
                                                     <strong class=inbox-item-author><?php echo $memo['title'] ?></strong></br>
-                                                    <span class=inbox-item-date><strong>Assigned By</strong> - <?php echo $memo['assigned_by'] ?></span>
-                                                    <span class=inbox-item-date><strong>Assigned To</strong> - <?php echo $memo['assigned_to'] != NULL ? $memo['assigned_to'] : "All"; ?></span>
-                                                    <p class=inbox-item-text><strong>Memo Date</strong> - <?php echo $memo['date_time'] ?></p>
-                                                   <!--  <span class="profile-status available pull-right"></span> -->
+
+                                                    <span class=inbox-item-date><strong>Assigned By</strong> - HR
+                                        
+                                                    
+ 
+                                                </span><br> 
+                                                    <span class=inbox-item-date><strong>Assigned To</strong> - 
+                                                        <?php if ($_SESSION['id']==$memo['assigned_to']): ?>
+                                                            Me
+
+                                                        <?php else: ?>
+                                                            <?php echo $memo['employe_user'] ?>
+                                                        <?php endif ?>
+
+
+                                                    </span>
+                                                    <br>
+                                                    <p class=inbox-item-text><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Memo Date</strong> - <?php echo $memo['date_time'] ?></p>
+                                                 
                                                 </div>
                                             </a>
                                             <?php endforeach ?>
