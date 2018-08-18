@@ -239,11 +239,19 @@ class Admin extends CI_Controller
    }
    public function admin_dashboard()
    {
-     if ($id) {
-            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id) where memo.id =".$id)->result_array();
-          }else{
-            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id)")->result_array();
-          }
+    
+        if ($_SESSION['id']) {
+           $user_id=$_SESSION['id'];
+        }if ($_SESSION['login_id']) {
+           $user_id=$_SESSION['login_id'];
+        }
+          
+          
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id, memo.*,memo_user.userID as assigned_to, GROUP_CONCAT(e2.employee_name separator ',') as employe_user from memo inner join employee_itgs e1 on (memo.user_id=e1.id) inner join memo_user on (memo_user.memoID=memo.id)
+            inner join employee_itgs e2 on(memo_user.userID = e2.id) where memo.user_id=".$user_id ." or memo_user.userID=".$user_id." group by memo.id")->result_array();
+      
+        
+
     $this->is_login();
   $this->load->view('admin2/header');
   $this->load->view('admin2/admin_dashboard',$data);
@@ -2470,11 +2478,16 @@ window.location.href='".base_url()."admin/add_payment/'
 	public function employee_dashboard()
 	{
     
-          if ($id) {
-            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id) where memo.id =".$id)->result_array();
-          }else{
-            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id)")->result_array();
-          }
+     if ($_SESSION['id']) {
+           $user_id=$_SESSION['id'];
+        }if ($_SESSION['login_id']) {
+           $user_id=$_SESSION['login_id'];
+        }
+          
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id, memo.*,memo_user.userID as assigned_to, GROUP_CONCAT(e2.employee_name separator ',') as employe_user from memo inner join employee_itgs e1 on (memo.user_id=e1.id) inner join memo_user on (memo_user.memoID=memo.id)
+            inner join employee_itgs e2 on(memo_user.userID = e2.id) where memo.user_id=".$user_id ." or memo_user.userID=".$user_id." group by memo.id")->result_array();
+      
+
 		$this->load->view('admin2/header');
 		$this->load->view('admin2/employee_dashboard',$data);
 		$this->load->view('admin2/footer');
@@ -9240,6 +9253,11 @@ foreach ($case_id as $id) {
 
         move_uploaded_file($_FILES['file']['tmp_name'], "./uploads/memo/".$_FILES['file']['name']);
         
+        if ($_SESSION['id']) {
+           $user_id=$_SESSION['id'];
+        }if ($_SESSION['login_id']) {
+           $user_id=$_SESSION['login_id'];
+        }
           $data=array(
     'departmentID'=>$this->input->post('department'),
     'date_time'=>$this->input->post('assign_date'),
@@ -9249,21 +9267,31 @@ foreach ($case_id as $id) {
     'description'=>$this->input->post('description'),
     'title'=>$this->input->post('title'),
     'file'=>$_FILES['file']['name'] ? $_FILES['file']['name'] : '',
-    'user_id'=>$this->session->userdata('id')
+    'user_id'=> $user_id
               );
 
-          //   echo "<pre>";
-          // print_r($data);
-          // die();
-   
+        
       $this->db->insert('memo',$data);
 
       if($memoID=$this->db->insert_id()){
+          
 
            $url="view_memo/".$memoID;
 
     if($_POST['employes']){
          for ($i = 0; $i < count($_POST['employes']); $i++) {
+    
+     
+     $memo_user=array(
+         'memoID'=>$memoID,
+         'userID'=>$_POST['employes'][$i],
+         'date_time'=>date('d-m-Y h:i:s a')
+
+     );
+
+
+     $this->admin_model->insert_data("memo_user",$memo_user);
+
      $notification = array(
         'user_id'=>$_POST['employes'][$i],
         'user_type'=>'Memo',
@@ -9295,10 +9323,17 @@ foreach ($case_id as $id) {
         final public function view_memo($id=null)
         {
           $data['title']="View Memo";
+
+
+        if ($_SESSION['id']) {
+           $user_id=$_SESSION['id'];
+        }if ($_SESSION['login_id']) {
+           $user_id=$_SESSION['login_id'];
+        }
           if ($id) {
             $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id) where memo.id =".$id)->result_array();
           }else{
-            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id,e2.employee_name as assigned_to,memo.* from memo inner join employee_itgs e1 on (memo.user_id=e1.id) left join employee_itgs e2 on (memo.departmentID=e2.id)")->result_array();
+            $data['memos']=$this->db->query("select e1.employee_name as assigned_by,e1.id as user_id, memo.*,memo_user.userID as assigned_to  from memo inner join employee_itgs e1 on (memo.user_id=e1.id) inner join memo_user on (memo_user.memoID=memo.id) where memo.user_id=".$user_id ." or memo_user.userID=".$user_id." group by memo.id")->result_array();
           }
             $this->load->view('admin2/header',$data);
             $this->load->view('admin2/view_memo');
@@ -9311,6 +9346,33 @@ foreach ($case_id as $id) {
         {
           $this->db->delete('memo',['id'=>$id]);
           redirect(base_url().'admin/view_memo');
+        }
+
+        public function memo_detail($memoID)
+        {
+            $this->load->view('admin2/header',$data);
+            $this->load->view('admin2/view_memo_detail');
+            $this->load->view('admin2/footer'); 
+        }
+
+
+        public function get_memo_detail()
+        {
+          $sql="select memo.*,employee_itgs.employee_name,memo_user.userID from memo 
+          inner join memo_user on (memo.id=memo_user.memoID)
+          inner join employee_itgs on (employee_itgs.id=memo_user.userID) where memo_user.memoID=".$_POST['memoID'];
+          $users=$this->db->query($sql)->result_array();
+          foreach ($users as $user) {
+            echo '
+            <tr>
+              <td>'.$user['title'].'</td>
+              <td>'.$_POST['assigned_by'].'</td>
+              <td>'.$user['employee_name'].'</td>
+              <td>'.$user['date_time'].'</td>
+              <td>'.$user['priority'].'</td>
+            </tr>';
+          }
+          
         }
     // Memo Controller Code End
 
