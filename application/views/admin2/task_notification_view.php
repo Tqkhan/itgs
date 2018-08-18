@@ -165,10 +165,8 @@
          </div>
          <div class="modal-body">
                
-         <form  method="POST" action="<?php echo base_url()?>admin/response_of_task_form" class="dropzone">
-              
-              <input type="text" name="task_manager_id" value="<?php echo $task_notification['task_manager_id'] ?>">
-              <input type="text" name="session_id" value="<?php echo $_SESSION['id'] ?>"> 
+         <form  method="POST" action="<?php echo base_url()?>admin/response_of_task_form" >
+         
 
                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                   <div class="panel panel-bd" >
