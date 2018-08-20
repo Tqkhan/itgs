@@ -9332,7 +9332,14 @@ foreach ($case_id as $id) {
 
             $data['memos']=$this->db->query("select memo.*,login.login_name as assigned_by,employee_itgs.employee_name from memo inner JOIN login on (login.login_id=memo.user_id) INNER join memo_user on (memo_user.memoID=memo.id) inner join employee_itgs on (memo_user.userID = employee_itgs.id) where memo.id =".$id)->result_array();
           }else{
-            $data['memos']=$this->db->query("select memo.*,login.login_name as assigned_by,employee_itgs.employee_name from memo inner JOIN login on (login.login_id=memo.user_id) INNER join memo_user on (memo_user.memoID=memo.id) inner join employee_itgs on (memo_user.userID = employee_itgs.id) GROUP BY memo.id")->result_array();
+            $where="";
+
+            if ($_SESSION['id']!="") {
+              $where="where memo_user.userID=".$_SESSION['id'];
+            }else if($_SESSION['login_id']!=""){
+              $where="where memo.user_id=".$_SESSION['login_id'];
+            }
+            $data['memos']=$this->db->query("select memo.*,login.login_name as assigned_by,employee_itgs.employee_name from memo inner JOIN login on (login.login_id=memo.user_id) INNER join memo_user on (memo_user.memoID=memo.id) inner join employee_itgs on (memo_user.userID = employee_itgs.id) ".$where." GROUP BY memo.id ")->result_array();
           }
             $this->load->view('admin2/header',$data);
             $this->load->view('admin2/view_memo');
