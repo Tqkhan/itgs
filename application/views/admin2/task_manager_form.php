@@ -32,7 +32,7 @@
                    <div class="form-group col-lg-6">
                         <label for="Department">Department</label>
                         <select class="form-control req" required="" id="department" name="department">
-                            <option value="Department 1">Select Department</option>
+                            <option value="">Select Department</option>
                             <?php
                                 foreach ($departments as $department) {
                                     echo '<option value="'.$department['id'].'">'.$department['name'].'</option>';
