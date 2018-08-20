@@ -213,7 +213,7 @@
                             <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/performance_review.png">  Task Manager<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url()?>admin/task_manager_form">Task Add</a></li>
-                                <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li>
+                                <!-- <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li> -->
                             </ul>
 
                         </li>
