@@ -5,7 +5,7 @@
         <li><a href="<?php echo base_url() ?>admin/job_dashboard" class="fa fa-icon"><i class="fa fa-file-text-o"></i> My Jobs</a></li>
         <li><a href="<?php echo base_url('admin/activity_analytics_vendor/'.$_SESSION['id']) ?>" class="fa fa-icon"><i class="fa fa-newspaper-o" style="color: #212eaf;"></i>Activity Analytics</a></li>
         <li><a href="<?php echo base_url('admin/analytics_report/'.$_SESSION['id']) ?>"  class="fa fa-icon"><i class="fa fa-file-text-o"></i> Analytics Report</a></li>
-    </ul>
+    
 <?php endif ?>
 
     <?php if ($_SESSION['role']=="Analysis"): ?>
@@ -213,7 +213,7 @@
                             <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/performance_review.png">  Task Manager<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url()?>admin/task_manager_form">Task Add</a></li>
-                                <!-- <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li> -->
+                                <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li>
                             </ul>
 
                         </li>
@@ -1040,10 +1040,7 @@
 
 
 <?php endif ?>
-                                <?php if ($_SESSION['role']!="Hr"): ?>
-                                    
-                                        
-
+                    <?php if ($_SESSION['role']!="Hr"): ?>
                          <li <?php if ($_SESSION['client_id']) echo 'style="display: none"';?> >
                             <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png"> Task Mannager<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -1063,4 +1060,4 @@
                                 <li><a href="<?php echo base_url()?>admin/view_memo">View Memo </a></li>
                             </ul>
                         </li>
-                        <?php endif; ?>
+                    <?php endif; ?>
