@@ -362,10 +362,8 @@
                                 <i class="material-icons">person_add</i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="profile.html"><i class="ti-user"></i>&nbsp; <?php echo $_SESSION['client_name']?><?php echo $_SESSION['employee_name']?></a></li>
-                                <li><a href="mailbox.html"><i class="ti-email"></i>&nbsp; My Messages</a></li>
-                                <li><a href="lockscreen.html"><i class="ti-lock"></i>&nbsp; Lock Screen</a></li>
-                                <li><a href="#"><i class="ti-settings"></i>&nbsp; Settings</a></li>
+                                <li><a href="profile.html"><i class="ti-user"></i>&nbsp; <?php echo $_SESSION['client_name']?><?php echo $_SESSION['employee_name']?><?php echo $_SESSION['login_name']?></a></li>
+                                
                                 <li><a href="<?php echo base_url() ?>admin/destroy"><i class="ti-layout-sidebar-left"></i>&nbsp; Logout</a></li>
                             </ul><!-- /.dropdown-user -->
                         </li><!-- /.Dropdown -->
