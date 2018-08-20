@@ -362,7 +362,7 @@
                                 <i class="material-icons">person_add</i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="profile.html"><i class="ti-user"></i>&nbsp; <?php echo $_SESSION['client_name']?></a></li>
+                                <li><a href="profile.html"><i class="ti-user"></i>&nbsp; <?php echo $_SESSION['client_name']?><?php echo $_SESSION['employee_name']?></a></li>
                                 <li><a href="mailbox.html"><i class="ti-email"></i>&nbsp; My Messages</a></li>
                                 <li><a href="lockscreen.html"><i class="ti-lock"></i>&nbsp; Lock Screen</a></li>
                                 <li><a href="#"><i class="ti-settings"></i>&nbsp; Settings</a></li>
