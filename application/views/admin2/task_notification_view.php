@@ -94,24 +94,33 @@
                         	
                            <?php 
                               foreach ($task_notification_data as $task_notification) :
+                             
+                              $assigned_to=$this->db->query('select employee_name from employee_itgs where id='.$task_notification['employee_id'])->row_array();
+
+                              if ($task_notification['is_loginType']==1) {
+                              $assigned_by=$this->db->query('select employee_name from employee_itgs where id='.$task_notification['user_id'])->row_array();
+                                  
+                              }else if($task_notification['is_loginType'] == 2){
+                              $assigned_by=$this->db->query('select login_name as employee_name from login where login_id='.$task_notification['user_id'])->row_array();
+                              }
                               ?>
 
                            <?php //print_r($task_notification); ?>
                            <tr>
-                              <td><?php echo $task_notification['task_manager_id']; ?></td>
+                              <td><?php echo $task_notification['id']; ?></td>
                               <td><?php echo $task_notification['departments_id']; ?></td>
                               <td><?php echo $task_notification['subject']; ?></td>
                               <td><?php echo $task_notification['description']; ?></td>
                               <td><?php echo $task_notification['priority']; ?></td>
                               <td><?php echo $task_notification['due_date']; ?></td>
-                              <td><?php echo $task_notification['assigned_by'] ?></td>
-                              <td><?php echo $task_notification['assigned'] ?></td>
+                              <td><?php echo $assigned_by['employee_name'] ?></td>
+                              <td><?php echo $assigned_to['employee_name'] ?></td>
                               <td><?php echo $task_notification['status'] ?></td>
                               <td>
 
                               <?php 
 
-                              if($task_notification['user_id'] == $_SESSION['id']) :?>      
+                              if($task_notification['user_id'] == $_SESSION['id'] || $task_notification['user_id'] == $_SESSION['login_id']) :?>      
                                  <a href="<?php echo base_url(); ?>/admin/task_notification_destroy/<?php echo
                                   $task_notification['task_manager_id'];?>/<?php echo
                                   $task_notification['emp_id'];?>" onclick="return confirm('Are You Sure?')">Delete</a>
