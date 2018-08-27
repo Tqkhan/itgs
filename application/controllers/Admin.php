@@ -8873,7 +8873,8 @@ foreach ($case_id as $id) {
           'priority' => $this->input->post('priority'),
           'subject' => $this->input->post('subject'),
           'description' => $this->input->post('description'),
-          'user_id' => $_SESSION['id'],
+          'user_id' => $_SESSION['id'] !="" ? $_SESSION['id'] : $_SESSION['login_id'],
+          'is_loginType' => $_SESSION['id'] !="" ? 1 : 2,
           
         );
 
@@ -8897,7 +8898,8 @@ foreach ($case_id as $id) {
           'subject' => $this->input->post('subject'),
           'description' => $this->input->post('description'),
           'file' =>  $img_name,
-          'user_id' => $_SESSION['id'],
+          'user_id' => $_SESSION['id'] !="" ? $_SESSION['id'] : $_SESSION['login_id'],
+          'is_loginType' => $_SESSION['id'] !="" ? 1 : 2,
           
         );
 
@@ -8905,7 +8907,7 @@ foreach ($case_id as $id) {
                 
 
         $data2 = array(
-          'user_id' => $_SESSION['id'],
+          'user_id' => $_SESSION['id'] !="" ? $_SESSION['id'] : $_SESSION['login_id'] ,
           'status' => 'Nothing',
           'date_name' => date('d-m-Y h:i:s a'),
         );
@@ -8922,7 +8924,7 @@ foreach ($case_id as $id) {
              $data3 = array(
             'task_id' => $task_id,
             'employee_id' => $emp,
-            'assigned_by' => $_SESSION['id']
+            'assigned_by' => $_SESSION['id'] !="" ? $_SESSION['id'] : $_SESSION['login_id'] 
         );  
 
         $this->admin_model->insert('task_employee' , $data3);
@@ -8985,15 +8987,26 @@ foreach ($case_id as $id) {
   {
     
   
-    $sql="SELECT tm.id as task_manager_id, tm.subject , tm.user_id ,  tm.description  , tm.priority , tm.due_date  ,  tsk_emp.id as tsk_emp_id ,tsk_emp.employee_id ,  
-    emp1.employee_name as assigned,emp2.employee_name as assigned_by ,   
-       departments.name as departments_id , tsk_emp.id as employes_id  , tsk_emp.status,
-      tsk_emp.employee_id as emp_id  FROM task_manager tm
-          INNER JOIN task_employee tsk_emp ON (tm.id = tsk_emp.task_id) 
-          INNER JOIN employee_itgs emp1 ON (emp1.id  =  tsk_emp.employee_id)
-          INNER JOIN employee_itgs emp2 ON (emp2.id=tsk_emp.assigned_by) 
-          INNER JOIN departments  ON (tm.department = departments.id)
-          WHERE tsk_emp.employee_id=".$_SESSION['id']." OR tsk_emp.assigned_by=".$_SESSION['id'];
+    // $sql="SELECT tm.id as task_manager_id, tm.subject , tm.user_id ,  tm.description  , tm.priority , tm.due_date  ,  tsk_emp.id as tsk_emp_id ,tsk_emp.employee_id ,  
+    // emp1.employee_name as assigned,emp2.employee_name as assigned_by ,   
+    //    departments.name as departments_id , tsk_emp.id as employes_id  , tsk_emp.status,
+    //   tsk_emp.employee_id as emp_id  FROM task_manager tm
+    //       INNER JOIN task_employee tsk_emp ON (tm.id = tsk_emp.task_id) 
+    //       INNER JOIN employee_itgs emp1 ON (emp1.id  =  tsk_emp.employee_id)
+    //       INNER JOIN employee_itgs emp2 ON (emp2.id=tsk_emp.assigned_by) 
+    //       INNER JOIN departments  ON (tm.department = departments.id)
+    //       WHERE tsk_emp.employee_id=".$_SESSION['id']." OR tsk_emp.assigned_by=".$_SESSION['id'];
+   
+    if ($_SESSION['login_id']) {
+      $user_id=$_SESSION['login_id'];   
+    }else if($_SESSION['id']){
+      $user_id=$_SESSION['id'];   
+    }
+
+    $sql="Select task_manager.*,task_employee.employee_id,departments.name as departments_id
+    from task_manager inner join task_employee on (task_manager.id=task_employee.task_id)
+    inner join departments on (departments.id=task_manager.department)
+    where task_employee.employee_id='".$user_id."' or task_employee.assigned_by='".$user_id."'";
 
     $data['task_notification_data'] = $this->db->query($sql)->result_array();
 
