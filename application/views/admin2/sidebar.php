@@ -611,7 +611,7 @@
 
 
 <?php endif ?>
-<?php if ($_SESSION['role']== "TL" || $_SESSION['role']== "CM" || $_SESSION['role']== "manager"): ?>
+<?php if ($_SESSION['role']== "TL" || $_SESSION['role']== "CM" || $_SESSION['role']== "manager" || $_SESSION['role']== "TM"): ?>
 
 <ul class="nav" id="side-menu">
 
