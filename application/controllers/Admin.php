@@ -8884,6 +8884,30 @@ foreach ($case_id as $id) {
         $task_id=$this->admin_model->task_manager_form_insert($data);
                 
 
+        $data2 = array(
+          'user_id' => $_SESSION['id'] !="" ? $_SESSION['id'] : $_SESSION['login_id'] ,
+          'status' => 'Nothing',
+          'date_name' => date('d-m-Y h:i:s a'),
+        );
+
+        $this->admin_model->task_manager_notification($data2);
+
+        $employees = $this->input->post('employes');  
+
+       // $ids=implode(",",$employees);
+
+       // die($ids);
+
+         foreach ($employees as $emp) {
+             $data3 = array(
+            'task_id' => $task_id,
+            'employee_id' => $emp,
+            'assigned_by' => $_SESSION['id'] !="" ? $_SESSION['id'] : $_SESSION['login_id'] 
+        );  
+
+        $this->admin_model->insert('task_employee' , $data3);
+
+         }
       }
 
      else{
@@ -8934,8 +8958,8 @@ foreach ($case_id as $id) {
 
          }
 
-        redirect(base_url().'admin/task_notification_view');
      }  
+        redirect(base_url().'admin/task_notification_view');
 
   }
 
@@ -8990,15 +9014,6 @@ foreach ($case_id as $id) {
   {
     
   
-    // $sql="SELECT tm.id as task_manager_id, tm.subject , tm.user_id ,  tm.description  , tm.priority , tm.due_date  ,  tsk_emp.id as tsk_emp_id ,tsk_emp.employee_id ,  
-    // emp1.employee_name as assigned,emp2.employee_name as assigned_by ,   
-    //    departments.name as departments_id , tsk_emp.id as employes_id  , tsk_emp.status,
-    //   tsk_emp.employee_id as emp_id  FROM task_manager tm
-    //       INNER JOIN task_employee tsk_emp ON (tm.id = tsk_emp.task_id) 
-    //       INNER JOIN employee_itgs emp1 ON (emp1.id  =  tsk_emp.employee_id)
-    //       INNER JOIN employee_itgs emp2 ON (emp2.id=tsk_emp.assigned_by) 
-    //       INNER JOIN departments  ON (tm.department = departments.id)
-    //       WHERE tsk_emp.employee_id=".$_SESSION['id']." OR tsk_emp.assigned_by=".$_SESSION['id'];
    
     if ($_SESSION['login_id']) {
       $user_id=$_SESSION['login_id'];   
