@@ -331,7 +331,7 @@ $date2=date_create($new_date3);
     
 	
 <td>
-                 <?php if (!$_SESSION['role']=="Analysis"): ?>
+                 <?php if (!$_SESSION['role']=="Analysis" || $_SESSION['role']=="Manager Finance"): ?>
                                                                                       
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
 
