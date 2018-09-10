@@ -122,14 +122,14 @@
 
                               if($task_notification['user_id'] == $_SESSION['id'] || $task_notification['user_id'] == $_SESSION['login_id']) :?>      
                                  <a href="<?php echo base_url(); ?>/admin/task_notification_destroy/<?php echo
-                                  $task_notification['task_manager_id'];?>/<?php echo
+                                  $task_notification['id'];?>/<?php echo
                                   $task_notification['emp_id'];?>" onclick="return confirm('Are You Sure?')">Delete</a>
                                  
-                                 <a href="<?php echo base_url(); ?>/admin/task_manager_form_edit/<?php echo $task_notification['task_manager_id'];?>"> Edit </a>
+                                 <a href="<?php echo base_url(); ?>/admin/task_manager_form_edit/<?php echo $task_notification['id'];?>"> Edit </a>
                               <?php endif;  ?>   
                               
                               <?php if($task_notification['employee_id'] == $_SESSION['id']) :?>
-                                  <a href="" data-toggle="modal" onclick="get_data(<?php echo $task_notification['task_manager_id'] ?>)" data-target="#myModal10">response</a>
+                                  <a href="" data-toggle="modal" onclick="get_data(<?php echo $task_notification['id'] ?>)" data-target="#myModal10">response</a>
                               <?php endif; ?>   
 
                               </td>
@@ -174,7 +174,7 @@
          </div>
          <div class="modal-body">
                
-         <form  method="POST" action="<?php echo base_url()?>admin/response_of_task_form" >
+         <form  method="POST" action="<?php echo base_url()?>admin/response_of_task_form" enctype="multipart/form-data">
          
 
                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
@@ -182,6 +182,7 @@
                      <div class="panel-body" >
                      
                         <div class="form-group row">
+                           <input type="hidden" name="task_manager_id" >
                            <label for="example-text-input" class="col-sm-3 col-form-label">response<span class="required">*</span></label>
                            <div class="col-sm-9">
                               <textarea name="response" class="form-control"></textarea>
@@ -200,7 +201,7 @@
 
                         <div class="form-group col-lg-6">
                           <div class="fallback">
-                            <input name="file" type="file" multiple />
+                            <input name="file" type="file"  />
                           </div>
                         </div>  
 
