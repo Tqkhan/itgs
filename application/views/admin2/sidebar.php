@@ -776,7 +776,7 @@
     <li><a href="<?php echo base_url() ?>admin/employee_dashboard" class="fa fa-icon"><i class="fa fa-home"></i> Home</a></li>
     
     <li><a href="<?php echo base_url() ?>admin/screening_operation" class="fa fa-icon"><i class="fa fa-file-text-o"></i> ITGS Operations</a></li>
-</ul>
+
 <?php endif ?>
 
 
