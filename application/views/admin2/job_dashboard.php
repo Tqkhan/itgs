@@ -36,7 +36,7 @@
 					<th>Type of Services</th>
 					<!-- <th>Sub Category</th> -->
 					<th>Employee Name</th>
-					<th>Date</th>
+					<th>Date Received</th>
 					<th>Payment Mode</th>
 					<th>Official Fee</th>
 					<th>Total</th>
@@ -103,7 +103,7 @@ $con++;
    <a href="<?php echo base_url() ?>admin/fund_request_update?request_id=<?php echo $case['id'] ?>&case_id=<?php echo $case['case_id'] ?>&status=2" class="btn btn-danger">Reject</a>
    <?php } } else{ ?>                                                 
                                                     
-<a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>/<?php echo $case['id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
+<a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>/<?php echo $case['id'] ?>" target="_blank"><img src="<?php echo base_url()?>/admin_assets/img/view.png" title="View Detail" alt="View Detail" width="25" height="25"></a>
 <?php } ?>
                                                     
                                                     
@@ -304,7 +304,7 @@ $con++;
 		<?php 
 			if ($_SESSION['role'] == 'CM' || $_SESSION['role'] == 'TL' || $_SESSION['role'] == 'manager') {
 		?>
-		<a href="<?php echo base_url() ?>admin/form1/<?php echo $case['case_id'] ?>"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
+		<a href="<?php echo base_url() ?>admin/form1/<?php echo $case['case_id'] ?>"><img src="<?php echo base_url()?>/admin_assets/img/view.png" title="View Detail" alt="View Detail" width="25" height="25"></a>
 		<?php
 		}
 			else{
