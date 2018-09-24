@@ -708,7 +708,7 @@
                          <!--       </ul>-->
                          <!--</li>-->
                           <li>
-                             <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/Analytics.png" style="height:24px;">&nbsp;Analytics<span class="fa arrow"></span></a>
+                             <a href="#" class="material-ripple"><img src="<?php echo base_url() ?>admin_assets/icon/analytics.png" style="height:24px;">&nbsp;Analytics<span class="fa arrow"></span></a>
                              <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url('admin/case_analytics') ?>">Case Analytics</a></li>
                                 <li><a href="<?php echo base_url('admin/fund_request_analytics') ?>">Fund Request Analytics</a></li>
