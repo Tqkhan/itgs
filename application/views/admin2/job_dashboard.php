@@ -194,7 +194,7 @@ $total_usd=$case['official_fee_usd']+$case['vendor_changes_usd']+$case['easy_pai
  <?php 
 if ($case['fid'] <= 0) {
  ?>                                                  
- <a href="" data-toggle="modal" data-target="#myModal11" onclick="fund_paid(<?php echo $case['id'] ?>,<?php echo $total ?>,<?php echo $t ?>)">Payment Issue</a>    
+ <a href="" data-toggle="modal" data-target="#myModal11" onclick="fund_paid(<?php echo $case['id'] ?>,<?php echo $total ?>,<?php echo $t ?>)"><img src="<?php echo base_url(); ?>/admin_assets/img/payment_issue.png" title="Payment Issue" alt="Payment Issue" width="25" height="25"></a>    
  <a href="<?php echo base_url() ?>admin/fund_request_update?request_id=<?php echo $case['id'] ?>&case_id=<?php echo $case['case_id'] ?>&status=2" class="btn btn-danger">Reject</a>                                               
 <?php } ?> 
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>/<?php echo $case['id'] ?>" target="_blank"><img src="<?php echo base_url(); ?>/admin_assets/img/view.png" title="View Detail" alt="View Detail" width="25" height="25"></a>
