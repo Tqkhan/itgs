@@ -1041,14 +1041,18 @@
 
 <?php endif ?>
                     <?php if ($_SESSION['role']!="Hr"): ?>
-                         <li <?php if ($_SESSION['client_id']) echo 'style="display: none"';?> >
+                         <li <?php if ($_SESSION['client_id']) echo 'style="display: none"'; elseif ($_SESSION['role']=="vendor") {
+                             echo 'style="display: none"';
+                         }?> >
                             <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png"> Task Mannager<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li><a href="<?php echo base_url()?>admin/task_manager_form">Task Add</a></li>
                                 <li><a href="<?php echo base_url()?>admin/task_notification_view">View Task </a></li>
                             </ul>
                         </li>
-                        <li <?php if ($_SESSION['client_id']) echo 'style="display: none"';?>>
+                        <li <?php if ($_SESSION['client_id']) echo 'style="display: none"';elseif ($_SESSION['role']=="vendor") {
+                             echo 'style="display: none"';
+                         }?> >
                             <a class="material-ripple" href="#"><img src="<?php echo base_url() ?>admin_assets/icon/reporting_hierarcy.png"> Memo<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                              

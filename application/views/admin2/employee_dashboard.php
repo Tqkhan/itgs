@@ -65,7 +65,7 @@
                         </div>
 
                     </div>
-                    <div class=row>
+                    <div class="row" <?php if ($_SESSION['role']=="vendor") echo 'style="display: none"';?>>
                        
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                             <div class="panel panel-bd ">
