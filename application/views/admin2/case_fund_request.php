@@ -40,7 +40,7 @@
                                                     <th>Client Ref</th>
                                                     <th>ITGS Ref</th>
                                                     <th>Employee Name</th>
-                                                    <th>Date</th>
+                                                    <th>Date Received</th>
                                                     <th>Vendor Name</th>
                                                     <th>Subject</th>
                                                     <th>Activity</th>
@@ -48,6 +48,7 @@
                                                     <th>Attachment</th>
                                                     <th>Charges</th>
                                                     <th>Remarks</th>
+                                                    <th>Date Processed</th>
                                                     <?php 
                                                       if ($_SESSION['role'] == 'Manager Finance') {
                                                         echo '<th>Status</th>';
@@ -86,9 +87,10 @@
                                                  </td>
                                                  <td><?php echo $f['charges'] ?></td>
                                                  <td><?php echo $f['remarks'] ?></td>
+                                                 <td><?php echo $f['date_processed'] ?></td>
                                                  <?php 
                                                     if ($_SESSION['role'] == 'Manager Finance') {
-                                                      if ($f['is_approve'] == 1) {
+                                                      if ($f['is_issue'] == 0) {
                                                         $status = 'Pending';
                                                       }
                                                       elseif ($f['is_issue'] == 1) {
@@ -156,12 +158,12 @@
                   <div class="form-group row">
                                         <div class="form-group col-lg-6">
                                         <label for="">Date</label>
-                                            <input name="date" type="date" class="form-control" required="This Field is Required...">
+                                            <input name="date" type="date" class="form-control" required="This Field is Required..." readonly="">
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label for="">Amount</label>
-                                            <input name="amount" type="number" class="form-control" required="This Field is Required...">
+                                            <input name="amount" type="number" class="form-control" required="This Field is Required..." readonly="">
                                         </div>
                                     </div>
 

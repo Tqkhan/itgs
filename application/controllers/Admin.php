@@ -5074,7 +5074,7 @@
         unset($data['slip']);
       }
       $this->admin_model->insert_data("fund_approve",$data);
-      $this->db->update('fund_request_activity',['is_issue'=>1],['id'=>$_POST['fund_id']]);
+      $this->db->update('fund_request_activity',['is_issue'=>1,'date_processed'=> date("d-m-Y H:i:s a")],['id'=>$_POST['fund_id']]);
       $fund = $this->admin_model->select_where_row('fund_request_activity',array('id'=>$_POST['fund_id']));
       if ($fund) {
         $user = $this->admin_model->select_where_row('employee_itgs',array('id'=>$fund['employee_id']));
@@ -6233,7 +6233,7 @@
         unset($data['slip']);
       }
       $this->admin_model->insert_data("fund_case_approve",$data);
-      $this->db->update('case_fund_request',['is_issue'=>1],['id'=>$_POST['fund_id']]);
+      $this->db->update('case_fund_request',['is_issue'=>1,'date_processed'=> date("d-m-Y H:i:s a")],['id'=>$_POST['fund_id']]);
       $case = $this->admin_model->select_where('case_fund_request',array('id'=>$_POST['fund_id']));
       $case_id = $case[0]['case_id'];
       $this->db->update('assign_vendor_request',['is_assigned'=>1],['case_id'=>$case_id]);

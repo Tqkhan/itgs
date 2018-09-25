@@ -41,6 +41,7 @@
 					<th>Official Fee</th>
 					<th>Total</th>
 					<th>Attachment</th>
+					<th>Date Processed</th>
 					<th>Status</th>
 					<th>Action</th>
 				</tr>
@@ -81,6 +82,8 @@ $con++;
 			}
 		?>
 	</td>
+	<td><span class="footable-toggle"></span><?php echo $case['date_processed'] ?></td>
+	
 		<td><span class="footable-toggle"></span>
 	
 	<?php 
@@ -94,7 +97,6 @@ $con++;
 	?>
 	
 	</td>
-	
 <td>
                                                    
    <?php if ($case['subject_id'] == 0 && $case['activity_id'] == 0) {?>
@@ -130,11 +132,12 @@ $scopecount++;
 					<th>Type of Services</th>
 					<!-- <th>Sub Category</th> -->
 					<th>Employee Name</th>
-					<th>Date</th>
+					<th>Date Received</th>
 					<th>Payment Mode</th>
 					<th>Official Fee</th>
 					<th>Total</th>
 					<th>Attachment</th>
+					<th>Date Processed</th>
 					<th>Status</th>
 					<th>Action</th>
 				</tr>
@@ -176,6 +179,8 @@ $total_usd=$case['official_fee_usd']+$case['vendor_changes_usd']+$case['easy_pai
 			}
 		?>
 	</td>
+	<td><span class="footable-toggle"></span><?php echo $case['date_processed'] ?></td>
+
 		<td><span class="footable-toggle"></span>
 	
 	<?php 
@@ -189,7 +194,6 @@ $total_usd=$case['official_fee_usd']+$case['vendor_changes_usd']+$case['easy_pai
 	?>
 	
 	</td>
-	
 <td>
  <?php 
 if ($case['fid'] <= 0) {
@@ -623,12 +627,12 @@ $scopecount++;
                   <div class="form-group row">
                                         <div class="form-group col-lg-6">
                                         <label for="">Date</label>
-                                            <input name="date" type="date" class="form-control" required="This Field is Required...">
+                                            <input name="date" type="date" class="form-control" required="This Field is Required..." readonly="">
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label for="">Amount</label>
-                                            <input name="amount" type="number" class="form-control" required="This Field is Required...">
+                                            <input name="amount" type="number" class="form-control" required="This Field is Required..." readonly="">
                                         </div>
                                     </div>
 
@@ -1108,23 +1112,23 @@ $scopecount++;
                                      <div class="form-group row">
                                         <div class="form-group col-lg-6">
                                         <label for="">Date</label>
-                                            <input name="date_time" required="" type="date" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                                            <input name="date_time" required="" type="date" class="form-control" value="<?php echo date('Y-m-d') ?>" readonly="">
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label for="">ITGS Caes Ref No</label>
-                                            <input name="client_reference" type="text" class="form-control">
+                                            <input name="client_reference" type="text" class="form-control" readonly="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="form-group col-lg-6">
                                         <label for="">Name Of Subject</label>
-                                            <input name="name_of_subject" type="text" class="form-control">
+                                            <input name="name_of_subject" type="text" class="form-control" readonly="">
                                         
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label for="">Type of Service</label>
-                                            <input name="type_of_service" required="" type="text" class="form-control">
+                                            <input name="type_of_service" required="" type="text" class="form-control" readonly="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -1333,7 +1337,7 @@ $scopecount++;
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label for="">Type of Service</label>
-                                            <input name="type_of_service" required="" type="text" class="form-control">
+                                            <input name="type_of_service" required="" type="text" class="form-control" readonly="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
