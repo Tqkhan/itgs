@@ -7798,6 +7798,30 @@
       //redirect('admin/admin_dashboard');
     }
 
+    public function export_all_data_mf($type)
+    {
+      error_reporting('-1');
+      $delimiter = ",";
+      $filename = "jobs-report-" . date('Y-m-d') . ".csv";
+      $f = fopen('php://memory', 'w');
+      $fields = array('S.no','Case ID','Subject ID','Activity ID','Date Time','Type Of Service','Name Of IA','Degree Type','Mode Of Payment','Official Fee','Vendor Changes','Easy Paisa Charges','Mobi Cash Charges','Bank Commission','Postage Courier','Other Charges','Total Cost','Employe Id','Is Approved','Is Issue','Is Int','Client Reference','Reference Code','Scope Name','Fi ID','Employee Name');
+      fputcsv($f, $fields, $delimiter);
+     $con = 1;
+     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.reference_code,scope_of_work.scope_name, count(fund_approve.id) as fid, employee_itgs.employee_name from fund_request_activity left JOIN case_request on(case_request.id=fund_request_activity.case_id) left join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) left join fund_approve on fund_approve.fund_id = fund_request_activity.id left join employee_itgs on employee_itgs.id = fund_request_activity.employe_id where fund_request_activity.is_approved = 1 GROUP BY fund_request_activity.id')->result_array();
+
+      foreach ($data['jobs'] as $row) {
+       // print_r($row);die();
+          //$status = ($row['status'] == '1')?'Active':'Inactive';
+          $lineData = array($con, $row['case_id'], $row['subject_id'], $row['activity_id'], $row['date_time'], $row['type_of_service'], $row['name_of_ia'], $row['degree_type'], $row['mode_of_payment'], $row['official_fee'], $row['vendor_changes'], $row['easy_paisa_charges'], $row['mobi_cash_charges'], $row['bank_commission'], $row['postage_courier'], $row['other_charges'], $row['total_cost'], $row['employe_id'], $row['is_approved'], $row['is_issue'], $row['is_int'], $row['client_reference'], $row['reference_code'], $row['scope_name'], $row['fid'], $row['employee_name']);
+          fputcsv($f, $lineData, $delimiter);
+          $con++;
+      }
+      fseek($f, 0);
+      header('Content-Type: text/csv');
+      header('Content-Disposition: attachment; filename="' . $filename . '";');
+      fpassthru($f);
+      redirect('admin/job_dashboard');
+    }
     public function export_client_report($type)
     {
       error_reporting('-1');
