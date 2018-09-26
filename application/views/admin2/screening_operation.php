@@ -229,7 +229,11 @@ $result=$this->db->get()->result_array();
   }else if($case['case_status']==8){
   echo "OnHold";
   }else if($case['case_status']==5){
+    if ($_SESSION['role']=="CM") {
+      echo "All Checks Completed";
+    }else{
 	echo "Completed";
+    }
 	} ?>
 	
 	</td>

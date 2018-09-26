@@ -270,7 +270,7 @@
    {
 
 
-  $case_id=$_POST['case_id'];
+  $case_id=$_POST['case_id_cancel'];
      $data_modal = array(
       'case_id'=>$this->input->post('case_id_cancel'),
       'client_id'=>$this->input->post('client_id'),
@@ -283,6 +283,8 @@
 
     );
      $this->db->insert("modal_form1", $data_modal);
+
+     $this->db->update('case_request',['case_status'=>4],['id'=>$case_id]);
      $emails['data'] = array(
         'client_reference'=>$this->input->post('client_ref'),
         'reference_code'=>$this->input->post('itgs_reference'),
@@ -293,7 +295,9 @@
       $employee = $this->admin_model->get_employee_email($_SESSION['client_id']);
     
       $this->sendmail('verify@itgsgroup.com',$employee[0]['login_name'],'Visiting Cancel Case Request',$message);
-        redirect(base_url().'admin/new_case_request?case_id='.$case_id);
+
+
+        // redirect(base_url().'admin/new_case_request?case_id='.$case_id);
 
      redirect(base_url().'admin/case_dashboard');
    }
