@@ -291,7 +291,7 @@
     ?>
         
 
-                               <span class="label"><a href="<?php echo base_url() ?>admin/read_all_notification/<?php echo $user_id; ?>" class="pull-right">Read All</a></span>
+                               <span class="label pull-right" style="margin-left: 11px;"><a href="<?php echo base_url() ?>admin/read_all_notification/<?php echo $user_id; ?>" >Read All</a></span>
                                 <div id="get_notification" style="overflow:auto;height:300px;">
 
                                 </div>
