@@ -21,9 +21,6 @@
 								<div class="panel-heading">
 									<div class="panel-title">
 										<h4>Job DashBoard</h4>
-										<?php if($_SESSION['role']=="Manager Finance"){ ?>
-											<a href="<?php echo base_url() ?>admin/export_all_data_mf"><button style="margin-top: -4px;" type="" class="btn btn-primary pull-right">Export CSV</button></a>
-										<?php }?>
 									</div>
 								</div>
 								<div class="panel-body">
