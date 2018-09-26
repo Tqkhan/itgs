@@ -280,7 +280,14 @@
                             <ul class="dropdown-menu dropdown-alerts">
                                 <li class="rad-dropmenu-header"><a href="#">Your Notifications</a></li>
 
+    <?php if ($_SESSION['id']){
+      $user_id=$_SESSION['id'];
+    }else{
+        $user_id=$_SESSION['login_id'];
+    } ?>
+        
 
+                               <span class="label"><a href="<?php echo base_url() ?>admin/read_all_notification/<?php echo $user_id; ?>" class="pull-right">Read All</a></span>
                                 <div id="get_notification" style="overflow:auto;height:300px;">
 
                                 </div>

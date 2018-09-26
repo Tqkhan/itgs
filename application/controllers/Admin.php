@@ -1611,6 +1611,12 @@
       $this->admin_model->update('notifications',array('view'=>'1'),array('id'=>$id != NULL ? $id : "all"));
     }
 
+    function read_all_notification($id)
+    {
+      $this->db->query("UPDATE `notifications` SET `view` = 1 WHERE user_id =".$id);
+      redirect(base_url().'admin/job_dashboard');
+    }
+
   	public function count_notification()
   	{
   		$events = array();
