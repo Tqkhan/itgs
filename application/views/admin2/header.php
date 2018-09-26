@@ -282,9 +282,13 @@
 
     <?php if ($_SESSION['id']){
       $user_id=$_SESSION['id'];
-    }else{
+    }else if($_SESSION['login_id']){
         $user_id=$_SESSION['login_id'];
-    } ?>
+    }else{
+
+        $user_id=$_SESSION['client_id'];
+    }
+    ?>
         
 
                                <span class="label"><a href="<?php echo base_url() ?>admin/read_all_notification/<?php echo $user_id; ?>" class="pull-right">Read All</a></span>

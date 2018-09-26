@@ -4,7 +4,9 @@
 
 foreach($not as $noti){
 
+ if($_SESSION['client_id'] && $noti['user_type']!="Memo"){
 ?>
+
 
 
  <li>
@@ -27,6 +29,59 @@ foreach($not as $noti){
         </div>
     </a>
 </li>
+
+<?php
+ } 
+ if (!$_SESSION['client_id']) {
+     ?>
+<li>
+    <a class="rad-content not-id" data-id="<?php echo $noti['id'] ?>" href="<?php echo base_url() ?>/<?php echo $noti['url'] ?>">
+        <div class="pull-left"><i class="fa fa-bell  fa-2x color-green"></i></div>
+        <div class="rad-notification-body">
+            
+             
+             <?php if ($noti['view']==1): ?>
+                <div class="sm-text">
+                    
+                    <?php echo $noti['user_id']==0 && $noti['user_type']=="Memo" ? "Memo ".$noti['title'] : " ". $noti['title'] ?>
+                </div>
+                <?php else: ?>
+                <div class="lg-text">
+                    <?php echo $noti['user_id']==0 && $noti['user_type']=="Memo" ? "Memo ".$noti['title'] : " ". $noti['title'] ?>
+                </div>
+                <?php endif ?>   
+            <div class="sm-text"><?php echo $noti['message'] ?></div>
+        </div>
+    </a>
+</li>
+     <?php
+ }
+?>
+
+
+   
+
+<!-- 
+ <li>
+    <a class="rad-content not-id" data-id="<?php echo $noti['id'] ?>" href="<?php echo base_url() ?>/<?php echo $noti['url'] ?>">
+        <div class="pull-left"><i class="fa fa-bell  fa-2x color-green"></i></div>
+        <div class="rad-notification-body">
+            
+             
+             <?php if ($noti['view']==1): ?>
+                <div class="sm-text">
+                    
+                    <?php echo $noti['user_id']==0 && $noti['user_type']=="Memo" ? "Memo ".$noti['title'] : " ". $noti['title'] ?>
+                </div>
+                <?php else: ?>
+                <div class="lg-text">
+                    <?php echo $noti['user_id']==0 && $noti['user_type']=="Memo" ? "Memo ".$noti['title'] : " ". $noti['title'] ?>
+                </div>
+                <?php endif ?>   
+            <div class="sm-text"><?php echo $noti['message'] ?></div>
+        </div>
+    </a>
+</li> -->
 
 <?php } ?>
 <?php 
