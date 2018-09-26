@@ -129,7 +129,7 @@ table{
                           <td>1</td>
                           <td><?php echo $detail['date_time'] ?></td>
                           <td><?php echo $detail['date'] ?></td>
-                          <td>C.P.V<?php echo $detail['slip'] ?></td>
+                          <td>C.P.V <?php echo $detail['slip'] ?></td>
                           <td><?php echo $detail['reference_code'] ?></td>
                           <td><?php echo $detail['subject_name'] ?></td>
                           <td><?php echo $detail['scope_name'] ?></td>
@@ -265,5 +265,3 @@ sum6 += isNaN(value) ? 0 : parseInt(value);
 }
 }
 
-
-document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td> </td>  <td> </td>  <td> </td> <td> </td>   <td> <strong>Total</strong></td> </td>   <td> </td>   <td> </td>   <td>  </td> <td><strong>  ' + sum1 + '</strong> </td> <td><strong>  ' + sum2 + '</strong> </td> <td><strong>  ' + sum3 + '</strong> </td> <td><strong>  ' + sum4 + '</strong> </td> <td><strong>  ' + sum5 + '</strong> </td> <td> </td> <td><strong> </strong> </td> <td><strong>  ' + sum6 + '</strong> </td>  </tr></tfoot>';</script>

@@ -198,7 +198,7 @@ $total_usd=$case['official_fee_usd']+$case['vendor_changes_usd']+$case['easy_pai
  <?php 
 if ($case['fid'] <= 0) {
  ?>                                                  
- <a href="" data-toggle="modal" data-target="#myModal11" onclick="fund_paid(<?php echo $case['id'] ?>,<?php echo $total ?>,<?php echo $t ?>)"><img src="<?php echo base_url(); ?>/admin_assets/img/payment_issue.png" title="Payment Issue" alt="Payment Issue" width="25" height="25"></a>    
+ <a href="" data-toggle="modal" data-target="#myModal11" onclick="fund_paid(<?php echo $case['id'] ?>,<?php echo $total ?>,'<?php echo $case[mode_of_payment] ?>')"><img src="<?php echo base_url(); ?>/admin_assets/img/payment_issue.png" title="Payment Issue" alt="Payment Issue" width="25" height="25"></a>    
  <a href="<?php echo base_url() ?>admin/fund_request_update?request_id=<?php echo $case['id'] ?>&case_id=<?php echo $case['case_id'] ?>&status=2" class="btn btn-danger">Reject</a>                                               
 <?php } ?> 
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>/<?php echo $case['id'] ?>" target="_blank"><img src="<?php echo base_url(); ?>/admin_assets/img/view.png" title="View Detail" alt="View Detail" width="25" height="25"></a>
@@ -639,14 +639,19 @@ $scopecount++;
                   <div class="form-group row">
                   	<div class="form-group col-lg-6">
                         <label for="">Payment Type</label><br>
-                        <input name="type" type="radio" class="" required="This Field is Required..." value="1" checked="">
-                        <label>Cash</label>&nbsp;&nbsp;
-                        <input name="type" type="radio" class="" required="This Field is Required..." value="2">
-                        <label>Chaque</label>&nbsp;&nbsp;
-                        <input name="type" type="radio" class="" required="This Field is Required..." value="3">
-                        <label>Payorder</label>&nbsp;&nbsp;
+                        <input name="type" type="radio" class="type_cash" required="This Field is Required..." value="1" checked="">
+                        <label class="type_cash">Cash</label>&nbsp;&nbsp;
+                        <input name="type" type="radio" class="type_chaque" required="This Field is Required..." value="2">
+                        <label class="type_chaque">Chaque</label>&nbsp;&nbsp;
+                        <input name="type" type="radio" class="type_payorder" required="This Field is Required..." value="3">
+                        <label class="type_payorder">Payorder</label>&nbsp;&nbsp;
                     </div>
                     <?php 
+                    if (date('d')>="29") {
+                    	$slip=1;
+                    }else{
+
+
                     	$this->db->select('*')
                     			 ->from('fund_approve')
                     			 ->where('type', 1)
@@ -654,9 +659,13 @@ $scopecount++;
                     	$slip = $this->db->get()->row_array();
                     	$slip = $slip['slip'];
                     	$slip = $slip + 1;
+                    }
                     ?>
                  
                     <?php 
+                     if (date('d')>="30") {
+                    	$slip=1;
+                    }else{
                     	$this->db->select('*')
                     			 ->from('fund_approve')
                     			 
@@ -665,18 +674,10 @@ $scopecount++;
                     	$payorder = $this->db->get()->row_array();
 	                    $payorder = $payorder['payorder'];
 	                  	$payorder +=  1;
+	                  }
                     	// echo $payorder;
                     ?>
-                    <?php 
-                    	$this->db->select('*')
-                    			 ->from('fund_approve')
-                    			  ->where('type', 2)
-                    			 ->order_by('chaque', 'desc');
-                    	$chaque = $this->db->get()->row_array();
-	                    $chaque = $chaque['chaque'];
-	                  	$chaque +=  1;
-                    	// echo $payorder;
-                    ?>
+                  
                     <div class="form-group col-lg-6 change-type type-1">
                     	<label>Slip No#</label>
                     	<input name="" type="text" class="form-control" value="<?php echo 'CPV'.$slip ?>" readonly>
@@ -2448,10 +2449,26 @@ function vendor_view(id) {
 function litigation(asid) {
 	$('[name=lit_id]').val(asid);
 }
-function fund_paid(id,amount) {
+function fund_paid(id,amount,type) {
+	if (type=='Cash') {
+         $('.type_cash').attr('selected','ture');
+         $('.type_payorder').hide();
+         $('.type_chaque').hide();
+	}else if (type=='Payorder') {
+         $('.type_payorder').attr('selected','ture');
+         $('.type_cash').hide();
+         $('.type_chaque').hide();
+	}else if (type=='Cash') {
+         $('.type_cash').attr('selected','ture');
+         $('.type_payorder').hide();
+         $('.type_chaque').hide();
+	}
+
+
 	var today = new Date();
 var dd = today.getDate();
 var mm = today.getMonth()+1; //January is 0!
+
 
 var yyyy = today.getFullYear();
 if(dd<10){
