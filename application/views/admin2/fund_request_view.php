@@ -192,7 +192,7 @@
       </div>
       <div class="row">
           
-          <?php $total=$subject['official_fee']+$subject['vendor_changes']+$subject['easy_paisa_charges']+$subject['mobi_cash_charges']+$subject['bank_commission']+$subject['postage_courier']+$subject['other_charges']+$subject['other_charges'];
+          <?php $total=$subject['official_fee']+$subject['vendor_changes']+$subject['easy_paisa_charges']+$subject['mobi_cash_charges']+$subject['bank_commission']+$subject['postage_courier']+$subject['other_charges'];
 
 ?>
         <div class="col-lg-12">

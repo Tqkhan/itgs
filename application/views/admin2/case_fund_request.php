@@ -170,12 +170,9 @@
                   <div class="form-group row">
                     <div class="form-group col-lg-6">
                         <label for="">Payment Type</label><br>
-                        <input name="type" type="radio" class="" required="This Field is Required..." value="1" checked="">
-                        <label>Cash</label>&nbsp;&nbsp;
-                        <input name="type" type="radio" class="" required="This Field is Required..." value="2">
-                        <label>Chaque</label>&nbsp;&nbsp;
-                        <input name="type" type="radio" class="" required="This Field is Required..." value="3">
-                        <label>Payorder</label>&nbsp;&nbsp;
+                       
+                        <label>Journal Voucher</label>&nbsp;&nbsp;
+                        <input type="hidden" name="type" value="1">
                     </div>
                     <!-- <?php 
                       $this->db->select('*')
@@ -208,50 +205,26 @@
                       $chaque = $chaque + 1;
                     ?> -->
                     <?php 
+                    if (date('d')>29) {
+                      $slip1 = 1;
+                    }else{
+
+
                       $this->db->select('*')
                            ->from('fund_case_approve')
-                           ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
-                           ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
                            ->where('type',1)
                            ->order_by('id', 'desc');
-                      $slip = $this->db->get()->row_array();
-                      
-                      $this->db->select('*')
-                           ->from('fund_case_approve')
-                           ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
-                           ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
-                           ->where('type',2)
-                           ->order_by('id', 'desc');
-                      $chaque = $this->db->get()->row_array();
-                      
-                      $this->db->select('*')
-                           ->from('fund_case_approve')
-                           ->where('STR_TO_DATE(date, "%Y-%M-%d") >=', date('Y-m-d'))
-                           ->where('STR_TO_DATE(date, "%Y-%M-%d") <=', date('Y-m-t'))
-                           ->where('type',3)
-                           ->order_by('id', 'desc');
-                      $payorder = $this->db->get()->row_array();
-                      
-
+                      $slip = $this->db->get()->row_array();           
                       $slip1 = $slip['slip'] + 1;
-                      $chaque1 = $chaque['chaque'] + 1;
-                      $payorder1 = $payorder['payorder'] + 1;
+                      }
+                    
                     ?>
                     <div class="form-group col-lg-6 change-type type-1">
-                      <label>Slip No#</label>
+                      <label>Journal Voucher #</label>
                       <input name="" type="text" class="form-control" value="<?php echo 'JV'.$slip1 ?>" readonly>
-                      <input type="hidden" name="slip" value="<?php echo $slip ?>">
+                      <input type="hidden" name="slip" value="<?php echo $slip1 ?>">
                     </div>
-                    <div class="form-group col-lg-6 change-type type-2" style="display: none">
-                      <label>Chaque No#</label>
-                      <input name="" type="text" class="form-control" value="<?php echo 'JV'.$chaque1 ?>" readonly>
-                      <input type="hidden" name="chaque" value="<?php echo $slip ?>">
-                    </div>
-                    <div class="form-group col-lg-6 change-type type-3" style="display: none">
-                      <label>Payorder No#</label>
-                      <input name="" type="text" class="form-control" value="<?php echo 'JV'.$payorder1 ?>" readonly>
-                      <input type="hidden" name="payorder" value="<?php echo $slip ?>">
-                    </div>
+                 
                    </div>
 
 
