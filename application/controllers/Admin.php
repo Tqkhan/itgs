@@ -2630,7 +2630,7 @@
       $notification = array(
         'user_id'=>$_SESSION['client_id'],
         'user_type'=>'client',
-        'title' => 'New Case Request',
+        'title' => 'New Case '.$_POST['client_reference']." ".$_POST['reference_code'].' Request',
         'message'=>date('Y-m-d'),
         'url'=>'admin/form1/'.$case_id
       );
@@ -2791,7 +2791,7 @@
       $notification = array(
         'user_id'=>$employee[0]['id'],
         'user_type'=>'employee',
-        'title' => 'Update Case Request',
+        'title' => 'Update Case '.$_POST['client_reference']." ".$_POST['reference_code'].' Request',
         'message'=>date('Y-m-d'),
         'url'=>'admin/form1/'.$case_id
       );
@@ -2799,7 +2799,7 @@
       $notification = array(
         'user_id'=>$_SESSION['client_id'],
         'user_type'=>'client',
-        'title' => 'Update Case Request',
+        'title' => 'Update Case '.$_POST['client_reference']." ".$_POST['reference_code'].' Request',
         'message'=>date('Y-m-d'),
         'url'=>'admin/form1/'.$case_id
       );
@@ -2927,7 +2927,7 @@
       $notification = array(
         'user_id'=>$u_id,
         'user_type'=>'client',
-        'title' => 'Case onhold',
+        'title' => 'Case '.$client[0]['client_reference']." ".$client[0]['reference_code'].' onhold',
         'message'=>date('Y-m-d'),
         'url'=>'admin/form1/'.$case_id
       );
