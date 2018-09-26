@@ -405,7 +405,7 @@
         $notification = array(
           'user_id'=>$u_id,
           'user_type'=>$u_type,
-          'title' => 'New Report Submission',
+          'title' => 'New Report Submission ',
           'message'=>date('Y-m-d'),
           'url'=>'admin/'.$url
         );
@@ -1600,7 +1600,7 @@
       //          // // ->where('user_type', $type)
       //          ->where('view', '0')
       //          ->order_by('id', 'desc');
-      $data['not'] = $this->db->query("select * from notifications where user_id='".$id."' or (user_id='0' and user_type='Memo') and view='0' order by id DESC")->result_array();
+      $data['not'] = $this->db->query("select * from notifications where user_id='".$id."' or (user_id='0' and user_type='Memo') order by id DESC")->result_array();
      
      
   	 $this->load->view('admin2/get_notification',$data);
@@ -2616,7 +2616,7 @@
       $notification = array(
         'user_id'=>$employee[0]['id'],
         'user_type'=>'employee',
-        'title' => 'New Case Request',
+        'title' => 'New Case '.$_POST['client_reference']." ".$_POST['reference_code'].' Request',
         'message'=>date('Y-m-d'),
         'url'=>'admin/form1/'.$case_id
       );
