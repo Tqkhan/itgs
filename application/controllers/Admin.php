@@ -7800,7 +7800,7 @@
 
     public function export_all_data_mf($type)
     {
-      error_reporting('-1');
+      error_reporting('0');
       $delimiter = ",";
       $filename = "jobs-report-" . date('Y-m-d') . ".csv";
       $f = fopen('php://memory', 'w');
