@@ -212,14 +212,58 @@
                         {extend: 'print', className: 'btn-sm'}
                     ]
                 });
-                $("#dataTableExamplepayrole").DataTable({
+                $("#dataTableExampleresume_bank").DataTable({
                     dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
                     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                     buttons: [
                         {extend: 'copy', className: 'btn-sm'},
-                        {extend: 'csv', title: 'Payrole', className: 'btn-sm'},
-                        {extend: 'excel', title: 'Payrole', className: 'btn-sm'},
-                        {extend: 'pdf', title: 'Payrole', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Resume_Bank', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Resume_Bank', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Resume_Bank', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExampleview_memo").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Memo', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Memo', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Memo', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExamplecase_invoice").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Case_Invoice', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Case_Invoice', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Case_Invoice', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExamplecase_vendor_invoice").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Case_Vendor_Invoice', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Case_Vendor_Invoice', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Case_Vendor_Invoice', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExampleleave_application_finance").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Leave_Application_Finance', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Leave_Application_Finance', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Leave_Application_Finance', className: 'btn-sm'},
                         {extend: 'print', className: 'btn-sm'}
                     ]
                 });

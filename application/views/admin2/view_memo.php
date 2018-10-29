@@ -32,7 +32,7 @@
 									<div class="table-responsive">
 								
 		
-			<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
+			<table id="dataTableExampleview_memo" class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
           <th>Memo ID</th>

@@ -63,7 +63,7 @@
                                 <div class="panel-body">
 
                                     <div class="table-responsive">
-                                        <table id="dataTableExample2" class="table table-bordered table-striped table-hover">
+                                        <table id="dataTableExampleresume_bank" class="table table-bordered table-striped table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Employee Name</th>

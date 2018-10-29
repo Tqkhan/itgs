@@ -33,7 +33,7 @@
 
                                     <div class="table-responsive">
                                         <!-- <form method="post" action="<?php echo base_url() ?>admin/recruitment_parser"> -->
-                                        <table id="dataTableExample2" class="table table-bordered table-striped table-hover">
+                                        <table id="dataTableExamplecase_invoice" class="table table-bordered table-striped table-hover">
                                             <thead>
                                                 <tr>
                                                 <!-- <th><input type="checkbox"/ class="check_all"> </th> -->
