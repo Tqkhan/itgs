@@ -39,3 +39,18 @@
 [07-Dec-2017 12:56:33 Asia/Karachi] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/itgsvera/public_html/application/controllers/Admin.php on line 3091
 [07-Dec-2017 12:56:37 Asia/Karachi] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/itgsvera/public_html/application/controllers/Admin.php on line 3091
 [07-Dec-2017 13:27:07 Asia/Karachi] PHP Fatal error:  Call to undefined function sum() in /home/itgsvera/public_html/application/controllers/Admin.php on line 3082
+[06-Sep-2018 11:50:34 Asia/Karachi] PHP Parse error:  syntax error, unexpected '}' in /home/itgsvera/public_html/application/controllers/Admin.php on line 28
+[24-Sep-2018 14:20:59 Asia/Karachi] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW) in /home/itgsvera/public_html/application/controllers/Admin.php on line 5077
+[24-Sep-2018 14:21:13 Asia/Karachi] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW) in /home/itgsvera/public_html/application/controllers/Admin.php on line 5077
+[24-Sep-2018 14:21:24 Asia/Karachi] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW) in /home/itgsvera/public_html/application/controllers/Admin.php on line 5077
+[24-Sep-2018 14:21:48 Asia/Karachi] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW) in /home/itgsvera/public_html/application/controllers/Admin.php on line 5077
+[24-Sep-2018 14:21:58 Asia/Karachi] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW) in /home/itgsvera/public_html/application/controllers/Admin.php on line 5077
+[24-Sep-2018 14:22:06 Asia/Karachi] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW) in /home/itgsvera/public_html/application/controllers/Admin.php on line 5077
+[24-Sep-2018 14:22:09 Asia/Karachi] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW) in /home/itgsvera/public_html/application/controllers/Admin.php on line 5077
+[24-Sep-2018 14:23:44 Asia/Karachi] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW), expecting ']' in /home/itgsvera/public_html/application/controllers/Admin.php on line 5077
+[26-Sep-2018 16:16:41 Asia/Karachi] PHP Parse error:  syntax error, unexpected end of file in /home/itgsvera/public_html/application/controllers/Admin.php on line 1611
+[26-Sep-2018 16:16:45 Asia/Karachi] PHP Parse error:  syntax error, unexpected end of file in /home/itgsvera/public_html/application/controllers/Admin.php on line 1611
+[26-Sep-2018 16:18:59 Asia/Karachi] PHP Parse error:  syntax error, unexpected end of file in /home/itgsvera/public_html/application/controllers/Admin.php on line 1611
+[26-Sep-2018 16:19:01 Asia/Karachi] PHP Parse error:  syntax error, unexpected end of file in /home/itgsvera/public_html/application/controllers/Admin.php on line 1611
+[26-Sep-2018 16:19:02 Asia/Karachi] PHP Parse error:  syntax error, unexpected end of file in /home/itgsvera/public_html/application/controllers/Admin.php on line 1611
+[26-Sep-2018 16:19:03 Asia/Karachi] PHP Parse error:  syntax error, unexpected end of file in /home/itgsvera/public_html/application/controllers/Admin.php on line 1611

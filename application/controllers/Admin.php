@@ -496,7 +496,7 @@ public function step2($case_id)
 
  public function fund_request_update(){
 
-     $this->db->update('fund_request_activity',['is_approved'=>$_GET['status']],['id'=>$_GET['request_id'],'case_id'=>$_GET['case_id']]);
+     $this->db->update('fund_request_activity',['is_approved'=>$_GET['status'],'approved_date' => date('Y-m-d h:i:s')],['id'=>$_GET['request_id'],'case_id'=>$_GET['case_id']]);
      if($this->db->affected_rows()>0){
          redirect(base_url().'admin/job_dashboard');
      }else{
@@ -4541,15 +4541,28 @@ public function get_word($num)
    {
      $data['jobs']=$this->db->query('
       select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,case_request.created_at as date_of_receiving,case_request.case_status,scope_of_work.scope_name,aatu.hold_date,aatu.unhold_date,case_request.id as case_id,aatu.subject_id,aatu.activity_id,  
-      s.subject_name,client.client_type
+      s.subject_name,client.client_type, (CASE when fa.type = 1 then "CVP" when fa.type = 2 then "BVP" when fa.type = 3 then "BVP" else "" end) as code, (CASE when fa.type = 1 then fa.slip when fa.type = 2 then fa.payorder when fa.type = 3 then fa.payorder else "" end) as number, "1" as is_invernal 
        from 
       fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id)
      inner join assign_activity_to_user aatu on (case_request.id=aatu.case_id  )
      inner join client on (case_request.client_id=client.client_id )
       inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id)
        inner join subject_case s on (s.case_id=case_request.id)
-       GROUP BY fund_request_activity.case_id')->result_array();
+       left join fund_approve fa on (fund_request_activity.id = fa.fund_id)
+       GROUP BY fund_request_activity.activity_id,fund_request_activity.subject_id,fund_request_activity.case_id')->result_array();
+     $external = $this->db->query('
+      select cf.*, case_request.client_reference,case_request.client_id,case_request.reference_code,case_request.created_at as date_of_receiving,case_request.case_status,scope_of_work.scope_name,  
+      s.subject_name,client.client_type, "JV" as code, (CASE when fa.type = 1 then fa.slip when fa.type = 2 then fa.payorder when fa.type = 3 then fa.payorder else "" end) as number, "0" as is_invernal
+      from case_fund_request cf 
+      JOIN case_request on(case_request.id=cf.case_id)
+      inner join client on (case_request.client_id=client.client_id )
+      inner join subject_case s on (s.case_id=case_request.id and s.id = cf.subject_id)
+      inner join scope_of_work on (scope_of_work.id=cf.activity_id)
+      left join fund_case_approve fa on (cf.id = fa.fund_id)
+      group by cf.activity_id,cf.subject_id, cf.case_id')->result_array();
+     $data['jobs'] = array_merge($data['jobs'], $external);
      //echo '<pre>';print_r($data);die;
+     //echo '<pre>';print_r($external);die;
 
     $this->load->view('admin2/header', $data);
     $this->load->view('admin2/case_report');
@@ -4600,15 +4613,15 @@ public function get_word($num)
    {
       $data['cases'] = $this->admin_model->get_data('case_request');
       if ($id) {
-      $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name, client.client_type
-        ,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) 
+      $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,GROUP_CONCAT(DISTINCT(scope_of_work.scope_name) separator ",") scope_name, client.client_type
+        ,GROUP_CONCAT(DISTINCT(subject_case.subject_name) separator ",") subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) 
         inner join client on (client.client_id=case_request.client_id)
-        inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) WHERE fund_request_activity.case_id = "'.$id.'" GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
+        inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) WHERE fund_request_activity.case_id = "'.$id.'" GROUP BY fund_request_activity.case_id')->result_array();
     }
     else{
-     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,scope_of_work.scope_name,client.client_type,subject_case.subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) 
+     $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,GROUP_CONCAT(DISTINCT(scope_of_work.scope_name) separator ",") scope_name,client.client_type,GROUP_CONCAT(DISTINCT(subject_case.subject_name) separator ",") subject_name from fund_request_activity inner JOIN case_request on(case_request.id=fund_request_activity.case_id) 
       inner join client on (client.client_id=case_request.client_id) 
-      inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.subject_id,fund_request_activity.activity_id')->result_array();
+      inner JOIN subject_case on (subject_case.id=fund_request_activity.subject_id) inner join scope_of_work on (scope_of_work.id=fund_request_activity.activity_id) GROUP BY fund_request_activity.case_id')->result_array();
     }
     $data['id'] = $id;
     //echo '<pre>';print_r($data['cases']);die;
@@ -4951,6 +4964,27 @@ public function insert_vendor_creation()
     }
     $this->load->view('admin2/header');
     $this->load->view('admin2/cash_date',$data);
+    $this->load->view('admin2/footer');
+  }
+
+  public function jv_date()
+  {
+    if ($this->input->post('start_date') != null && $this->input->post('start_date') != '') {
+      $old_date = $this->input->post('start_date');
+      $old_date_timestamp = strtotime($old_date);
+      $start_date = date('Y-m-d', $old_date_timestamp);
+      $old_date = $this->input->post('end_date');
+      $old_date_timestamp = strtotime($old_date);
+      $end_date = date('Y-m-d', $old_date_timestamp);
+      //print_r($start_date.' '.$end_date);die;
+      $data['lists'] = $this->admin_model->jv_report($start_date,$end_date);
+    }
+    else{
+      $data['lists'] = $this->admin_model->jv_report();
+    }
+    //print_r($data);die;
+    $this->load->view('admin2/header');
+    $this->load->view('admin2/jv_date',$data);
     $this->load->view('admin2/footer');
   }
 
@@ -8155,6 +8189,20 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
     }
   }
 
+
+  public function fund_case_invoice($id)
+  {
+    //error_reporting('-1');
+    $data['detail'] = $this->admin_model->fund_case_invoice_data($id);
+    //$data['internal'] = $this->admin_model->select_where_row('employee_itgs',array('role'=>'Internal Auditor'));
+    //$data['finance'] = $this->admin_model->select_where_row('employee_itgs',array('role'=>'Manager Finance'));
+    //print_r($this->db->last_query());
+    //echo '<pre>';print_r($data);die;
+    $this->load->view('admin2/header',$data);
+    $this->load->view('admin2/jv_slip');
+    $this->load->view('admin2/footer');
+  }
+
   public function submit_client_invoice()
   {
     
@@ -8336,6 +8384,17 @@ foreach ($case_id as $id) {
     //print_r($data);die;
     $this->load->view('admin2/header',$data);
     $this->load->view('admin2/master_amount');
+    $this->load->view('admin2/footer');
+  }
+
+  public function vendor_master_amount()
+  {
+    $start = date('Y-m-01', strtotime('-1 month'));
+    $end = date('Y-m-t', strtotime('-1 month'));
+    $data['amounts'] = $this->admin_model->get_vendor_amounts($start,$end);
+    //print_r($data);die;
+    $this->load->view('admin2/header',$data);
+    $this->load->view('admin2/vendor_master_amount');
     $this->load->view('admin2/footer');
   }
 

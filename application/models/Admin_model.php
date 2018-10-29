@@ -327,6 +327,22 @@ class admin_model extends CI_Model
 		return $this->db->get()->result_array();
 	}
 
+	public function jv_report($start_date=null,$end_date=null)
+	{
+		$this->db->select('f.*,SUM(f.charges) as charges, DATE(f.created_at) as created_at')
+				 ->from('case_fund_request f')
+				 ->where('f.is_approve', '1');
+				 //->where('f.mode_of_payment', 'Cash');
+		if ($start_date != null) {
+			$this->db->where('DATE(f.created_at) >=', $start_date);
+		}
+		if ($end_date != null) {
+			$this->db->where('DATE(f.created_at) <=', $end_date);
+		}
+		$this->db->group_by('DATE(f.created_at)');
+		return $this->db->get()->result_array();
+	}
+
 	public function cash_client_report($start_date=null,$end_date=null)
 	{
 		$this->db->select('f.*,SUM(f.official_fee) as official_fee, SUM(f.vendor_changes) as vendor_changes, SUM(f.easy_paisa_charges) as easy_paisa_charges, SUM(f.mobi_cash_charges) as mobi_cash_charges, SUM(f.bank_commission) as bank_commission, SUM(f.postage_courier) as postage_courier, SUM(f.other_charges) as other_charges,count(c.id) as ids, cl.client_name')
@@ -1203,6 +1219,20 @@ class admin_model extends CI_Model
 		return $this->db->get()->row_array();
 	}
 
+	public function fund_case_invoice_data($id)
+	{
+		$this->db->select('f.*,c.reference_code,s.subject_name,sw.scope_name,fa.*,e.employee_name')
+				 ->from('fund_case_approve f')
+				 ->join('case_fund_request fa', 'fa.id = f.fund_id')
+				 ->join('assign_vendor_request as', 'as.activity_id = fa.activity_id and as.case_id = fa.case_id','left')
+				 ->join('employee_itgs e', 'as.vendor_id = e.id','left')
+				 ->join('scope_of_work sw', 'as.activity_id = sw.id','left')
+				 ->join('subject_case s', 'as.subject_id = s.id','left')
+				 ->join('case_request c', 'fa.case_id = c.id','left')
+				 ->where('fa.id', $id);
+		return $this->db->get()->row_array();
+	}
+
 	public function get_vendor_payments($id,$start,$end)
 	{
 		$this->db->select('c.reference_code,c.id as case_id,cl.client_name,s.subject_name,sw.scope_name,cf.charges,e.employee_name,e.vendor_type,c.client_id,(CASE f.type WHEN 1 THEN slip WHEN 2 THEN chaque WHEN 3 THEN payorder END) as voucher')
@@ -1270,6 +1300,22 @@ class admin_model extends CI_Model
 				 ->where('c.created_at >=', DATE($start))
 				 ->where('c.created_at <=', DATE($end))
 				 ->group_by('cl.client_id');
+		return $this->db->get()->result_array();
+	}
+
+	public function get_vendor_amounts($start,$end)
+	{
+		$this->db->select('sum(fc.amount) as amount, em.employee_name')
+				 ->from('fund_case_approve fc')
+				 ->join('case_fund_request cf', 'cf.id = fc.fund_id')
+				 ->join('employee_itgs em', 'em.id = cf.vendor_id')
+				 //->join('subject_case s', 's.case_id = c.id')
+				 // ->join('subject_activities sa', 'sa.case_id = c.id')
+				 // ->join('assign_client_services ac', 'sa.activity_id = ac.scope_id and ac.client_id = cl.client_id')
+				 ->where('fc.is_paid','0')
+				 ->where('fc.date >=', DATE($start))
+				 ->where('fc.date <=', DATE($end))
+				 ->group_by('cf.vendor_id');
 		return $this->db->get()->result_array();
 	}
 

@@ -49,7 +49,7 @@
 
 									<div class="table-responsive">
 									    
-		    <table id="dataTableExample2" class="table table-bordered table-striped table-hover">
+		    <table id="dataTableExamplepayorder_date" class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
 					<th>S.no</th>

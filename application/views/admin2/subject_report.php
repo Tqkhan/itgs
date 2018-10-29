@@ -264,7 +264,7 @@ $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['m
                                                    
                                                     
                                                     
-                              <?php if ($_SESSION['role']=="Manager Finance"): ?>
+                              <?php if (!$_SESSION['role']=="Analysis"): ?>
                                        
 <a href="<?php echo base_url() ?>admin/fund_request_view/<?php echo $case['case_id'] ?>" target="_blank"><img src="<?php echo $detail_url; ?>" title="View Detail" alt="View Detail" width="25" height="25"></a>
 

@@ -95,7 +95,7 @@
 									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo" || $_SESSION['role']=="Analysis"){
 		    ?>
 		
-			<table id="dataTableExample2" class="table table-bordered table-striped table-hover">
+			<table id="dataTableExampleprofit_loss_report" class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
 					<th>ITGS Ref</th>

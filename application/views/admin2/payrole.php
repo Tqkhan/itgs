@@ -65,7 +65,7 @@
                                     <div class="table-responsive">
                                         <form method="post" action="<?php echo base_url('admin/insert_salary') ?>">
                                             <input type="hidden" name="month" value="<?php echo $one ?>">
-                                        <table id="dataTableExample2" class="table table-bordered table-striped table-hover">
+                                        <table id="dataTableExamplepayrole" class="table table-bordered table-striped table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Employee Name</th>

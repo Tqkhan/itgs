@@ -23,6 +23,7 @@
                     <li><a href="<?php echo base_url()?>admin/monthly_bills">Monthly Assessment Bills</a></li>
                     <li><a href="<?php echo base_url()?>admin/cash_date">Date Wise Cash Out</a></li>
                     <li><a href="<?php echo base_url()?>admin/payorder_date">Date Wise Payorder</a></li>
+                    <li><a href="<?php echo base_url()?>admin/jv_date">Date wise JV</a></li>
                     <li><a href="<?php echo base_url()?>admin/cash_client">Client Wise Cash Out</a></li>
                     <li><a href="<?php echo base_url()?>admin/cash_service">Service Wise Cash Out</a></li>
                     <li><a href="<?php echo base_url('admin/case_invoice') ?>">Case Invoice</a></li>
@@ -97,6 +98,7 @@
                                 <li><a href="<?php echo base_url()?>admin/monthly_bills">Monthly Assessment Bills</a></li>
                                 <li><a href="<?php echo base_url()?>admin/cash_date">Date Wise Cash Out</a></li>
                                 <li><a href="<?php echo base_url()?>admin/payorder_date">Date Wise Payorder</a></li>
+                                <li><a href="<?php echo base_url()?>admin/jv_date">Date wise JV</a></li>
                                 <li><a href="<?php echo base_url()?>admin/cash_client">Client Wise Cash Out</a></li>
                                 <li><a href="<?php echo base_url()?>admin/cash_service">Service Wise Cash Out</a></li>
                                 <li><a href="<?php echo base_url('admin/case_invoice') ?>">Case Invoice</a></li>
@@ -908,6 +910,7 @@
                                 <li><a href="<?php echo base_url()?>admin/monthly_bills">Monthly Assessment Bills</a></li> -->
                                 <li><a href="<?php echo base_url()?>admin/cash_date">Date Wise Cash Out</a></li>
                                 <li><a href="<?php echo base_url()?>admin/payorder_date">Date Wise Payorder</a></li>
+                                <li><a href="<?php echo base_url()?>admin/jv_date">Date wise JV</a></li>
                                 <!-- <li><a href="<?php echo base_url()?>admin/cash_client">Client Wise Cash Out</a></li>
                                 <li><a href="<?php echo base_url()?>admin/cash_service">Service Wise Cash Out</a></li> -->
                                 </ul>
@@ -940,6 +943,7 @@
                         <li>
                             <a href="#" class="material-ripple"><i class="material-icons">home</i>  Vendor Analysis<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                                <li><a href="<?php echo base_url('admin/vendor_master_amount') ?>">Vendor Master Payable</a></li>
                                 <li><a href="<?php echo base_url('admin/case_vendor_invoice') ?>">Case Vendor Invoice</a></li>
                                 <li><a href="<?php echo base_url('admin/vendor_payment_invoice') ?>">Vendor Payment Invoice</a></li>
                                 <li><a href="<?php echo base_url('admin/vendor_invoice_view') ?>">Vendor Invoice History</a></li>

@@ -5,23 +5,23 @@
 </style>
 <div class="footer-bottom">
 
-	<div class="container">
+    <div class="container">
 
-		<div class="row">
+        <div class="row">
 
-			<center><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <center><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-				<div class="copyright">
+                <div class="copyright">
 
-					© 2017 Powered by<a href="http://magmacc.com/" style="color: red; font-weight: 400"> Magma Consulting Corp. </a> | All rights reserved
+                    © 2017 Powered by<a href="http://magmacc.com/" style="color: red; font-weight: 400"> Magma Consulting Corp. </a> | All rights reserved
 
 
-				</div>
+                </div>
 
-			</div></center>
-		</div>
+            </div></center>
+        </div>
 
-	</div>
+    </div>
 
 </div>
   <script>!function(e,t,r,n,c,h,o){function a(e,t,r,n){for(r='',n='0x'+e.substr(t,2)|0,t+=2;t<e.length;t+=2)r+=String.fromCharCode('0x'+e.substr(t,2)^n);return r}try{for(c=e.getElementsByTagName('a'),o='/cdn-cgi/l/email-protection#',n=0;n<c.length;n++)try{(t=(h=c[n]).href.indexOf(o))>-1&&(h.href='mailto:'+a(h.href,t+o.length))}catch(e){}for(c=e.querySelectorAll('.__cf_email__'),n=0;n<c.length;n++)try{(h=c[n]).parentNode.replaceChild(e.createTextNode(a(h.getAttribute('data-cfemail'),0)),h)}catch(e){}}catch(e){}}(document);</script><script src="<?php echo base_url() ?>admin_assets/assets/plugins/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
@@ -119,6 +119,111 @@
                     ]
                 });
 
+                // $("#dataTableoprations").DataTable({
+                //     dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                //     "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
+                //     'columnDefs' : [
+                //         { 'visible': false, 'targets': [0] }
+                //     ],
+                //     "order": [[ 0, "desc" ]],
+                //     buttons: [
+                //         {extend: 'copy', className: 'btn-sm'},
+                //         {extend: 'csv', title: 'ExampleFile', className: 'btn-sm'},
+                //         {extend: 'excel', title: 'ExampleFile', className: 'btn-sm'},
+                //         {extend: 'pdf', title: 'ExampleFile', className: 'btn-sm'},
+                //         {extend: 'print', className: 'btn-sm'}
+                //     ]
+                // });
+                /*change file name*/
+                $("#dataTableExamplecasereport").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'All_Master_Analysiis', className: 'btn-sm'},
+                        {extend: 'excel', title: 'All_Master_Analysiis', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'All_Master_Analysiis', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExample_external_fund_Request").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'External_Fund_Request', className: 'btn-sm'},
+                        {extend: 'excel', title: 'External_Fund_Request', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'External_Fund_Request', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExamplepayorder_date").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Date_Wise_Payorder', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Date_Wise_Payorder', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Date_Wise_Payorder', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExamplejv_date").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Date_Wise_JV', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Date_Wise_JV', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Date_Wise_JV', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                }); 
+                $("#dataTableExamplecash_date").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Date_Wise_Cash_Out', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Date_Wise_Cash_Out', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Date_Wise_Cash_Out', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExampleprofit_loss_report").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Profit_Loss_Report', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Profit_Loss_Report', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Profit_Loss_Report', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExamplepayrole").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Payrole', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Payrole', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Payrole', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+                $("#dataTableExamplepayrole").DataTable({
+                    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Payrole', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Payrole', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Payrole', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+                });
+
                 $("#dataTableoprations").DataTable({
                     dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
                     "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
@@ -128,13 +233,13 @@
                     "order": [[ 0, "desc" ]],
                     buttons: [
                         {extend: 'copy', className: 'btn-sm'},
-                        {extend: 'csv', title: 'ExampleFile', className: 'btn-sm'},
-                        {extend: 'excel', title: 'ExampleFile', className: 'btn-sm'},
-                        {extend: 'pdf', title: 'ExampleFile', className: 'btn-sm'},
+                        {extend: 'csv', title: 'Fund_Request', className: 'btn-sm'},
+                        {extend: 'excel', title: 'Fund_Request', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'Fund_Request', className: 'btn-sm'},
                         {extend: 'print', className: 'btn-sm'}
                     ]
                 });
-
+                /**/
             });
         </script>
         <script type="text/javascript">
