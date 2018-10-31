@@ -206,7 +206,7 @@
 
 					<th>Amount in PKR</th>
 
-					
+					<th>Action</th>
 
           
 
@@ -234,15 +234,15 @@ foreach ($amounts as $a) {
 
   <td><span class="footable-toggle"></span><a href="#"><?php echo $a['employee_name'] ?></a><span class="e" style="display: none;"><?php echo $a['employee_name'] ?></span></td>
 
-  <td></td>
+  <td><?php echo ($a['vendor_type'] == 'INT') ? 'International' : 'Local' ?></td>
 
-  <td></td>
+  <td><?php echo ($a['vendor_type'] == 'INT') ? $a['amount'] : '' ?></td>
 
-  <td class="fieldCell1"><?php echo $a['amount'] ?></td>
+  <td class="fieldCell1"><?php echo ($a['vendor_type'] != 'INT') ? $a['amount'] : '' ?></td>
 
   
 
-
+<td><a href="<?php echo base_url() ?>admin/paid_vendor_amount?requested_id=<?php echo str_replace(' ', '', $a['ids']) ?>">Paid</a></td>
 
    
 
@@ -340,7 +340,7 @@ sum1 += isNaN(value) ? 0 : parseInt(value);
 
 
 
-document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td> <strong>Total</strong></td> </td> <td><strong>  </strong> </td> <td><strong>  </strong> </td> <td><strong>  ' + sum1 + '</strong> </td> ';</script>
+document.getElementById('ex').innerHTML += '<tfoot style="background-color: #a1b5c1;"><tr> <td> </td> <td> <strong>Total</strong></td> </td> <td><strong>  </strong> </td> <td><strong>  </strong> </td> <td><strong>  ' + sum1 + '</strong> </td> <td><strong>  </strong> </td>';</script>
 
 
 

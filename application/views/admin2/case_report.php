@@ -10,51 +10,51 @@
 
 ?>
 
-          <div class="control-sidebar-bg"></div>
+        	<div class="control-sidebar-bg"></div>
 
-      <div id="page-wrapper">
+			<div id="page-wrapper">
 
-        <div class="content">
+				<div class="content">
 
-          <div class="content-header">
+					<div class="content-header">
 
-            <div class="header-icon" style="margin-top: -9px;">
+						<div class="header-icon" style="margin-top: -9px;">
 
-              <i class="pe-7s-display2"></i>
+							<i class="pe-7s-display2"></i>
 
-            </div>
+						</div>
 
-            <div class="header-title">
+						<div class="header-title">
 
-              <h1>Case Report</h1>
-
-
-
-              <ol class="breadcrumb">
-
-                <li><a href="<?php echo base_url() ?>admin/client_index"><i class="pe-7s-home"></i> Home</a></li>
-
-                <li class="active">Case Report</li>
-
-              </ol>
-
-            </div>
-
-          </div>
+							<h1>Case Report</h1>
 
 
 
-          <div class="row">
+							<ol class="breadcrumb">
 
-            <div class="col-sm-12">
+								<li><a href="<?php echo base_url() ?>admin/client_index"><i class="pe-7s-home"></i> Home</a></li>
 
-              <div class="panel panel-bd">
+								<li class="active">Case Report</li>
 
-                <div class="panel-heading">
+							</ol>
 
-                  <div class="panel-title">
+						</div>
 
-                    <h4>Case Report</h4>
+					</div>
+
+
+
+					<div class="row">
+
+						<div class="col-sm-12">
+
+							<div class="panel panel-bd">
+
+								<div class="panel-heading">
+
+									<div class="panel-title">
+
+										<h4>Case Report</h4>
 
 
 
@@ -110,27 +110,27 @@
 
                                         </div>
 
-                  </div>
+									</div>
 
-                </div>
+								</div>
 
-                <div class="panel-body">
+								<div class="panel-body">
 
 
 
-                  <div class="table-responsive">
+									<div class="table-responsive">
 
-                      <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo" || $_SESSION['role']=="Analysis"){
+									    <?php if($_SESSION['role']=="Manager Finance" || $_SESSION['role']=="Ceo" || $_SESSION['role']=="Analysis"){
 
-        ?>
+		    ?>
 
-    
+		
 
-      <table id="dataTableExamplecasereport" class="table table-bordered table-striped table-hover">
+			<table id="dataTableExamplecasereport" class="table table-bordered table-striped table-hover">
 
-      <thead>
+			<thead>
 
-        <tr>
+				<tr>
 
                     <th>Date Of Receving</th>
 
@@ -162,7 +162,9 @@
 
                     <th>Complete Cost Breakup</th>
 
-                    <th>Assigned Price</th>
+                    <th>Assigned Price PKR</th>
+
+                    <th>Assigned Price USD</th>
 
                     <th>Total Cost</th>
 
@@ -180,13 +182,13 @@
 
                     <th>Action?</th>
 
-          
+					
 
-        </tr>
+				</tr>
 
-      </thead>
+			</thead>
 
-      <tbody>
+			<tbody>
 
 
 
@@ -259,7 +261,7 @@ $detail_url = base_url('admin_assets/img/view.png');
 
 
 
-  ?>
+	?>
 
 
 
@@ -273,24 +275,28 @@ $funds_total=$this->db->query('Select SUM(fund_request_activity.official_fee) as
 
        from 
 
-      fund_request_activity where is_approved=1 and case_id='.$case['case_id'])->row_array();
+      fund_request_activity where is_approved=1 and case_id='.$case['case_id'].' and subject_id='.$case['subject_id'].' and activity_id='.$case['activity_id'])->row_array();
 
 
 
-$vendor_total=$this->db->query("select SUM(charges) as charges from case_fund_request where  is_approve=1 and case_id=".$case['case_id'])->row_array();
+$vendor_total=$this->db->query("select SUM(charges) as charges, em.vendor_type from case_fund_request join employee_itgs em on em.id = case_fund_request.vendor_id where  is_approve=1 and case_id=".$case['case_id'].' and subject_id='.$case['subject_id'].' and activity_id='.$case['activity_id'])->row_array();
 
 $total = 0;
 if($case['is_invernal'] == 1){
 $total=$funds_total['of']+$funds_total['vc']+$funds_total['epc']+$funds_total['mcc']+$funds_total['bc']+$funds_total['pcr']+$funds_total['otc']+$vendor_total['charges'];
 }
 elseif(isset($vendor_total['charges']) && $case['is_invernal'] == 0){
-  $total = $vendor_total['charges'];
+  $vendor_charges = $vendor_total['charges'];
+if ($vendor_total['vendor_type']=="INT") {
+  $vendor_charges = round($vendor_charges*$conversion_rate);
+}
+  $total = $vendor_charges;
 }
 
 
 ?>
 
-        <tr>
+				<tr>
 
     <td><span class="footable-toggle"><?php echo $case['date_of_receiving']; ?></span></td>
 
@@ -354,7 +360,7 @@ $date2=date_create($new_date3);
 
     <td><span class="footable-toggle"></span><?php echo $case['type_of_service'] ?></td>
 
-  <td><span class="footable-toggle"></span><?php echo $case['name_of_ia'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $case['name_of_ia'] ?></td>
 
   <td><span class="footable-toggle"></span><?php echo $case['degree_type'] ?></td>
 
@@ -362,11 +368,26 @@ $date2=date_create($new_date3);
 
     <!-- <td><span class="footable-toggle"></span><?php echo $case['official_fee'] ?></td> -->
 
-  <td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
+	<td><span class="footable-toggle"></span><?php echo $case['mode_of_payment'] ?></td>
 
     <td><span class="footable-toggle"></span><?php  ?></td>
+    <?php 
+$assigne_price = $activity_price['activity_price'];
+if ($case['client_type']=="INT") {
+  $conversion_rate = ($all_act['c_rate']) ? $all_act['c_rate'] : $rate;
+  $assigne_price = round($all_act['activity_price']*$conversion_rate);
+}
+?>
+<td><span class="footable-toggle"><?php echo $assigne_price ?> PKR</span></td>
+<td><span class="footable-toggle"></span>
+<?php
+if ($case['client_type']=="INT") {
+echo $activity_price['activity_price'].' USD';
+}
 
-    <td><span class="footable-toggle"></span>
+?>
+</td>
+    <!-- <td><span class="footable-toggle"></span>
 
 
 
@@ -404,9 +425,9 @@ $date2=date_create($new_date3);
 
 
 
-    </td>
-
-  <td><span class="footable-toggle"></span>
+    </td> -->
+<td><span class="footable-toggle"></span><?php echo $total; ?> PKRp</td>
+	<!-- <td><span class="footable-toggle"></span>
 
 
 
@@ -440,13 +461,16 @@ $date2=date_create($new_date3);
 
 
 
-    </td>
+    </td> -->
 
     <td><span class="footable-toggle"></span>
 
     </td>
 
-  <td><span class="footable-toggle"></span>
+    <td><span class="footable-toggle"><?php echo round($assigne_price - $total) ?> PKR</span></td>
+
+
+	<!-- <td><span class="footable-toggle"></span>
 
     
 
@@ -484,15 +508,16 @@ $date2=date_create($new_date3);
 
 
 
-    </td>
+    </td> -->
 
     
 
+<td><span class="footable-toggle"></span><?php echo round((($assigne_price - $total)/$assigne_price)*100); ?> %</td>
 
 
 
 
-    <td><span class="footable-toggle"></span>
+    <!-- <td><span class="footable-toggle"></span>
 
 
 
@@ -574,15 +599,15 @@ $date2=date_create($new_date3);
 
 
 
-      </td>
+      </td> -->
 
    
 
-    <td><span class="footable-toggle"></span>
+		<td><span class="footable-toggle"></span>
 
-    
+	  
 
-  
+	
 
     <?php if($case['case_status']==1){
 
@@ -616,7 +641,7 @@ $date2=date_create($new_date3);
 
 
 
-  </td>
+	</td>
 
 
 
@@ -674,7 +699,7 @@ $date2=date_create($new_date3);
 
     
 
-  
+	
 
 <td>
 
@@ -702,7 +727,7 @@ $date2=date_create($new_date3);
 
 
 
-        </tr>
+				</tr>
 
 
 
@@ -716,33 +741,33 @@ $scopecount++;
 
 
 
-      </tbody>
+			</tbody>
 
-    </table>    
+		</table>    
 
-        <?php }
+		    <?php }
 
-        
+		    
 
-    ?>
+		?>
 
-    
+		
 
-                  </div>
+									</div>
 
-                </div>
+								</div>
 
-              </div>
+							</div>
 
-            </div>
+						</div>
 
-          </div>
+					</div>
 
-          <form method="POST" action="<?php echo base_url()?>admin/insert_fund_request" enctype="multipart/form-data">
+					<form method="POST" action="<?php echo base_url()?>admin/insert_fund_request" enctype="multipart/form-data">
 
-              
+					    
 
-               <input type="hidden" name="fund_case_id" >
+					     <input type="hidden" name="fund_case_id" >
 
                          <input type="hidden" name="fund_subject_id" >
 
@@ -1276,11 +1301,11 @@ $scopecount++;
 
                         </form>
 
-          
+					
 
 </div>
 
-      </div>
+			</div>
 
               </form>
 
@@ -1290,9 +1315,9 @@ $scopecount++;
 
 </div>
 
-    </div><!-- /#wrapper -->
+		</div><!-- /#wrapper -->
 
-    <!-- START CORE PLUGINS -->
+		<!-- START CORE PLUGINS -->
 
 
 
@@ -1308,11 +1333,11 @@ $('.sum').keyup(function() {
 
     $('.sum').each(function(e) {
 
-      if($(this).val() != null && $(this).val() != ''){
+    	if($(this).val() != null && $(this).val() != ''){
 
-        con = con + parseInt($(this).val());
+    		con = con + parseInt($(this).val());
 
-      }
+    	}
 
         if (e == length) {
 
@@ -1330,7 +1355,7 @@ $('.sum').keyup(function() {
 
             $("#checkbox4").click(function () {
 
-              var passedID = $(this).data('cas_id');
+            	var passedID = $(this).data('cas_id');
 
                 if ($(this).is(":checked")) {
 
@@ -1454,15 +1479,15 @@ function fund_request_assign_id(case_id,subject_id,activity_id,client_reference,
 
     Date.prototype.yyyymmdd = function() {
 
-    var yyyy = this.getFullYear().toString();
+	  var yyyy = this.getFullYear().toString();
 
-    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+	  var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
 
-    var dd  = this.getDate().toString();
+	  var dd  = this.getDate().toString();
 
-    return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
+	  return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
 
-  };
+	};
 
     var d = new Date();
 

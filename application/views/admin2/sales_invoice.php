@@ -279,7 +279,7 @@
 			<tbody>
 
 <?php 
-
+$assign = true;
 $count = 1;
 
   foreach ($cases as $c) {
@@ -301,7 +301,9 @@ $count = 1;
 $activity_price=$this->db->get_where('subject_activities',$price_data)->row_array();
 
 
-
+if ($activity_price['activity_price']) {
+  $assign = false;
+}
 // echo $activity_price['case_id'];
 
 ?>
@@ -320,8 +322,9 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
 
      ?>
 
-    <input type="hidden" name="invoice_no" value="<?php echo $c['client_name'].'-'.date('Y-m-d').'-'.$ref[5]; ?>">
-
+<!--     <input type="hidden" name="invoice_no" value="<?php echo $c['client_name'].'-'.date('Y-m-d').'-'.$ref[5]; ?>">
+ -->
+    <input type="hidden" name="invoice_no" value="<?php echo 'ITGS-'.$c['client_type'].'-'.$c['abbreviation'].'-'.$invoice.'-'.date('Y') ?>">
       
 
 	<td><?php echo $count ?></td>
@@ -463,9 +466,9 @@ $count++;
 
    <?php if ($cases): ?>
 
-    <input type="submit" value="Submit Invoice" class="btn btn-primary pull-right">
+    <input type="submit" <?php echo (!$assign) ? 'disabled' : '' ?>  value="Submit Invoice" class="btn btn-primary pull-right" >
 
-     
+     <?php echo (!$assign) ? 'Please assign price' : '' ?>
 
    <?php endif ?>
 

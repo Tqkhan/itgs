@@ -4539,6 +4539,8 @@ public function get_word($num)
 
    public function case_report()
    {
+      $data['rate'] = $this->get_rate('USD_PKR');
+      $data['cases'] = $this->admin_model->get_data('case_request');
      $data['jobs']=$this->db->query('
       select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,case_request.created_at as date_of_receiving,case_request.case_status,scope_of_work.scope_name,aatu.hold_date,aatu.unhold_date,case_request.id as case_id,aatu.subject_id,aatu.activity_id,  
       s.subject_name,client.client_type, (CASE when fa.type = 1 then "CVP" when fa.type = 2 then "BVP" when fa.type = 3 then "BVP" else "" end) as code, (CASE when fa.type = 1 then fa.slip when fa.type = 2 then fa.payorder when fa.type = 3 then fa.payorder else "" end) as number, "1" as is_invernal 
@@ -4552,12 +4554,13 @@ public function get_word($num)
        GROUP BY fund_request_activity.activity_id,fund_request_activity.subject_id,fund_request_activity.case_id')->result_array();
      $external = $this->db->query('
       select cf.*, case_request.client_reference,case_request.client_id,case_request.reference_code,case_request.created_at as date_of_receiving,case_request.case_status,scope_of_work.scope_name,  
-      s.subject_name,client.client_type, "JV" as code, (CASE when fa.type = 1 then fa.slip when fa.type = 2 then fa.payorder when fa.type = 3 then fa.payorder else "" end) as number, "0" as is_invernal
+      s.subject_name,client.client_type, "JV" as code, (CASE when fa.type = 1 then fa.slip when fa.type = 2 then fa.payorder when fa.type = 3 then fa.payorder else "" end) as number, "0" as is_invernal, em.vendor_type
       from case_fund_request cf 
       JOIN case_request on(case_request.id=cf.case_id)
       inner join client on (case_request.client_id=client.client_id )
       inner join subject_case s on (s.case_id=case_request.id and s.id = cf.subject_id)
       inner join scope_of_work on (scope_of_work.id=cf.activity_id)
+      inner join employee_itgs em on (em.id=cf.vendor_id)
       left join fund_case_approve fa on (cf.id = fa.fund_id)
       group by cf.activity_id,cf.subject_id, cf.case_id')->result_array();
      $data['jobs'] = array_merge($data['jobs'], $external);
@@ -4608,9 +4611,22 @@ public function get_word($num)
     $this->load->view('admin2/footer');
    }
 
+   public function get_rate($val)
+   {
+     $url = 'http://free.currencyconverterapi.com/api/v5/convert?q='.$val.'&compact=y';
+      $rate = file_get_contents($url);
+      $rate = json_decode($rate, true)[$val]['val'];
+      return $rate;
+   }
+
 
    public function profit_loss_report($id)
    {
+      // $url = 'http://free.currencyconverterapi.com/api/v5/convert?q=USD_PKR&compact=y';
+      // $rate = file_get_contents($url);
+      // $rate = json_decode($rate, true)['USD_PKR']['val'];
+      // print_r($rate);die;
+      $data['rate'] = $this->get_rate('USD_PKR');
       $data['cases'] = $this->admin_model->get_data('case_request');
       if ($id) {
       $data['jobs']=$this->db->query('select fund_request_activity.*,case_request.client_reference,case_request.client_id,case_request.reference_code,GROUP_CONCAT(DISTINCT(scope_of_work.scope_name) separator ",") scope_name, client.client_type
@@ -8155,6 +8171,12 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
       $data['id'] = $id;
       $data['start'] = $start;
       $data['end'] = $end;
+      $invoice = $this->db->query('select * from client_invoice where client_id = '.$id.' and YEAR(end_date) = '.date('Y'))->result_array();
+      //print_r($invoce);die;
+      $data['invoice'] = sizeof($invoice)+1;
+      if (strlen($data['invoice']) == 1) {
+        $data['invoice'] = '0'.$data['invoice'];
+      }
       $data['cases'] = $this->admin_model->get_sales_invoice($start,$end,$id);
       //print_r($this->db->last_query());die;
       $this->load->view('admin2/header',$data);
@@ -8209,7 +8231,9 @@ $activity_price=$this->db->get_where('subject_activities',$price_data)->row_arra
     $case_id=array_unique($_POST['case_id']);
 
 foreach ($case_id as $id) {
-    $data['case_id']=$id;
+    $this->admin_model->update('case_request',array('is_paid' => 1),array('id' => $id));
+}
+$data['case_id']=implode(',', $case_id);
     $data['invoice_no']=$_POST['invoice_no'];
     $data['client_id']=$_POST['client_id'];
     $data['start_date']=$_POST['start'];
@@ -8224,7 +8248,6 @@ foreach ($case_id as $id) {
     $this->db->insert('client_invoice',$data);
     $this->db->insert_id();
 
-}
     redirect(base_url().'admin/client_invoice_view');
 
 
@@ -8265,7 +8288,8 @@ foreach ($case_id as $id) {
 
   public function client_invoice_view()
   {
-    $sql="SELECT client.*, GROUP_CONCAT(case_request.client_reference separator ',') as client_reference, GROUP_CONCAT(case_request.id separator ',') as caseID,client_invoice.status as paid_status,client_invoice.start_date,client_invoice.invoice_no,client_invoice.end_date,client_invoice.activity_price_total,client_invoice.activity_tax_total,client_invoice.activity_pricetax_total  from client INNER JOIN case_request on case_request.client_id=client.client_id INNER JOIN client_invoice on client_invoice.case_id=case_request.id ORDER BY client_invoice.client_id";
+    //$sql="SELECT client.*, GROUP_CONCAT(case_request.client_reference separator ',') as client_reference, GROUP_CONCAT(case_request.id separator ',') as caseID,client_invoice.status as paid_status,client_invoice.start_date,client_invoice.invoice_no,client_invoice.end_date,client_invoice.activity_price_total,client_invoice.activity_tax_total,client_invoice.activity_pricetax_total  from client INNER JOIN case_request on case_request.client_id=client.client_id INNER JOIN client_invoice on client_invoice.case_id=case_request.id ORDER BY client_invoice.client_id";
+    $sql = "select client.*, GROUP_CONCAT(case_request.client_reference separator ',') as client_reference, GROUP_CONCAT(case_request.id separator ',') as caseID,client_invoice.status as paid_status,client_invoice.start_date,client_invoice.invoice_no,client_invoice.end_date,client_invoice.activity_price_total,client_invoice.activity_tax_total,client_invoice.activity_pricetax_total from client_invoice join client on client.client_id = client_invoice.client_id join case_request on find_in_set(case_request.id, client_invoice.case_id) group by client_invoice.id order by client_invoice.client_id ";
     $data['results']=$this->db->query($sql)->result_array();
     $this->load->view('admin2/header',$data);
     $this->load->view('admin2/client_invoice_view',$data);
@@ -8296,7 +8320,8 @@ foreach ($case_id as $id) {
        $this->db->update("case_request",['is_paid'=>1],['id'=>$id,'client_id'=>$client]);
        $this->db->update("client_invoice",['status'=>1],['case_id'=>$id,'client_id'=>$client]);
       }
-      redirect(base_url().'admin/sales_invoice');  
+      //redirect(base_url().'admin/sales_invoice');
+      redirect('admin/client_invoice_view');  
     }
 
   public function update_vendor_invoice_status()
@@ -8396,6 +8421,15 @@ foreach ($case_id as $id) {
     $this->load->view('admin2/header',$data);
     $this->load->view('admin2/vendor_master_amount');
     $this->load->view('admin2/footer');
+  }
+
+  public function paid_vendor_amount()
+  {
+    $ids = explode(',', $_GET['requested_id']);
+    for ($i=0; $i < sizeof($ids); $i++) { 
+      $this->admin_model->update('fund_case_approve',array('is_paid' => 1),array('id' => $ids[$i]));
+    }
+    redirect('admin/vendor_master_amount');
   }
 
   public function view_case_detail($case_id,$id)

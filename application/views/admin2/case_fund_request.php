@@ -172,7 +172,7 @@
 
                                                  </td>
 
-                                                 <td><?php echo $f['charges'] ?></td>
+                                                 <td><?php echo $f['charges'] ?> <?php echo ($f['vendor_type'] == 'INT') ? 'USD' : 'PKR' ?></td>
 
                                                  <td><?php echo $f['remarks'] ?></td>
 

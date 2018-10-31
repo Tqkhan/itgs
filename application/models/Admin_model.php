@@ -749,7 +749,7 @@ class admin_model extends CI_Model
 
 	public function get_case_fund($status = null)
 	{
-		$this->db->select('c.*, e.employee_name, v.employee_name as vendor, cr.client_reference, cr.reference_code,cr.id as case_id,sw.scope_name,s.subject_name, ss.name as sub_category');
+		$this->db->select('c.*, e.employee_name, v.employee_name as vendor, cr.client_reference, cr.reference_code,cr.id as case_id,sw.scope_name,s.subject_name, ss.name as sub_category, v.vendor_type');
 		$this->db->from('case_fund_request c');
 		$this->db->join('case_request cr', 'cr.id = c.case_id');
 		$this->db->join('employee_itgs e', 'e.id = c.employee_id');
@@ -1189,7 +1189,7 @@ class admin_model extends CI_Model
 
 	public function get_sales_invoice($start,$end,$id)
 	{
-		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,c.id as case_id,s.id as subject_id,sa.id as activity_id,cl.client_type,cl.client_id,cl.client_name')
+		$this->db->select('c.reference_code,s.subject_name,sw.scope_name,c.id as case_id,s.id as subject_id,sa.id as activity_id,cl.client_type,cl.client_id,cl.client_name,cl.abbreviation')
 				 ->from('case_request c')
 				 ->join('client cl', 'cl.client_id = c.client_id')
 				 ->join('subject_case s', 's.case_id = c.id')
@@ -1290,22 +1290,28 @@ class admin_model extends CI_Model
 
 	public function get_amounts($start,$end)
 	{
-		$this->db->select('cl.client_name, sum(ac.price) as amount, cl.client_id as id')
-				 ->from('case_request c')
-				 ->join('client cl', 'cl.client_id = c.client_id')
-				 //->join('subject_case s', 's.case_id = c.id')
-				 ->join('subject_activities sa', 'sa.case_id = c.id')
-				 ->join('assign_client_services ac', 'sa.activity_id = ac.scope_id and ac.client_id = cl.client_id')
-				 ->where('c.case_status','5')
-				 ->where('c.created_at >=', DATE($start))
-				 ->where('c.created_at <=', DATE($end))
+		// $this->db->select('cl.client_name, sum(ac.price) as amount, cl.client_id as id')
+		// 		 ->from('case_request c')
+		// 		 ->join('client cl', 'cl.client_id = c.client_id')
+		// 		 //->join('subject_case s', 's.case_id = c.id')
+		// 		 ->join('subject_activities sa', 'sa.case_id = c.id')
+		// 		 ->join('assign_client_services ac', 'sa.activity_id = ac.scope_id and ac.client_id = cl.client_id')
+		// 		 ->where('c.case_status','5')
+		// 		 ->where('c.created_at >=', DATE($start))
+		// 		 ->where('c.created_at <=', DATE($end))
+		// 		 ->group_by('cl.client_id');
+		// return $this->db->get()->result_array();
+		$this->db->select('cl.client_name, sum(ci.activity_pricetax_total) as amount, cl.client_id as id, cl.client_type')
+				 ->from('client_invoice ci')
+				 ->join('client cl', 'ci.client_id = cl.client_id')
+				 ->where('ci.status', 0)
 				 ->group_by('cl.client_id');
 		return $this->db->get()->result_array();
 	}
 
 	public function get_vendor_amounts($start,$end)
 	{
-		$this->db->select('sum(fc.amount) as amount, em.employee_name')
+		$this->db->select('sum(fc.amount) as amount, em.employee_name, em.vendor_type,group_concat(fc.id separator ",") as ids')
 				 ->from('fund_case_approve fc')
 				 ->join('case_fund_request cf', 'cf.id = fc.fund_id')
 				 ->join('employee_itgs em', 'em.id = cf.vendor_id')
